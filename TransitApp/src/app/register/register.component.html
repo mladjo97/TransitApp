@@ -1,0 +1,51 @@
+<div class="container">
+    <div class="row">
+      <div class="col-sm">
+      </div>
+
+      <div class="col-sm">
+          <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+              <div class="form-group">
+                  <label for="firstName">First name</label>
+                  <input type="text" ngModel name="firstName" class="form-control" id="firstName" aria-describedby="emailHelp" placeholder="First name" required #firstName="ngModel">
+                  <span class="invalid-input" *ngIf="!firstName.valid && firstName.touched"> Please enter your first name. </span>
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last name</label>
+                    <input type="text" ngModel name="lastName" class="form-control" id="lastName" aria-describedby="emailHelp" placeholder="Last name" required #lastName="ngModel">
+                    <span class="invalid-input" *ngIf="!lastName.valid && lastName.touched"> Please enter your last name. </span>
+                  </div>
+              <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" ngModel name="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" required #email="ngModel">
+                <span class="invalid-input" *ngIf="!email.valid && email.touched"> Please enter a valid email address. </span>
+              </div>
+              <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" ngModel name="password" class="form-control" id="password" placeholder="Password" required #password="ngModel">
+                <span class="invalid-input" *ngIf="!password.valid && password.touched"> Please enter a password. </span>
+              </div>
+              <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" ngModel name="confirmPassword" class="form-control" id="confirmPassword" placeholder="Confirm Password" required #confirmPassword="ngModel">
+                <span class="invalid-input" *ngIf="!confirmPassword.valid && confirmPassword.touched"> Please enter a password confirmation. </span>
+              </div>
+              
+              <div class="radio form-check form-check-inline" *ngFor="let gender of genders">
+                <label>
+                    <input type="radio" ngModel name="gender" [value]="gender"> {{ gender }}
+                </label>                
+              </div>
+              
+              <br><hr>
+              <button type="submit" class="btn btn-success btn-block" [disabled]="!f.valid">Register</button>
+            </form>
+      </div>
+
+      <div class="col-sm">
+      </div>
+    </div>
+  </div>
+
+
+

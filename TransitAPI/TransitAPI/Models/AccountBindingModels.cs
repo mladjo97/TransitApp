@@ -35,6 +35,18 @@ namespace TransitAPI.Models
     public class RegisterBindingModel
     {
         [Required]
+        [Display(Name = "First name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Last name")]
+        public string LastName { get; set; }
+
+        [Required]
+        [Display(Name = "Gender")]
+        public string Gender { get; set; }
+
+        [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }
 

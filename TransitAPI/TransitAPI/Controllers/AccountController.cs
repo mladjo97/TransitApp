@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.ModelBinding;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -20,6 +21,7 @@ using TransitAPI.Results;
 namespace TransitAPI.Controllers
 {
     [Authorize]
+    [EnableCors("*", "*", "*")]
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {
@@ -328,7 +330,8 @@ namespace TransitAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+            // TODO: Add Gender and stuff
+            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName };
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
 
