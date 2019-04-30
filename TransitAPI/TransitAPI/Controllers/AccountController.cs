@@ -331,7 +331,14 @@ namespace TransitAPI.Controllers
             }
 
             // TODO: Add Gender and stuff
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName };
+            var user = new ApplicationUser()
+            {
+                UserName = model.Email,
+                Email = model.Email,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Gender = (Gender)model.Gender
+            };
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
 

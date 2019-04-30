@@ -44,7 +44,7 @@ namespace TransitAPI.Models
 
         [Required]
         [Display(Name = "Gender")]
-        public string Gender { get; set; }
+        public int Gender { get; set; }
 
         [Required]
         [Display(Name = "Email")]

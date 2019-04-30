@@ -9,7 +9,6 @@ export class RegisterService {
     constructor(private http: Http) { }
 
     registerUser(user: User) {
-        console.log(user);
         const headers = new Headers({'Content-Type': 'application/json'});
         return this.http.post(this.apiAddress, user, {headers: headers});
     }

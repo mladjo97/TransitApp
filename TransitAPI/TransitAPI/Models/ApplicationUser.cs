@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace TransitAPI.Models
 {
+    public enum Gender { Male, Female };
+
     public class ApplicationUser : IdentityUser
     {
         [Required]
@@ -15,6 +17,11 @@ namespace TransitAPI.Models
         [Required]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
+
+        [Required]
+        [Display(Name = "Gender")]
+        public Gender Gender { get; set; }
+
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
         {

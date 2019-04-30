@@ -249,6 +249,10 @@
     <Compile Include="Migrations\201904281048377_ApplicationUserExtended.Designer.cs">
       <DependentUpon>201904281048377_ApplicationUserExtended.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201904301422228_AddedGenderToApplicationUser.cs" />
+    <Compile Include="Migrations\201904301422228_AddedGenderToApplicationUser.Designer.cs">
+      <DependentUpon>201904301422228_AddedGenderToApplicationUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -353,6 +357,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201904281048377_ApplicationUserExtended.resx">
       <DependentUpon>201904281048377_ApplicationUserExtended.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904301422228_AddedGenderToApplicationUser.resx">
+      <DependentUpon>201904301422228_AddedGenderToApplicationUser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
