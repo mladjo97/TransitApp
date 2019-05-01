@@ -12,6 +12,8 @@ import { HomeComponent } from './home/home.component';
 import { FormsModule } from '@angular/forms';
 import { RegisterService } from './services/register.service';
 import { NotificationService } from './services/notification.service';
+import { LoginService } from './services/login.service';
+import { AuthService } from './services/auth.service';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,8 @@ import { NotificationService } from './services/notification.service';
   ],
   providers: [
     RegisterService, 
+    LoginService,
+    AuthService,
     NotificationService
   ],
   bootstrap: [AppComponent]

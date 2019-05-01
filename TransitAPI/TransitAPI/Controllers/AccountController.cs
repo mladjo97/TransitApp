@@ -21,7 +21,6 @@ using TransitAPI.Results;
 namespace TransitAPI.Controllers
 {
     [Authorize]
-    [EnableCors("*", "*", "*")]
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {

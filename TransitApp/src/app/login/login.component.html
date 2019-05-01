@@ -1,2 +1,31 @@
-<button (click)="onNotify()"> Notify </button>
+<div class="container">
+    <div class="row">
+      <div class="col-sm">
+      </div>
+
+      <div class="col-sm">
+          <form autocomplete="off" (ngSubmit)="onLogin(f)" #f="ngForm">
+              <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" ngModel name="email" class="form-control" id="email" aria-describedby="emailHelp" autocomplete="off" placeholder="Enter email" required #email="ngModel">
+                <span class="invalid-input" *ngIf="!email.valid && email.touched"> Please enter a valid email address. </span>
+              </div>
+              <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" ngModel name="password" class="form-control" id="password" placeholder="Password" required #password="ngModel">
+                <span class="invalid-input" *ngIf="!password.valid && password.touched"> Please enter a password. </span>
+              </div>  
+              <hr>
+              <button type="submit" class="btn btn-success btn-block" [disabled]="!f.valid">Login</button>
+            </form>
+      </div>
+
+      <div class="col-sm">
+      </div>
+    </div>
+  </div>
+
+
+
+
 

@@ -41,10 +41,9 @@ export class RegisterComponent implements OnInit {
           }
         } else {
           this.notificationService.notifyEvent.emit('An error ocurred during registration. The server is probably down.');
-        }
-        
+        }        
       }
-      );
+    );
   }
 
 }
