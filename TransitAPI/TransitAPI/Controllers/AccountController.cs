@@ -328,8 +328,8 @@ namespace TransitAPI.Controllers
             {
                 return BadRequest(ModelState);
             }
+            
 
-            // TODO: Add Gender and stuff
             var user = new ApplicationUser()
             {
                 UserName = model.Email,

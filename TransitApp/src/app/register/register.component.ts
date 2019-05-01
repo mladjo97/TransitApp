@@ -4,6 +4,7 @@ import { Router } from '@angular/router'
 import { User } from '../models/user.model';
 import { RegisterService } from '../services/register.service';
 import { NotificationService } from '../services/notification.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -15,9 +16,12 @@ export class RegisterComponent implements OnInit {
   private user: User;
 
   constructor(private router: Router, private registerService: RegisterService,
-              private notificationService: NotificationService) { }
+              private notificationService: NotificationService, private authService: AuthService) { }
 
   ngOnInit() {
+    if(this.authService.isLoggedIn()) {
+      this.router.navigate(['/']);  // vrati korisnika na pocetnu stranu 
+    }
   }
 
   onSubmit(f: NgForm) {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SnackbarService } from 'ngx-snackbar';
 import { NotificationService } from './services/notification.service';
 import { AuthService } from './services/auth.service';
@@ -8,13 +8,19 @@ import { AuthService } from './services/auth.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  private loggedIn: boolean = false;
+export class AppComponent implements OnInit {
+  private loggedIn: boolean;
 
   constructor(private notificationService: NotificationService, private snackbarService: SnackbarService,
-              private authService: AuthService) { 
-      this.notificationService.notifyEvent.subscribe((message: string) => this.onNotify(message));
-      this.notificationService.sessionEvent.subscribe((loggedIn: boolean) => this.loggedIn = loggedIn);
+              private authService: AuthService) { }
+
+  ngOnInit() {
+    // observables
+    this.notificationService.notifyEvent.subscribe((message: string) => this.onNotify(message));
+    this.notificationService.sessionEvent.subscribe((loggedIn: boolean) => this.loggedIn = loggedIn);
+
+    // session
+    this.loggedIn = this.authService.isLoggedIn();
   }
 
   onLogout() {

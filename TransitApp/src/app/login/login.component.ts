@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NotificationService } from '../services/notification.service';
 import { LoginService } from '../services/login.service';
 import { NgForm } from '@angular/forms';
@@ -12,9 +13,12 @@ import { AuthService } from '../services/auth.service';
 export class LoginComponent implements OnInit {
 
   constructor(private notificationService: NotificationService, private loginService: LoginService, 
-              private authService: AuthService) { }
+              private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
+    if(this.authService.isLoggedIn()) {
+      this.router.navigate(['/']);  // vrati korisnika na pocetnu stranu 
+    }
   }
 
   onLogin(f: NgForm): void {
@@ -22,6 +26,7 @@ export class LoginComponent implements OnInit {
       (response) => { 
         this.authService.logIn(response);
         this.notificationService.sessionEvent.emit(true);
+        this.router.navigate(['/']);
       },
 
       (error) => {
