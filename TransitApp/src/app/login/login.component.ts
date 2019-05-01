@@ -21,6 +21,7 @@ export class LoginComponent implements OnInit {
     this.loginService.logIn(`${f.value.email}`,`${f.value.password}`).subscribe( 
       (response) => { 
         this.authService.logIn(response);
+        this.notificationService.sessionEvent.emit(true);
       },
 
       (error) => {

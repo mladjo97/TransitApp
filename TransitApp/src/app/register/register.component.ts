@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router'
 import { User } from '../models/user.model';
 import { RegisterService } from '../services/register.service';
 import { NotificationService } from '../services/notification.service';
@@ -13,7 +14,8 @@ export class RegisterComponent implements OnInit {
   private genders = ['Male', 'Female'];
   private user: User;
 
-  constructor(private registerService: RegisterService, private notificationService: NotificationService) { }
+  constructor(private router: Router, private registerService: RegisterService,
+              private notificationService: NotificationService) { }
 
   ngOnInit() {
   }
@@ -24,8 +26,8 @@ export class RegisterComponent implements OnInit {
 
     this.registerService.registerUser(this.user).subscribe( 
       (response) => {
-        this.notificationService.notifyEvent.emit('Successfully registered.');
-        console.log(response);
+        this.notificationService.notifyEvent.emit('Successfully registered. You can now log in.');
+        this.router.navigate(['/login']);
       },
 
       (error) => {       

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { SnackbarService } from 'ngx-snackbar';
 import { NotificationService } from './services/notification.service';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -8,9 +9,22 @@ import { NotificationService } from './services/notification.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  
-  constructor(private notificationService: NotificationService, private snackbarService: SnackbarService) { 
+  private loggedIn: boolean = false;
+
+  constructor(private notificationService: NotificationService, private snackbarService: SnackbarService,
+              private authService: AuthService) { 
       this.notificationService.notifyEvent.subscribe((message: string) => this.onNotify(message));
+      this.notificationService.sessionEvent.subscribe((loggedIn: boolean) => this.loggedIn = loggedIn);
+  }
+
+  onLogout() {
+    if(this.authService.isLoggedIn()) {
+      this.authService.logOut();
+      this.loggedIn = false;
+      this.onNotify('You have successfully logged out.');
+    } else {
+      this.onNotify('You are not logged in.'); // ovo se nikad ni nece desiti, but better safe than sure
+    }
   }
 
   onNotify(message: string) {
