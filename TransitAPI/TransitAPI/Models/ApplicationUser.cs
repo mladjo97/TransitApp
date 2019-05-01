@@ -22,6 +22,10 @@ namespace TransitAPI.Models
         [Display(Name = "Gender")]
         public Gender Gender { get; set; }
 
+        [Required]
+        [Display(Name = "Role")]
+        public string Role { get; set; }
+
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
         {

@@ -30,6 +30,7 @@ namespace TransitAPI.Providers
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
             var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
+            context.OwinContext.Response.Headers.Add("Access-Control-Expose-Headers", new[] { "Role", "UserId" });
 
             ApplicationUser user = await userManager.FindAsync(context.UserName, context.Password);
 
@@ -39,12 +40,23 @@ namespace TransitAPI.Providers
                 return;
             }
 
-            ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(userManager,
-               OAuthDefaults.AuthenticationType);
-            ClaimsIdentity cookiesIdentity = await user.GenerateUserIdentityAsync(userManager,
-                CookieAuthenticationDefaults.AuthenticationType);
+            string role = user.Role;
 
-            AuthenticationProperties properties = CreateProperties(user.UserName);
+            if (role.Equals("Admin"))
+            {
+                context.OwinContext.Response.Headers.Add("Role", new[] { "Admin" });
+            }
+            else
+            {
+                context.OwinContext.Response.Headers.Add("Role", new[] { "User" });
+            }
+
+            context.OwinContext.Response.Headers.Add("UserId", new[] { user.Id.ToString() });
+
+            ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(userManager, OAuthDefaults.AuthenticationType);
+            ClaimsIdentity cookiesIdentity = await user.GenerateUserIdentityAsync(userManager, CookieAuthenticationDefaults.AuthenticationType);
+
+            AuthenticationProperties properties = CreateProperties(user.UserName, user.Role);
             AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
             context.Validated(ticket);
             context.Request.Context.Authentication.SignIn(cookiesIdentity);
@@ -86,11 +98,12 @@ namespace TransitAPI.Providers
             return Task.FromResult<object>(null);
         }
 
-        public static AuthenticationProperties CreateProperties(string userName)
+        public static AuthenticationProperties CreateProperties(string userName, string role)
         {
             IDictionary<string, string> data = new Dictionary<string, string>
             {
-                { "userName", userName }
+                { "userName", userName },
+                { "role", role }
             };
             return new AuthenticationProperties(data);
         }

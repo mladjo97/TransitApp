@@ -10,16 +10,10 @@ export class AuthService{
         let responseJson = response.json();
         let accessToken = responseJson['access_token'];
         let role = response.headers.get('Role');        
-        let id = response.headers.get('Id');
+        let id = response.headers.get('UserId');
 
         let authdata = new AuthData(accessToken, role, id);
-
-        console.log(responseJson);
-        console.log('role: ' + role);
-        console.log(authdata);
-
         localStorage.setItem('token', JSON.stringify(authdata));
-        console.log('Set to local storage');
         console.log(localStorage.getItem('token'));
     }
 
@@ -29,7 +23,7 @@ export class AuthService{
         }
     }
 
-    isLoggedIn(): boolean{
+    isLoggedIn(): boolean {
         if(!localStorage.getItem('token'))
             return false;
         else
@@ -41,17 +35,6 @@ export class AuthService{
         let role = JSON.parse(token).role;
 
         if (role=="Admin") {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-     isManager(): boolean {
-        let token = localStorage.getItem('token');
-        let role = JSON.parse(token).role;
-
-        if (role=="Manager") {
             return true;
         } else {
             return false;

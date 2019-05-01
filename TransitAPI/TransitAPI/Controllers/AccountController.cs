@@ -265,7 +265,7 @@ namespace TransitAPI.Controllers
                 ClaimsIdentity cookieIdentity = await user.GenerateUserIdentityAsync(UserManager,
                     CookieAuthenticationDefaults.AuthenticationType);
 
-                AuthenticationProperties properties = ApplicationOAuthProvider.CreateProperties(user.UserName);
+                AuthenticationProperties properties = ApplicationOAuthProvider.CreateProperties(user.UserName, user.Role);
                 Authentication.SignIn(properties, oAuthIdentity, cookieIdentity);
             }
             else
@@ -336,14 +336,27 @@ namespace TransitAPI.Controllers
                 Email = model.Email,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                Gender = (Gender)model.Gender
+                Gender = (Gender)model.Gender,
+                Role = "User"
             };
 
-            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+            IdentityResult result = await UserManager.CreateAsync(user, model.Password);            
 
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
+            }
+            else
+            {
+                ApplicationUser currentUser = UserManager.FindByName(user.UserName);
+
+                IdentityResult roleResult = await UserManager.AddToRoleAsync(currentUser.Id, currentUser.Role);
+
+                if (!roleResult.Succeeded)
+                {
+                    return GetErrorResult(roleResult);
+                }
+
             }
 
             return Ok();
