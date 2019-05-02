@@ -38,7 +38,10 @@
               </div>
               
               <br><hr>
-              <button type="submit" class="btn btn-success btn-block" [disabled]="!f.valid">Register</button>
+              <button type="submit" class="btn btn-primary btn-block" [disabled]="!f.valid">
+                <span *ngIf="submitted" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Register
+                </button>
             </form>
       </div>
 

@@ -13,7 +13,9 @@ import { AuthService } from '../services/auth.service';
 })
 export class RegisterComponent implements OnInit {
   private genders = ['Male', 'Female'];
+  private submitted: boolean = false;
   private user: User;
+
 
   constructor(private router: Router, private registerService: RegisterService,
               private notificationService: NotificationService, private authService: AuthService) { }
@@ -26,7 +28,7 @@ export class RegisterComponent implements OnInit {
 
   onSubmit(f: NgForm) {
     this.user = new User(f.value.firstName, f.value.lastName, f.value.email, f.value.gender, f.value.password, f.value.confirmPassword);
-    console.log(this.user);
+    this.submitted = true;  // animation
 
     this.registerService.registerUser(this.user).subscribe( 
       (response) => {
@@ -35,6 +37,8 @@ export class RegisterComponent implements OnInit {
       },
 
       (error) => {       
+        this.submitted = false;  // animation
+
         if(error.status !== 0){
           // Notify the user about errors from WebAPI (validation error reply)
           let regReply = JSON.parse(error._body);

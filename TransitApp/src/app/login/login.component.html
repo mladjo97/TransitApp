@@ -16,7 +16,10 @@
                 <span class="invalid-input" *ngIf="!password.valid && password.touched"> Please enter a password. </span>
               </div>  
               <hr>
-              <button type="submit" class="btn btn-success btn-block" [disabled]="!f.valid">Login</button>
+              <button type="submit" class="btn btn-primary btn-block" [disabled]="!f.valid">
+                <span *ngIf="submitted" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Login
+              </button>
             </form>
       </div>
 

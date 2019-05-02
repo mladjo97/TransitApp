@@ -11,6 +11,7 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  private submitted: boolean = false;
 
   constructor(private notificationService: NotificationService, private loginService: LoginService, 
               private authService: AuthService, private router: Router) { }
@@ -22,6 +23,8 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin(f: NgForm): void {
+    this.submitted = true;  // animation 
+
     this.loginService.logIn(`${f.value.email}`,`${f.value.password}`).subscribe( 
       (response) => { 
         this.authService.logIn(response);
@@ -30,7 +33,9 @@ export class LoginComponent implements OnInit {
       },
 
       (error) => {
-         if(error.status !== 0){
+        this.submitted = false;  // animation 
+
+        if(error.status !== 0){
           let errorBody = JSON.parse(error._body);
           this.notificationService.notifyEvent.emit(errorBody.error_description);
         } else {
