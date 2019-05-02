@@ -17,6 +17,7 @@ using Microsoft.Owin.Security.OAuth;
 using TransitAPI.Models;
 using TransitAPI.Providers;
 using TransitAPI.Results;
+using static TransitAPI.Models.Enums;
 
 namespace TransitAPI.Controllers
 {

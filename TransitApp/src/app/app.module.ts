@@ -14,6 +14,9 @@ import { RegisterService } from './services/register.service';
 import { NotificationService } from './services/notification.service';
 import { LoginService } from './services/login.service';
 import { AuthService } from './services/auth.service';
+import { BuslinesComponent } from './buslines/buslines.component';
+import { BuslineComponent } from './buslines/busline/busline.component';
+import { BusLineService } from './services/busline.service';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,9 @@ import { AuthService } from './services/auth.service';
     LoginComponent,
     NotFoundComponent,
     RegisterComponent,
-    HomeComponent
+    HomeComponent,
+    BuslinesComponent,
+    BuslineComponent
   ],
   imports: [
     BrowserModule,
@@ -34,6 +39,7 @@ import { AuthService } from './services/auth.service';
     RegisterService, 
     LoginService,
     AuthService,
+    BusLineService,
     NotificationService
   ],
   bootstrap: [AppComponent]
