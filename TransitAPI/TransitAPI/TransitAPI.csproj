@@ -269,6 +269,10 @@
     <Compile Include="Migrations\201905030025243_UpdatedDataAnnotations.Designer.cs">
       <DependentUpon>201905030025243_UpdatedDataAnnotations.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905031406156_AddedStartTime.cs" />
+    <Compile Include="Migrations\201905031406156_AddedStartTime.Designer.cs">
+      <DependentUpon>201905031406156_AddedStartTime.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -390,6 +394,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905030025243_UpdatedDataAnnotations.resx">
       <DependentUpon>201905030025243_UpdatedDataAnnotations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905031406156_AddedStartTime.resx">
+      <DependentUpon>201905031406156_AddedStartTime.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

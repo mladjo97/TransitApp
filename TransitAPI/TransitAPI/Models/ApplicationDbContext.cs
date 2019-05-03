@@ -8,6 +8,7 @@ namespace TransitAPI.Models
         public virtual DbSet<BusLine> BusLines { get; set; }
         public virtual DbSet<Station> Stations { get; set; }
         public virtual DbSet<BusLineType> BusLineTypes { get; set; }
+        public virtual DbSet<StartTime> StartTimes { get; set; }
 
         public ApplicationDbContext()
             : base("TransitAppDbConnection", throwIfV1Schema: false)

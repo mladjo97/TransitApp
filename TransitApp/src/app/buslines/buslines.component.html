@@ -5,12 +5,20 @@
       <h3>Bus Lines <button *ngIf="addAllowed" type="button" class="btn btn-success float-right" [routerLink]="['/buslines/add']">Add new bus line</button></h3>
       
       <hr>
-      <div class="list-group" *ngFor="let bl of busLines">
-        <a [routerLink]="[bl.Id]"
-           class="list-group-item list-group-item-action active">
-          {{ bl.Description }}
-        </a>  
-      </div>
+      <table class="table table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr [routerLink]="[busLine.Id]" *ngFor="let busLine of busLines">
+            <th scope="row"> {{ busLine.Name }}</th>
+            <td>{{ busLine.Description }}</td>
+          </tr>          
+        </tbody>
+      </table>
     </div>   
 
     <div class="col-sm">

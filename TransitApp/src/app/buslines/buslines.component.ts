@@ -23,7 +23,7 @@ export class BuslinesComponent implements OnInit {
 
     this.busLineService.getAll().subscribe(
       (response) => {
-        this.busLines = response.json();
+        this.busLines = response.json();        
       },
       
       (error) => {

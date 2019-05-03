@@ -1,3 +1,5 @@
-<p>
-  {{ busLine.Name }}
-</p>
+<h3><u>Timetable</u></h3>
+<br>
+<ul class="list-group">
+  <li class="list-group-item" *ngFor="let time of formattedTimetable" >{{ time }}</li>  
+</ul>

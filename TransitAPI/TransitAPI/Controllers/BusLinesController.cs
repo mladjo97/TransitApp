@@ -34,6 +34,18 @@ namespace TransitAPI.Controllers
                 return NotFound();
             }
 
+            // ako je uspesno pronasao
+            BusLineType blt = db.BusLineTypes.Find(busLine.BusLineTypeId);
+            if (blt != null)
+                busLine.Type = blt;
+
+            busLine.Timetable = new List<StartTime>();
+            List<StartTime> timeTable = db.StartTimes.Where(x => x.BusLineId == busLine.Id).ToList(); 
+            if(timeTable != null)
+            {
+                busLine.Timetable = timeTable;
+            }
+
             return Ok(busLine);
         }   
         

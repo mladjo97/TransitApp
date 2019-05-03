@@ -47,7 +47,7 @@ export class AddBuslineComponent implements OnInit {
     }
 
     this.invalidTimeFormat = false;;
-    let st = new StartTime(moment(time, 'HH:mm'));
+    let st = new StartTime(moment.utc(time, 'HH:mm'));
 
     for(let i = 0; i < this.timetable.length; i++) {
       if((this.timetable[i].time.hours().toString() == st.time.hours().toString()) 
@@ -66,7 +66,7 @@ export class AddBuslineComponent implements OnInit {
   }
 
   onRemoveTime(time: string): void {
-    let st = new StartTime(moment(time, 'HH:mm'));
+    let st = new StartTime(moment.utc(time, 'HH:mm'));
 
     for(let i = 0; i < this.timetable.length; i++) {
       if((this.timetable[i].time.hours().toString() == st.time.hours().toString()) 
@@ -92,9 +92,13 @@ export class AddBuslineComponent implements OnInit {
       busLineTypeId: f.value.busLineType
      };
 
+     console.log(data.timetable);
+
      this.busLineService.postBusLine(data).subscribe(
        (response) => {
-         console.log(response);
+          console.log(response);
+          this.notificationService.notifyEvent.emit('Successfully added a new bus line.');
+          this.router.navigate(['/buslines']);
        },
 
        (error) => {         
