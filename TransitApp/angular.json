@@ -27,7 +27,7 @@
               "node_modules/bootstrap/dist/css/bootstrap.css",
               "node_modules/ngx-snackbar/bundles/style.css"
             ],
-            "scripts": [],
+            "scripts": [ ],
             "es5BrowserSupport": true
           },
           "configurations": {

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BusLineService } from '../services/busline.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-buslines',
@@ -8,10 +9,18 @@ import { BusLineService } from '../services/busline.service';
 })
 export class BuslinesComponent implements OnInit {
   private busLines: [];
+  private addAllowed: boolean = false;
 
-  constructor(private busLineService: BusLineService) { }
+  constructor(private busLineService: BusLineService,
+              private authService: AuthService) { }
 
   ngOnInit() {
+    if(this.authService.isLoggedIn()){
+      if(this.authService.isAdmin()){
+        this.addAllowed = true;
+      }
+    }
+
     this.busLineService.getAll().subscribe(
       (response) => {
         this.busLines = response.json();

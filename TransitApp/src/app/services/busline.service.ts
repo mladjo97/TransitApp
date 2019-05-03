@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { Http } from '@angular/http';
+import { Http, Headers } from '@angular/http';
 import { Injectable } from '@angular/core';
 
 @Injectable()
@@ -14,6 +14,21 @@ export class BusLineService {
 
     getById(id: number): Observable<any> {
         return this.http.get(`${this.apiAddress}/${id}`);
+    }
+
+    getAllBusLineTypes(): Observable<any> {
+        return this.http.get('http://localhost:53162/api/BusLineTypes');
+    }
+
+    postBusLine(data: {}): Observable<any> {
+        console.log(data);        
+
+        const headers = new Headers()
+        headers.append('Content-type','application/json');
+        headers.append('Authorization','Bearer ' + JSON.parse(localStorage.getItem("token")).token);
+        headers.append('Accept', 'application/json');
+
+        return this.http.post(this.apiAddress, data, {headers: headers});
     }
 
 }

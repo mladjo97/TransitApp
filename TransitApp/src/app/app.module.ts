@@ -17,6 +17,7 @@ import { AuthService } from './services/auth.service';
 import { BuslinesComponent } from './buslines/buslines.component';
 import { BuslineComponent } from './buslines/busline/busline.component';
 import { BusLineService } from './services/busline.service';
+import { AddBuslineComponent } from './buslines/add-busline/add-busline.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { BusLineService } from './services/busline.service';
     RegisterComponent,
     HomeComponent,
     BuslinesComponent,
-    BuslineComponent
+    BuslineComponent,
+    AddBuslineComponent
   ],
   imports: [
     BrowserModule,

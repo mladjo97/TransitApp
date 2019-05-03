@@ -43,6 +43,11 @@ namespace TransitAPI.Controllers
         [ResponseType(typeof(BusLine))]
         public IHttpActionResult PostBusLine(BusLine busLine)
         {
+            // get referenced buslinetype
+            BusLineType blt = db.BusLineTypes.FirstOrDefault(x => x.Id == busLine.BusLineTypeId);
+            if (blt != null)
+                busLine.Type = blt;
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -108,6 +113,17 @@ namespace TransitAPI.Controllers
 
             return Ok(busLine);
         }
+
+
+        // GET: api/BusLineTypes
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("api/BusLineTypes")]
+        public IQueryable<BusLineType> GetBusLineTypes()
+        {
+            return db.BusLineTypes;
+        }
+
 
         protected override void Dispose(bool disposing)
         {

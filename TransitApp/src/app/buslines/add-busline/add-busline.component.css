@@ -1,0 +1,10 @@
+span.invalid-input {
+    color: red;
+    font-size: 11px;
+}
+
+li.timetable-time {
+    text-align: center;
+    color: black;
+    font-size: 21px;
+}

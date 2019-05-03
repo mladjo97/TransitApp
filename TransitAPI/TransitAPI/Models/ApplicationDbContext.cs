@@ -18,5 +18,5 @@ namespace TransitAPI.Models
         {
             return new ApplicationDbContext();
         }
-    }
+    }       
 }

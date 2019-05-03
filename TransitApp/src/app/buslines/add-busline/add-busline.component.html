@@ -1,0 +1,57 @@
+<div class="container">
+    <div class="row">
+      <div class="col-sm-2">
+          <button type="button" class="btn btn-primary" [routerLink]="['/buslines']">Go back</button>
+      </div>
+
+      <div class="col-sm-6">          
+          <h3>Add new bus line</h3>
+          <hr>
+          <form autocomplete="off" (ngSubmit)="onSubmit(f)" #f="ngForm">
+            <div class="form-group row">
+              <label for="Name">Name</label>
+              <input type="text" ngModel name="name" class="form-control" id="name" aria-describedby="nameHelp" autocomplete="off" placeholder="Enter bus line name" required #name="ngModel">
+              <span class="invalid-input" *ngIf="!name.valid && name.touched"> Please enter a valid name. </span>
+            </div>
+            <div class="form-group row">
+              <label for="description">Description</label>
+              <input type="text" ngModel name="description" class="form-control" id="description" placeholder="Bus line description (ex: Futoska - Centar - Liman)" #description="ngModel">
+            </div>  
+            <div class="form-group row">
+              <label for="busLineTypeSelect">Type</label>
+              <select id="busLineTypeSelect" class="form-control" ngModel name="busLineType" required>
+                <option *ngFor="let blt of busLineTypes" [value]="blt.Id"> {{ blt.Name }}</option>               
+              </select>
+            </div>
+            <label for="time">Time</label>
+            <div class="form-group row">             
+              <input type="text" class="col-7 form-control" placeholder="Bus line start time (ex: 07:45) (24h format)" #time>
+              <div class="col-2"></div>
+              <button type="button" class="col-3 btn btn-primary" (click)="onAddTime(time.value)">Add time</button>
+              <span class="invalid-input" *ngIf="invalidTimeFormat"> Please enter a valid time. </span>
+            </div> 
+
+            <hr>
+
+            <button type="submit" class="btn btn-primary btn-block" [disabled]="!f.valid">
+              <span *ngIf="submitted" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              Add bus line
+            </button>
+          </form>
+      </div>   
+
+      <div class="col-sm-1">          
+      </div>
+  
+      <div class="col-sm-3">
+        <ul class="list-group" *ngIf="timetableActive">
+          <h3><u>Timetable</u></h3>
+          <li class="list-group-item timetable-time" *ngFor="let time of timetable"> 
+            {{ time.time._i }} 
+            <button type="button" class="btn btn-danger float-right" (click)="onRemoveTime(time.time._i)">Remove</button> 
+         </li>        
+        </ul>
+      </div>
+      
+    </div>
+  </div>

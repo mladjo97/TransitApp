@@ -265,6 +265,10 @@
     <Compile Include="Migrations\201905021156344_AddedBusLines.Designer.cs">
       <DependentUpon>201905021156344_AddedBusLines.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905030025243_UpdatedDataAnnotations.cs" />
+    <Compile Include="Migrations\201905030025243_UpdatedDataAnnotations.Designer.cs">
+      <DependentUpon>201905030025243_UpdatedDataAnnotations.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -383,6 +387,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905021156344_AddedBusLines.resx">
       <DependentUpon>201905021156344_AddedBusLines.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905030025243_UpdatedDataAnnotations.resx">
+      <DependentUpon>201905030025243_UpdatedDataAnnotations.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
