@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SnackbarService } from 'ngx-snackbar';
 import { NotificationService } from './services/notification.service';
 import { AuthService } from './services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -11,8 +12,10 @@ import { AuthService } from './services/auth.service';
 export class AppComponent implements OnInit {
   private loggedIn: boolean;
 
-  constructor(private notificationService: NotificationService, private snackbarService: SnackbarService,
-              private authService: AuthService) { }
+  constructor(private notificationService: NotificationService, 
+              private snackbarService: SnackbarService,
+              private authService: AuthService,
+              private router: Router) { }
 
   ngOnInit() {
     // observables
@@ -28,6 +31,7 @@ export class AppComponent implements OnInit {
       this.authService.logOut();
       this.loggedIn = false;
       this.onNotify('You have successfully logged out.');
+      this.router.navigate(['/']); 
     } else {
       this.onNotify('You are not logged in.'); // ovo se nikad ni nece desiti, but better safe than sure
     }

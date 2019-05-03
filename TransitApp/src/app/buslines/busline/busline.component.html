@@ -1,4 +1,4 @@
-<h3><u>Timetable</u></h3>
+<h3><u>Timetable</u> <button type="button" class="btn btn-danger float-right" [routerLink]="['/buslines']">Hide</button></h3>
 <br>
 <ul class="list-group">
   <li class="list-group-item" *ngFor="let time of formattedTimetable" >{{ time }}</li>  
