@@ -40,6 +40,8 @@ export class BuslineComponent implements OnInit, OnDestroy {
         let busLineJSON = response.json();
         this.busLine = busLineJSON;
         this.formatTimetable(busLineJSON.Timetable);
+
+        console.log(this.formattedTimetable);
       },
 
       (error) => {
@@ -50,8 +52,18 @@ export class BuslineComponent implements OnInit, OnDestroy {
 
   formatTimetable(timetable: any) {
     for(let i = 0; i < timetable.length; i++) {
-      let time = moment.utc(timetable[i].Time).format("HH:mm");      
-      this.formattedTimetable.push(time);
+      let time = moment.utc(timetable[i].Time).format("HH:mm"); 
+      
+      let hour = time.split(':')[0];
+      let minute = time.split(':')[1];
+      
+      if(hour in this.formattedTimetable){
+        this.formattedTimetable[`${time.split(':')[0]}`].push(time.split(':')[1]);
+      } else {
+        this.formattedTimetable[`${time.split(':')[0]}`] = new Array();
+        this.formattedTimetable[`${time.split(':')[0]}`].push(time.split(':')[1]);
+      }
+      
     }
   }
 

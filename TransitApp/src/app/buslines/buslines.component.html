@@ -5,7 +5,10 @@
       <h3>Bus Lines <button *ngIf="addAllowed" type="button" class="btn btn-success float-right" [routerLink]="['/buslines/add']">Add new bus line</button></h3>
       
       <hr>
-      <table class="table table-hover">
+
+      <h5 *ngIf="!busLines?.length">Sorry, there are no bus lines currently</h5>
+
+      <table class="table table-hover" *ngIf="busLines?.length">
         <thead class="thead-dark">
           <tr>
             <th scope="col">Name</th>
@@ -20,7 +23,7 @@
         </tbody>
       </table>
     </div>   
-
+    
     <div class="col-sm">
       <router-outlet></router-outlet>
     </div>
