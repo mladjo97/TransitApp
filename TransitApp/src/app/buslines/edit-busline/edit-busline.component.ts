@@ -1,40 +1,74 @@
-import { Component, OnInit } from '@angular/core';
-import { BusLineService } from 'src/app/services/busline.service';
-import { NgForm } from '@angular/forms';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NotificationService } from 'src/app/services/notification.service';
+import { BusLineService } from 'src/app/services/busline.service';
 import { AuthService } from 'src/app/services/auth.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { StartTime } from 'src/app/models/start-time.model';
 import * as moment from 'moment';
+import { NgForm } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-add-busline',
-  templateUrl: './add-busline.component.html',
-  styleUrls: ['./add-busline.component.css']
+  selector: 'app-edit-busline',
+  templateUrl: './edit-busline.component.html',
+  styleUrls: ['./edit-busline.component.css']
 })
-export class AddBuslineComponent implements OnInit {
+export class EditBuslineComponent implements OnInit, OnDestroy {
+  private id: number;
+  private busLine: {};
+  private idSubscription: Subscription;
   private busLineTypes: [] = [];
   private timetable: StartTime[] = [];
   private invalidTimeFormat: boolean = false;
   private timetableActive: boolean = false;
-  private submitted: boolean = false;
 
-  constructor (private busLineService: BusLineService, 
-              private notificationService: NotificationService,
+  constructor(private notificationService: NotificationService,
+              private route: ActivatedRoute,
+              private busLineService: BusLineService,
               private authService: AuthService,
               private router: Router) { }
 
   ngOnInit() {
     // Ako je korisnik ulogovan i ako je admin, onda ima pristup dodavanju 
     if(this.authService.isAdmin()){
+
       this.busLineService.getAllBusLineTypes().subscribe(
         (response) => this.busLineTypes = response.json(),
-        (error) => console.log('Error in ADD_BUSLINE / ngOnInit() -> getAllBusLines()')
+        (error) => console.log('Error in EditBuslineComponent / ngOnInit() -> getAllBusLines()')
       );
+
+      this.idSubscription = this.route.params.subscribe( 
+        (params: Params) => {
+           this.id = +params['id'];     
+           this.updateForm();
+        } );
+
     } else {
       this.router.navigate(['/']);
     }
-  }   
+  }
+
+  ngOnDestroy() {
+    this.idSubscription.unsubscribe();
+  }
+
+  updateForm(): void {
+    this.busLineService.getById(this.id).subscribe(
+      (response) => {
+        let busLineJSON = response.json();
+        this.busLine = busLineJSON;        
+
+        for(let i = 0; i < busLineJSON.Timetable.length; i++) {
+          let time = moment.utc(busLineJSON.Timetable[i].Time).format("HH:mm");
+          this.onAddTime(time);
+        }
+      },
+
+      (error) => {
+        this.router.navigate(['/buslines']);
+      }
+    );
+  }
 
   onAddTime(time: string): void {
 
@@ -82,34 +116,24 @@ export class AddBuslineComponent implements OnInit {
   }
 
   onSubmit(f: NgForm): void {
-    this.submitted = true;  // animation 
-
     let data = {
+      id: this.id,
       name: f.value.name,
       description: f.value.description,
       timetable: this.timetable,
       busLineTypeId: f.value.busLineType
      };
 
-     this.busLineService.postBusLine(data).subscribe(
+     this.busLineService.editBusLine(this.id, data).subscribe(
        (response) => {
-          this.submitted = false;  //animation
-          this.notificationService.notifyEvent.emit('Successfully added a new bus line.');
-          this.router.navigate(['/buslines']);
+        console.log(response.json());
        },
 
-       (error) => { 
-         this.submitted = false;  //animation
-         if(error.status !== 0){
-          // Notify the user about errors from WebAPI (authorization error reply)
-          let regReply = JSON.parse(error._body);          
-          this.notificationService.notifyEvent.emit(regReply.Message); 
-
-        } else {
-          this.notificationService.notifyEvent.emit('An error ocurred during registration. The server is probably down.');
-        }
+       (error) => {
+         console.log(error.json());
        }
      );
+     
   }
 
 }

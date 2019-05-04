@@ -40,8 +40,6 @@ export class BuslineComponent implements OnInit, OnDestroy {
         let busLineJSON = response.json();
         this.busLine = busLineJSON;
         this.formatTimetable(busLineJSON.Timetable);
-
-        console.log(this.formattedTimetable);
       },
 
       (error) => {

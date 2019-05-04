@@ -14,7 +14,6 @@ export class AuthService{
 
         let authdata = new AuthData(accessToken, role, id);
         localStorage.setItem('token', JSON.stringify(authdata));
-        console.log(localStorage.getItem('token'));
     }
 
     logOut(): void {
@@ -31,8 +30,11 @@ export class AuthService{
     }
 
     isAdmin(): boolean {
-        let token = localStorage.getItem('token');
+        if(!this.isLoggedIn()) {
+            return false;
+        }
 
+        let token = localStorage.getItem('token');
         let role = JSON.parse(token).role;
 
         if (role=="Admin") {
@@ -43,6 +45,10 @@ export class AuthService{
     }
 
     isUser(): boolean {
+        if(!this.isLoggedIn()) {
+            return false;
+        }
+
         let token = localStorage.getItem('token');
         let role = JSON.parse(token).role;
 

@@ -18,6 +18,7 @@ import { BuslinesComponent } from './buslines/buslines.component';
 import { BuslineComponent } from './buslines/busline/busline.component';
 import { BusLineService } from './services/busline.service';
 import { AddBuslineComponent } from './buslines/add-busline/add-busline.component';
+import { EditBuslineComponent } from './buslines/edit-busline/edit-busline.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { AddBuslineComponent } from './buslines/add-busline/add-busline.componen
     HomeComponent,
     BuslinesComponent,
     BuslineComponent,
-    AddBuslineComponent
+    AddBuslineComponent,
+    EditBuslineComponent
   ],
   imports: [
     BrowserModule,

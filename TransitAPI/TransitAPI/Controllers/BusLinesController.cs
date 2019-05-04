@@ -87,6 +87,19 @@ namespace TransitAPI.Controllers
                 return BadRequest();
             }
 
+            // clear all times for busline
+            List<StartTime> blTimes = db.StartTimes.Where(x => x.BusLineId.Equals(busLine.Id)).ToList();
+            foreach (var time in blTimes)
+                db.Entry(time).State = EntityState.Deleted;
+
+            // update IDs
+            foreach (var time in busLine.Timetable)
+            {
+                time.BusLineId = busLine.Id;
+                db.Entry(time).State = EntityState.Added;
+            }
+            
+
             db.Entry(busLine).State = EntityState.Modified;
 
             try
