@@ -86,11 +86,16 @@ namespace TransitAPI
             {
                 foreach (var blType in busLineTypes)
                 {
-                    if(!db.BusLineTypes.Any(x => x.Name == blType.Name))
+                    var result = db.BusLineTypes.FirstOrDefault(x => x.Name == blType.Name);
+                    if (result == null)
                         db.BusLineTypes.Add(blType);
                 }
 
-                db.SaveChanges();
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (Exception) {}
             }
         }
 
@@ -105,7 +110,7 @@ namespace TransitAPI
 
             List<BusLine> busLines = new List<BusLine>()
             {
-                new BusLine() { Name = "1", Description = "Gradski - 1 (Novi Sad)", BusLineTypeId = blType.Id, Type = blType,
+                new BusLine() { Name = "1", Description = "Gradski - 1 (Novi Sad)", BusLineTypeId = blType.Id,
                                 Timetable = new List<StartTime>() { new StartTime() { Time = DateTime.Now } } }
 
             };
@@ -114,11 +119,17 @@ namespace TransitAPI
             {
                 foreach (var bl in busLines)
                 {
-                    if(!db.BusLines.Any(x => x.Name == bl.Name))
+                    var result = db.BusLines.FirstOrDefault(x => x.Name == bl.Name);
+                    if (result == null)
                         db.BusLines.Add(bl);
                 }
 
-                db.SaveChanges();
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (Exception e) {}
+               
             }
         }
 
