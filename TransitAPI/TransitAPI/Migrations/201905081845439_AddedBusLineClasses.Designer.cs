@@ -7,13 +7,13 @@ namespace TransitAPI.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class ApplicationUserExtended : IMigrationMetadata
+    public sealed partial class AddedBusLineClasses : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(ApplicationUserExtended));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AddedBusLineClasses));
         
         string IMigrationMetadata.Id
         {
-            get { return "201904281048377_ApplicationUserExtended"; }
+            get { return "201905081845439_AddedBusLineClasses"; }
         }
         
         string IMigrationMetadata.Source

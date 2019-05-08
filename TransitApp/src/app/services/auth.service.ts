@@ -1,9 +1,13 @@
-import { Response } from '@angular/http'
+import { Response, Http, Headers } from '@angular/http'
 import { AuthData } from '../models/auth-data.model';
+import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
 
+@Injectable()
 export class AuthService{
-    
-    constructor() { }
+    private logOutAddress: string = 'http://localhost:53162/api/Account/Logout';
+
+    constructor(private http: Http) { }
 
     logIn(response: Response) : void {
 
@@ -16,9 +20,17 @@ export class AuthService{
         localStorage.setItem('token', JSON.stringify(authdata));
     }
 
-    logOut(): void {
+    logOut(): Observable<any> {       
         if(this.isLoggedIn() === true) {
+            let token = localStorage.getItem("token");
+
+            let headers = new Headers();
+            headers.append('Content-type', 'application/x-www-form-urlencoded');
+            headers.append('Authorization', 'Bearer ' + JSON.parse(token).token);
+
             localStorage.removeItem('token');
+
+            return this.http.post(this.logOutAddress, "", { headers: headers });
         }
     }
 

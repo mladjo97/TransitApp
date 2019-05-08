@@ -19,6 +19,8 @@ import { BuslineComponent } from './buslines/busline/busline.component';
 import { BusLineService } from './services/busline.service';
 import { AddBuslineComponent } from './buslines/add-busline/add-busline.component';
 import { EditBuslineComponent } from './buslines/edit-busline/edit-busline.component';
+import { ProfileComponent } from './profile/profile.component';
+import { UserService } from './services/user.service';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,8 @@ import { EditBuslineComponent } from './buslines/edit-busline/edit-busline.compo
     BuslinesComponent,
     BuslineComponent,
     AddBuslineComponent,
-    EditBuslineComponent
+    EditBuslineComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -44,6 +47,7 @@ import { EditBuslineComponent } from './buslines/edit-busline/edit-busline.compo
     LoginService,
     AuthService,
     BusLineService,
+    UserService,
     NotificationService
   ],
   bootstrap: [AppComponent]

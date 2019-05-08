@@ -16,9 +16,8 @@ namespace TransitAPI.Models
 
         [Key]
         [Column(Order = 2)]
-        public int BusLineId { get; set; }
-
-        [ForeignKey("BusLineId")]
+        [ForeignKey("BusLine")]
+        public int BusLineId { get; set; }                
         public BusLine BusLine { get; set; }
         
     }

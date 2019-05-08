@@ -28,10 +28,21 @@ export class AppComponent implements OnInit {
 
   onLogout() {
     if(this.authService.isLoggedIn()) {
-      this.authService.logOut();
-      this.loggedIn = false;
-      this.onNotify('You have successfully logged out.');
-      this.router.navigate(['/']); 
+      this.authService.logOut().subscribe(
+        (response) => {
+          console.log(response);
+          this.loggedIn = false;
+          this.onNotify('You have successfully logged out.');
+          this.router.navigate(['/']); 
+        },
+
+        (error) => {
+          console.log(error);
+          this.onNotify('An error ocurred while logging out.');
+          this.router.navigate(['/']); 
+        }
+      );
+      
     } else {
       this.onNotify('You are not logged in.'); // ovo se nikad ni nece desiti, but better safe than sure
     }

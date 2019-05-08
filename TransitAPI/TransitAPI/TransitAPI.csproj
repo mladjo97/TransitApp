@@ -46,6 +46,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.8.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Owin, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.4.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
@@ -203,9 +206,6 @@
     <Reference Include="Microsoft.AI.Web">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Web.2.5.1\lib\net45\Microsoft.AI.Web.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
-      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -249,29 +249,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201904281048377_ApplicationUserExtended.cs" />
-    <Compile Include="Migrations\201904281048377_ApplicationUserExtended.Designer.cs">
-      <DependentUpon>201904281048377_ApplicationUserExtended.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201904301422228_AddedGenderToApplicationUser.cs" />
-    <Compile Include="Migrations\201904301422228_AddedGenderToApplicationUser.Designer.cs">
-      <DependentUpon>201904301422228_AddedGenderToApplicationUser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201905011241554_AddedRoleToApplicationUser.cs" />
-    <Compile Include="Migrations\201905011241554_AddedRoleToApplicationUser.Designer.cs">
-      <DependentUpon>201905011241554_AddedRoleToApplicationUser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201905021156344_AddedBusLines.cs" />
-    <Compile Include="Migrations\201905021156344_AddedBusLines.Designer.cs">
-      <DependentUpon>201905021156344_AddedBusLines.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201905030025243_UpdatedDataAnnotations.cs" />
-    <Compile Include="Migrations\201905030025243_UpdatedDataAnnotations.Designer.cs">
-      <DependentUpon>201905030025243_UpdatedDataAnnotations.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201905031406156_AddedStartTime.cs" />
-    <Compile Include="Migrations\201905031406156_AddedStartTime.Designer.cs">
-      <DependentUpon>201905031406156_AddedStartTime.cs</DependentUpon>
+    <Compile Include="Migrations\201905081845439_AddedBusLineClasses.cs" />
+    <Compile Include="Migrations\201905081845439_AddedBusLineClasses.Designer.cs">
+      <DependentUpon>201905081845439_AddedBusLineClasses.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -380,23 +360,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201904281048377_ApplicationUserExtended.resx">
-      <DependentUpon>201904281048377_ApplicationUserExtended.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904301422228_AddedGenderToApplicationUser.resx">
-      <DependentUpon>201904301422228_AddedGenderToApplicationUser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201905011241554_AddedRoleToApplicationUser.resx">
-      <DependentUpon>201905011241554_AddedRoleToApplicationUser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201905021156344_AddedBusLines.resx">
-      <DependentUpon>201905021156344_AddedBusLines.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201905030025243_UpdatedDataAnnotations.resx">
-      <DependentUpon>201905030025243_UpdatedDataAnnotations.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201905031406156_AddedStartTime.resx">
-      <DependentUpon>201905031406156_AddedStartTime.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201905081845439_AddedBusLineClasses.resx">
+      <DependentUpon>201905081845439_AddedBusLineClasses.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

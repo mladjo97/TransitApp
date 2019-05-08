@@ -9,11 +9,13 @@ import { BuslinesComponent } from './buslines/buslines.component';
 import { BuslineComponent } from './buslines/busline/busline.component';
 import { AddBuslineComponent } from './buslines/add-busline/add-busline.component';
 import { EditBuslineComponent } from './buslines/edit-busline/edit-busline.component';
+import { ProfileComponent } from './profile/profile.component';
 
 const appRoutes: Routes = [
     { path:'', component: HomeComponent },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
+    { path: 'profile', component: ProfileComponent },
     { path: 'buslines/add', component: AddBuslineComponent },  
     { path: 'buslines/edit/:id', component: EditBuslineComponent }, 
     { path: 'buslines', component: BuslinesComponent, children: [

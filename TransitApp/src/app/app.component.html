@@ -21,6 +21,9 @@
           <a class="nav-link" [routerLink]="['/register']">Register</a>
         </li>
         <li *ngIf="loggedIn" class="nav-item">
+          <a class="nav-link" [routerLink]="['/profile']">Profile</a>
+        </li>
+        <li *ngIf="loggedIn" class="nav-item">
           <a class="nav-link" (click)="onLogout()">Log Out <i class="fas fa-sign-out-alt"></i></a>
         </li>
       </ul> 

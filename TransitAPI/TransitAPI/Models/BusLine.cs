@@ -21,9 +21,9 @@ namespace TransitAPI.Models
         public string Description { get; set; }
 
 
-        [ForeignKey("BusLineTypeId")]
-        public BusLineType Type { get; set; }
+        [ForeignKey("Type")]
         public int BusLineTypeId { get; set; }
+        public BusLineType Type { get; set; }        
 
         public List<StartTime> Timetable { get; set; }
 
