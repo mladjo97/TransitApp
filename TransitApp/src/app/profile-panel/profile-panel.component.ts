@@ -11,7 +11,6 @@ export class ProfilePanelComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit() {
-    this.router.navigate(['profile/info']);
   }
 
 }

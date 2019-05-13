@@ -1,9 +1,9 @@
 <div class="row">
   <div class="col-3">
     <div class="nav flex-column nav-pills text-center" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-      <a class="nav-link active" id="info" data-toggle="tab" [routerLink]="['info']" role="tab">Profile Info</a>
-      <a class="nav-link " id="edit" data-toggle="tab" [routerLink]="['edit']" role="tab">Edit Profile Info</a>
-      <a class="nav-link " id="changepassword" [routerLink]="['changepassword']" data-toggle="tab" role="tab">Change Password</a>
+      <a class="nav-link"  id="info" data-toggle="tab" [routerLinkActiveOptions]="{ exact: true }" [routerLink]="['/profile']" routerLinkActive="active" role="tab">Profile Info</a>
+      <a class="nav-link" id="edit" data-toggle="tab" [routerLink]="['edit']" routerLinkActive="active" role="tab">Edit Profile Info</a>
+      <a class="nav-link" id="changepassword" data-toggle="tab" [routerLink]="['changepassword']" routerLinkActive="active" role="tab">Change Password</a>
     </div>
   </div>
   <div class="col-6">

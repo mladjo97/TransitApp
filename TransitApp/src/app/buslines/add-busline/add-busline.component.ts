@@ -25,15 +25,10 @@ export class AddBuslineComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit() {
-    // Ako je korisnik ulogovan i ako je admin, onda ima pristup dodavanju 
-    if(this.authService.isAdmin()){
-      this.busLineService.getAllBusLineTypes().subscribe(
-        (response) => this.busLineTypes = response.json(),
-        (error) => console.log('Error in ADD_BUSLINE / ngOnInit() -> getAllBusLines()')
-      );
-    } else {
-      this.router.navigate(['/']);
-    }
+    this.busLineService.getAllBusLineTypes().subscribe(
+      (response) => this.busLineTypes = response.json(),
+      (error) => console.log('Error in ADD_BUSLINE / ngOnInit() -> getAllBusLines()')
+    );
   }   
 
   onAddTime(time: string): void {

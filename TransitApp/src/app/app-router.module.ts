@@ -13,18 +13,20 @@ import { ProfileComponent } from './profile-panel/profile/profile.component';
 import { EditProfileComponent } from './profile-panel/profile/edit-profile/edit-profile.component';
 import { ProfilePanelComponent } from './profile-panel/profile-panel.component';
 import { ChangePasswordComponent } from './profile-panel/profile/change-password/change-password.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const appRoutes: Routes = [
     { path:'', component: HomeComponent },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
-    { path: 'profile', component: ProfilePanelComponent, children: [
-      { path: 'info', component: ProfileComponent },
+    { path: 'profile', component: ProfilePanelComponent, canActivate: [AuthGuard], 
+      children: [
+      { path: '', component: ProfileComponent },
       { path: 'edit', component: EditProfileComponent },
       { path: 'changepassword', component: ChangePasswordComponent }
-    ] },
-    { path: 'buslines/add', component: AddBuslineComponent },  
-    { path: 'buslines/edit/:id', component: EditBuslineComponent }, 
+    ] },   
+    { path: 'buslines/add', component: AddBuslineComponent, canActivate: [AuthGuard] },  
+    { path: 'buslines/edit/:id', component: EditBuslineComponent, canActivate: [AuthGuard] }, 
     { path: 'buslines', component: BuslinesComponent, children: [
       { path: ':id', component: BuslineComponent }      
     ] },

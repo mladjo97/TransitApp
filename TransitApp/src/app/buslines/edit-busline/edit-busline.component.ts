@@ -29,23 +29,16 @@ export class EditBuslineComponent implements OnInit, OnDestroy {
               private router: Router) { }
 
   ngOnInit() {
-    // Ako je korisnik ulogovan i ako je admin, onda ima pristup izmeni 
-    if(this.authService.isAdmin()){
+    this.busLineService.getAllBusLineTypes().subscribe(
+      (response) => this.busLineTypes = response.json(),
+      (error) => console.log('Error in EditBuslineComponent / ngOnInit() -> getAllBusLines()')
+    );
 
-      this.busLineService.getAllBusLineTypes().subscribe(
-        (response) => this.busLineTypes = response.json(),
-        (error) => console.log('Error in EditBuslineComponent / ngOnInit() -> getAllBusLines()')
-      );
-
-      this.idSubscription = this.route.params.subscribe( 
-        (params: Params) => {
-           this.id = +params['id'];     
-           this.updateForm();
-        } );
-
-    } else {
-      this.router.navigate(['/']);
-    }
+    this.idSubscription = this.route.params.subscribe( 
+      (params: Params) => {
+          this.id = +params['id'];     
+          this.updateForm();
+      } );
   }
 
   ngOnDestroy() {

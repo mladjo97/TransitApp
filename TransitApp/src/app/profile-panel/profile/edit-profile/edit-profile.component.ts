@@ -32,10 +32,6 @@ export class EditProfileComponent implements OnInit {
               private notificationService: NotificationService) { }
 
   ngOnInit() {
-    if(!this.authService.isLoggedIn()) {
-      this.router.navigate(['/']);
-    }
-
     this.getUserInfo();
   }
 
