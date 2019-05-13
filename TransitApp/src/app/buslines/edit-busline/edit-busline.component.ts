@@ -5,7 +5,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { StartTime } from 'src/app/models/start-time.model';
 import * as moment from 'moment';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormGroup, FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -22,10 +22,17 @@ export class EditBuslineComponent implements OnInit, OnDestroy {
   private invalidTimeFormat: boolean = false;
   private timetableActive: boolean = false;
 
+  private buslineForm = new FormGroup({
+    id: new FormControl(null),
+    name: new FormControl(null),
+    description: new FormControl(null),
+    busLineTypeId: new FormControl(null),
+    timetable: new FormControl(null)
+  });
+
   constructor(private notificationService: NotificationService,
               private route: ActivatedRoute,
               private busLineService: BusLineService,
-              private authService: AuthService,
               private router: Router) { }
 
   ngOnInit() {
@@ -48,13 +55,23 @@ export class EditBuslineComponent implements OnInit, OnDestroy {
   updateForm(): void {
     this.busLineService.getById(this.id).subscribe(
       (response) => {
+        // get busline information
         let busLineJSON = response.json();
-        this.busLine = busLineJSON;        
+        this.busLine = busLineJSON;
+        
+        // update form values
+        this.buslineForm.patchValue({
+          name: busLineJSON.Name,
+          description: busLineJSON.Description,
+          busLineTypeId: busLineJSON.BusLineTypeId
+        });
 
+        // update side timetable 
         for(let i = 0; i < busLineJSON.Timetable.length; i++) {
           let time = moment.utc(busLineJSON.Timetable[i].Time).format("HH:mm");
           this.onAddTime(time);
         }
+
       },
 
       (error) => {
@@ -109,23 +126,25 @@ export class EditBuslineComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(f: NgForm): void {
-    let data = {
+    
+    // update timetable & id
+    this.buslineForm.patchValue({
       id: this.id,
-      name: f.value.name,
-      description: f.value.description,
-      timetable: this.timetable,
-      busLineTypeId: f.value.busLineType
-     };
+      timetable: this.timetable
+    });
+    
+    // PUT to api
+    this.busLineService.editBusLine(this.id, this.buslineForm.value).subscribe(
+      (response) => {
+        this.notificationService.notifyEvent.emit('Successfully edited busline.');
+        this.router.navigate([`/buslines/${this.id}`]);
+      },
 
-     this.busLineService.editBusLine(this.id, data).subscribe(
-       (response) => {
-        console.log(response.json());
-       },
-
-       (error) => {
-         console.log(error.json());
-       }
-     );
+      (error) => {
+        console.log(error);
+        this.notificationService.notifyEvent.emit('An error occurred during editing.');
+      }
+    );
      
   }
 

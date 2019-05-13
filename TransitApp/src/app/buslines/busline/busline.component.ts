@@ -61,8 +61,17 @@ export class BuslineComponent implements OnInit, OnDestroy {
         this.formattedTimetable[`${time.split(':')[0]}`] = new Array();
         this.formattedTimetable[`${time.split(':')[0]}`].push(time.split(':')[1]);
       }
-      
     }
+
+    // sort timetables by minute
+    for(var prop in this.formattedTimetable) {
+      this.formattedTimetable[prop].sort(function(a, b) {
+        if(a < b) { return -1;}
+        if(a > b) { return 1;}
+        return 0;
+      });      
+    }
+    
   }
 
 }

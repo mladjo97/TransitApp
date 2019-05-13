@@ -7,36 +7,40 @@
       <div class="col-sm-6">          
           <h3>Edit bus line: {{ busLine?.Name }}</h3>
           <hr>
-          <form autocomplete="off" (ngSubmit)="onSubmit(f)" #f="ngForm">
+        
+          <form autocomplete="off" [formGroup]="buslineForm" (ngSubmit)="onSubmit()">
             <div class="form-group row">
-              <label for="Name">Name</label>
-              <input type="text" ngModel name="name" class="form-control" id="name" aria-describedby="nameHelp" autocomplete="off" placeholder="Enter bus line name" [value]="busLine?.Name" required #name="ngModel">
-              <span class="invalid-input" *ngIf="!name.valid && name.touched"> Please enter a valid name. </span>
-            </div>
-            <div class="form-group row">
-              <label for="description">Description</label>
-              <input type="text" ngModel name="description" class="form-control" id="description" placeholder="Bus line description (ex: Futoska - Centar - Liman)" [value]="busLine?.Description" #description="ngModel">
-            </div>  
-            <div class="form-group row">
-              <label for="busLineTypeSelect">Type</label>
-              <select id="busLineTypeSelect" class="form-control" [value]="busLine?.BusLineTypeId" ngModel name="busLineType" required>
-                <option *ngFor="let blt of busLineTypes" [value]="blt.Id"> {{ blt.Name }}</option>               
-              </select>
-            </div>
-            <label for="time">Time</label>
-            <div class="form-group row">             
-              <input type="text" class="col-7 form-control" placeholder="Bus line start time (ex: 07:45) (24h format)" #time>
-              <div class="col-2"></div>
-              <button type="button" class="col-3 btn btn-primary" (click)="onAddTime(time.value)">Add time</button>
-              <span class="invalid-input" *ngIf="invalidTimeFormat"> Please enter a valid time. </span>
-            </div> 
-
-            <hr>
-
-            <button type="submit" class="btn btn-primary btn-block" [disabled]="!f.valid">
+                <label for="name">Name</label>
+                <input type="text" formControlName="name" class="form-control" id="name" aria-describedby="name" autocomplete="off" placeholder="Busline name" required>
+              </div>
+        
+              <div class="form-group row">
+                <label for="description">Description</label>
+                <input type="text" formControlName="description" class="form-control" id="description" autocomplete="off" placeholder="Description" required>
+              </div>   
+        
+              <div class="form-group row">
+                <label for="busLineTypeId">Type</label>
+                <select id="busLineTypeId" class="form-control" formControlName="busLineTypeId" required>
+                  <option *ngFor="let blt of busLineTypes" [value]="blt.Id"> {{ blt.Name }}</option>               
+                </select>
+              </div> 
+              
+              <label for="time">Time</label>
+              <div class="form-group row"> 
+                <input type="text" class="col-7 form-control" placeholder="Bus line start time (ex: 07:45) (24h format)" #time>
+                <div class="col-1"></div>
+                <button type="button" class="col-4 btn btn-primary" (click)="onAddTime(time.value)">Add time</button>
+                <span class="invalid-input" *ngIf="invalidTimeFormat"> Please enter a valid time. </span>
+              </div> 
+            
+            <br><hr>
+            
+            <button type="submit" class="btn btn-primary btn-block" [disabled]="!buslineForm.valid">
               <span *ngIf="submitted" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-              Submit edit
-            </button>
+              Edit
+              </button>
+
           </form>
       </div>   
 
@@ -55,4 +59,6 @@
       
     </div>
   </div>
+
+ 
 
