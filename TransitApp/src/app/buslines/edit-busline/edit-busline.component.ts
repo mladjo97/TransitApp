@@ -29,7 +29,7 @@ export class EditBuslineComponent implements OnInit, OnDestroy {
               private router: Router) { }
 
   ngOnInit() {
-    // Ako je korisnik ulogovan i ako je admin, onda ima pristup dodavanju 
+    // Ako je korisnik ulogovan i ako je admin, onda ima pristup izmeni 
     if(this.authService.isAdmin()){
 
       this.busLineService.getAllBusLineTypes().subscribe(

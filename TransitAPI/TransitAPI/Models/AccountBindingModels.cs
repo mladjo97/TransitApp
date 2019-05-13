@@ -32,6 +32,25 @@ namespace TransitAPI.Models
         public string ConfirmPassword { get; set; }
     }
 
+    public class EditUserInfoBindingModel
+    {
+        [Required]
+        [Display(Name = "First name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Last name")]
+        public string LastName { get; set; }
+
+        [Required]
+        [Display(Name = "Gender")]
+        public int Gender { get; set; }
+
+        [Required]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+    }
+
     public class RegisterBindingModel
     {
         [Required]

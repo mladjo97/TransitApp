@@ -9,13 +9,20 @@ import { BuslinesComponent } from './buslines/buslines.component';
 import { BuslineComponent } from './buslines/busline/busline.component';
 import { AddBuslineComponent } from './buslines/add-busline/add-busline.component';
 import { EditBuslineComponent } from './buslines/edit-busline/edit-busline.component';
-import { ProfileComponent } from './profile/profile.component';
+import { ProfileComponent } from './profile-panel/profile/profile.component';
+import { EditProfileComponent } from './profile-panel/profile/edit-profile/edit-profile.component';
+import { ProfilePanelComponent } from './profile-panel/profile-panel.component';
+import { ChangePasswordComponent } from './profile-panel/profile/change-password/change-password.component';
 
 const appRoutes: Routes = [
     { path:'', component: HomeComponent },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
-    { path: 'profile', component: ProfileComponent },
+    { path: 'profile', component: ProfilePanelComponent, children: [
+      { path: 'info', component: ProfileComponent },
+      { path: 'edit', component: EditProfileComponent },
+      { path: 'changepassword', component: ChangePasswordComponent }
+    ] },
     { path: 'buslines/add', component: AddBuslineComponent },  
     { path: 'buslines/edit/:id', component: EditBuslineComponent }, 
     { path: 'buslines', component: BuslinesComponent, children: [

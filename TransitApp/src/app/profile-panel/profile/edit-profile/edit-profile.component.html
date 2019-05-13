@@ -1,0 +1,26 @@
+<form autocomplete="off" [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+      <label for="firstName">First name</label>
+      <input type="text" formControlName="firstName" class="form-control" id="firstName" aria-describedby="emailHelp" autocomplete="off" placeholder="First name" required>
+    </div>
+    <div class="form-group">
+        <label for="lastName">Last name</label>
+        <input type="text" formControlName="lastName" class="form-control" id="lastName" aria-describedby="emailHelp" autocomplete="off" placeholder="Last name" required>
+      </div>
+  <div class="form-group">
+    <label for="email">Email address</label>
+    <input type="email" formControlName="email" class="form-control" id="email" aria-describedby="emailHelp" autocomplete="off" placeholder="Enter email" required >
+  </div>
+  <div class="radio form-check form-check-inline" *ngFor="let gender of genders; let i = index">
+    <label>
+        <input type="radio" formControlName="gender" [value]="i"> {{ gender }}
+    </label>
+  </div>
+  
+  <br><hr>
+  
+  <button type="submit" class="btn btn-primary btn-block" [disabled]="!profileForm.valid">
+    <span *ngIf="submitted" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    Edit
+    </button>
+</form>

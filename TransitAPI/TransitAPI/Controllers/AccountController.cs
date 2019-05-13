@@ -6,6 +6,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -22,7 +23,8 @@ namespace TransitAPI.Controllers
     [Authorize]
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
-    {
+    {      
+
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
 
@@ -134,6 +136,41 @@ namespace TransitAPI.Controllers
                 return GetErrorResult(result);
             }
 
+            return Ok();
+        }
+
+        // PUT api/Account
+        [HttpPut]
+        [Authorize(Roles = "User, TicketInspector, Admin")]
+        public IHttpActionResult PutAccount(EditUserInfoBindingModel newUserInfo) {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            //get the current user
+            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+            if (user == null)
+            {
+                return BadRequest();
+            }
+
+            // change info
+            user.Email = newUserInfo.Email;
+            user.FirstName = newUserInfo.FirstName;
+            user.LastName = newUserInfo.LastName;
+            user.Gender = (Gender)newUserInfo.Gender;
+            user.UserName = user.Email;
+
+            IdentityResult result = UserManager.Update(user);
+
+            if (!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
+
+            // return Ok() if okay
             return Ok();
         }
 
