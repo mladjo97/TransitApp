@@ -20,6 +20,9 @@
         <li *ngIf="!loggedIn" class="nav-item">
           <a class="nav-link" [routerLink]="['/register']">Register</a>
         </li>
+        <li *ngIf="loggedIn && isAdmin" class="nav-item">
+          <a class="nav-link" [routerLink]="['/register']">Add ticket inspector</a>
+        </li>
         <li *ngIf="loggedIn" class="nav-item">
           <a class="nav-link" [routerLink]="['/profile']">Profile</a>
         </li>

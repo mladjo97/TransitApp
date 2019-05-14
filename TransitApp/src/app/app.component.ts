@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 })
 export class AppComponent implements OnInit {
   private loggedIn: boolean;
+  private isAdmin: boolean;
 
   constructor(private notificationService: NotificationService, 
               private snackbarService: SnackbarService,
@@ -24,6 +25,7 @@ export class AppComponent implements OnInit {
 
     // session
     this.loggedIn = this.authService.isLoggedIn();
+    this.isAdmin = this.authService.isAdmin();
   }
 
   onLogout() {

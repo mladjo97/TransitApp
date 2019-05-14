@@ -12,12 +12,15 @@ export class AuthService{
     logIn(response: Response) : void {
 
         let responseJson = response.json();
-        let accessToken = responseJson['access_token'];
-        let role = response.headers.get('Role');        
+        let accessToken = responseJson.access_token;
+        let role = responseJson.role;
         let id = response.headers.get('UserId');
 
         let authdata = new AuthData(accessToken, role, id);
         localStorage.setItem('token', JSON.stringify(authdata));
+
+        console.log(localStorage.getItem("token"));
+
     }
 
     logOut(): Observable<any> {       

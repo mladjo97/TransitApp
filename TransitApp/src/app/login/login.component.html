@@ -4,23 +4,25 @@
       </div>
 
       <div class="col-sm">
-          <form autocomplete="off" (ngSubmit)="onLogin(f)" #f="ngForm">
-              <div class="form-group">
-                <label for="email">Email address</label>
-                <input type="email" ngModel name="email" class="form-control" id="email" aria-describedby="emailHelp" autocomplete="off" placeholder="Enter email" required #email="ngModel">
-                <span class="invalid-input" *ngIf="!email.valid && email.touched"> Please enter a valid email address. </span>
-              </div>
-              <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" ngModel name="password" class="form-control" id="password" placeholder="Password" required #password="ngModel">
-                <span class="invalid-input" *ngIf="!password.valid && password.touched"> Please enter a password. </span>
-              </div>  
-              <hr>
-              <button type="submit" class="btn btn-primary btn-block" [disabled]="!f.valid">
-                <span *ngIf="submitted" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                Login
-              </button>
-            </form>
+        <h3>Log In</h3>
+        <hr>
+        <form autocomplete="off" (ngSubmit)="onLogin(f)" #f="ngForm">
+          <div class="form-group">
+            <label for="email">Email address</label>
+            <input type="email" ngModel name="email" class="form-control" id="email" aria-describedby="emailHelp" autocomplete="off" placeholder="Enter email" required #email="ngModel">
+            <span class="invalid-input" *ngIf="!email.valid && email.touched"> Please enter a valid email address. </span>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" ngModel name="password" class="form-control" id="password" placeholder="Password" required #password="ngModel">
+            <span class="invalid-input" *ngIf="!password.valid && password.touched"> Please enter a password. </span>
+          </div>  
+          <hr>
+          <button type="submit" class="btn btn-primary btn-block" [disabled]="!f.valid">
+            <span *ngIf="submitted" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Login
+          </button>
+        </form>
       </div>
 
       <div class="col-sm">

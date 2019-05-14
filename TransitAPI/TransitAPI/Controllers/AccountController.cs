@@ -116,8 +116,9 @@ namespace TransitAPI.Controllers
         }
 
         // POST api/Account/RegisterTicketInspector
-        [AllowAnonymous]
-        [Route("Register")]
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [Route("RegisterTicketInspector")]
         public async Task<IHttpActionResult> RegisterTicketInspector(RegisterBindingModel model)
         {
             if (!ModelState.IsValid)

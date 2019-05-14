@@ -13,4 +13,13 @@ export class RegisterService {
         return this.http.post(this.apiAddress, user, {headers: headers});
     }
 
+    registerTicketInspector(user: User) {
+        const headers = new Headers()
+        headers.append('Content-type','application/json');
+        headers.append('Authorization','Bearer ' + JSON.parse(localStorage.getItem("token")).token);
+        headers.append('Accept', 'application/json');
+        
+        return this.http.post(`${this.apiAddress}TicketInspector`, user, {headers: headers});
+    }
+
 }

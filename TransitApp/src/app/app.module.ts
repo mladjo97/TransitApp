@@ -24,7 +24,7 @@ import { UserService } from './services/user.service';
 import { EditProfileComponent } from './profile-panel/profile/edit-profile/edit-profile.component';
 import { ProfilePanelComponent } from './profile-panel/profile-panel.component';
 import { ChangePasswordComponent } from './profile-panel/profile/change-password/change-password.component';
-import { AuthGuard } from './guards/auth.guard';
+
 
 @NgModule({
   declarations: [
