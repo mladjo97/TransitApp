@@ -71,6 +71,94 @@ namespace TransitAPI.Controllers
             };
         }
 
+
+        // POST api/Account/Register
+        [AllowAnonymous]
+        [Route("Register")]
+        public async Task<IHttpActionResult> Register(RegisterBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+
+            var user = new ApplicationUser()
+            {
+                UserName = model.Email,
+                Email = model.Email,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Gender = (Gender)model.Gender,
+                Role = "User"
+            };
+
+            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+
+            if (!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
+            else
+            {
+                ApplicationUser currentUser = UserManager.FindByName(user.UserName);
+
+                IdentityResult roleResult = await UserManager.AddToRoleAsync(currentUser.Id, currentUser.Role);
+
+                if (!roleResult.Succeeded)
+                {
+                    return GetErrorResult(roleResult);
+                }
+
+            }
+
+            return Ok();
+        }
+
+        // POST api/Account/RegisterTicketInspector
+        [AllowAnonymous]
+        [Route("Register")]
+        public async Task<IHttpActionResult> RegisterTicketInspector(RegisterBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+
+            var user = new ApplicationUser()
+            {
+                UserName = model.Email,
+                Email = model.Email,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Gender = (Gender)model.Gender,
+                Role = "TicketInspector"
+            };
+
+            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+
+            if (!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
+            else
+            {
+                ApplicationUser currentUser = UserManager.FindByName(user.UserName);
+
+                IdentityResult roleResult = await UserManager.AddToRoleAsync(currentUser.Id, currentUser.Role);
+
+                if (!roleResult.Succeeded)
+                {
+                    return GetErrorResult(roleResult);
+                }
+
+            }
+
+            return Ok();
+        }
+
+
         // POST api/Account/Logout
         [Route("Logout")]
         public IHttpActionResult Logout()
@@ -358,48 +446,6 @@ namespace TransitAPI.Controllers
             return logins;
         }
 
-        // POST api/Account/Register
-        [AllowAnonymous]
-        [Route("Register")]
-        public async Task<IHttpActionResult> Register(RegisterBindingModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            
-
-            var user = new ApplicationUser()
-            {
-                UserName = model.Email,
-                Email = model.Email,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                Gender = (Gender)model.Gender,
-                Role = "User"
-            };
-
-            IdentityResult result = await UserManager.CreateAsync(user, model.Password);            
-
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
-            else
-            {
-                ApplicationUser currentUser = UserManager.FindByName(user.UserName);
-
-                IdentityResult roleResult = await UserManager.AddToRoleAsync(currentUser.Id, currentUser.Role);
-
-                if (!roleResult.Succeeded)
-                {
-                    return GetErrorResult(roleResult);
-                }
-
-            }
-
-            return Ok();
-        }
 
         // POST api/Account/RegisterExternal
         [OverrideAuthentication]

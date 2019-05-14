@@ -13,7 +13,7 @@ export class BuslineComponent implements OnInit, OnDestroy {
   private id: number;
   private idSubscription: Subscription;
   private busLine: {} = {};
-  private formattedTimetable: string[] = [];
+  private formattedTimetable: Array<Array<string>> = new Array<Array<string>>();
 
   constructor (private route: ActivatedRoute, 
               private busLineService: BusLineService,
@@ -49,6 +49,8 @@ export class BuslineComponent implements OnInit, OnDestroy {
   }
 
   formatTimetable(timetable: any) {
+    const keys = [];
+
     for(let i = 0; i < timetable.length; i++) {
       let time = moment.utc(timetable[i].Time).format("HH:mm"); 
       
@@ -59,19 +61,20 @@ export class BuslineComponent implements OnInit, OnDestroy {
         this.formattedTimetable[`${time.split(':')[0]}`].push(time.split(':')[1]);
       } else {
         this.formattedTimetable[`${time.split(':')[0]}`] = new Array();
+        keys.push(`${time.split(':')[0]}`);
         this.formattedTimetable[`${time.split(':')[0]}`].push(time.split(':')[1]);
       }
     }
 
     // sort timetables by minute
     for(var prop in this.formattedTimetable) {
-      this.formattedTimetable[prop].sort(function(a, b) {
-        if(a < b) { return -1;}
-        if(a > b) { return 1;}
+      this.formattedTimetable[prop].sort((a, b) => {
+        if(a < b) { return -1; }
+        if(a > b) { return 1; }
         return 0;
-      });      
+      });
     }
-    
+
   }
 
 }
