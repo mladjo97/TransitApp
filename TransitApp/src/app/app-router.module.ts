@@ -5,30 +5,40 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { HomeComponent } from './home/home.component';
-import { BuslinesComponent } from './buslines/buslines.component';
-import { BuslineComponent } from './buslines/busline/busline.component';
-import { AddBuslineComponent } from './buslines/add-busline/add-busline.component';
-import { EditBuslineComponent } from './buslines/edit-busline/edit-busline.component';
+import { TimetableComponent } from './timetables/buslines/timetable/timetable.component';
+import { AddBuslineComponent } from './admin-panel/add-busline/add-busline.component';
+import { EditBuslineComponent } from './timetables/buslines/edit-busline/edit-busline.component';
 import { ProfileComponent } from './profile-panel/profile/profile.component';
 import { EditProfileComponent } from './profile-panel/profile/edit-profile/edit-profile.component';
 import { ProfilePanelComponent } from './profile-panel/profile-panel.component';
 import { ChangePasswordComponent } from './profile-panel/profile/change-password/change-password.component';
 import { AuthGuard } from './guards/auth.guard';
+import { AdminPanelComponent } from './admin-panel/admin-panel.component';
+import { DashboardComponent } from './admin-panel/dashboard/dashboard.component';
+import { TimetablesComponent } from './timetables/timetables.component';
 
 const appRoutes: Routes = [
     { path:'', component: HomeComponent },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
+
     { path: 'profile', component: ProfilePanelComponent, canActivate: [AuthGuard], 
       children: [
       { path: '', component: ProfileComponent },
       { path: 'edit', component: EditProfileComponent },
       { path: 'changepassword', component: ChangePasswordComponent }
-    ] },   
-    { path: 'buslines/add', component: AddBuslineComponent, canActivate: [AuthGuard] },  
-    { path: 'buslines/edit/:id', component: EditBuslineComponent, canActivate: [AuthGuard] }, 
-    { path: 'buslines', component: BuslinesComponent, children: [
-      { path: ':id', component: BuslineComponent }      
+    ] },
+
+    { path:'admin', component: AdminPanelComponent, canActivate: [AuthGuard], children: [
+      { path:'', component: DashboardComponent },
+      { path:'register', component: RegisterComponent },
+      { path:'addbusline', component: AddBuslineComponent}
+    ]},
+    
+    
+    { path: 'timetables', component: TimetablesComponent, children: [
+      { path: ':id', component: TimetableComponent },
+      { path: 'edit/:id', component: EditBuslineComponent }
     ] },
     { path: '**', component: NotFoundComponent }
   ];

@@ -9,8 +9,11 @@
         <a class="nav-link" [routerLink]="['/']">Home</a>
       </li> 
       <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/buslines']">Bus Lines</a>
-      </li>         
+        <a class="nav-link" [routerLink]="['/timetables']">Timetables</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/']">Routes</a>
+      </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
       <ul class="navbar-nav mr-auto">
@@ -21,7 +24,7 @@
           <a class="nav-link" [routerLink]="['/register']">Register</a>
         </li>
         <li *ngIf="loggedIn && isAdmin" class="nav-item">
-          <a class="nav-link" [routerLink]="['/register']">Add ticket inspector</a>
+          <a class="nav-link" [routerLink]="['/admin']">Admin Panel</a>
         </li>
         <li *ngIf="loggedIn" class="nav-item">
           <a class="nav-link" [routerLink]="['/profile']">Profile</a>

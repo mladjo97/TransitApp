@@ -36,6 +36,8 @@ export class EditBuslineComponent implements OnInit, OnDestroy {
               private router: Router) { }
 
   ngOnInit() {
+    console.log('EDITBUSLINE INIT')
+
     this.busLineService.getAllBusLineTypes().subscribe(
       (response) => this.busLineTypes = response.json(),
       (error) => console.log('Error in EditBuslineComponent / ngOnInit() -> getAllBusLines()')
@@ -75,7 +77,7 @@ export class EditBuslineComponent implements OnInit, OnDestroy {
       },
 
       (error) => {
-        this.router.navigate(['/buslines']);
+        this.router.navigate(['/timetables']);
       }
     );
   }
@@ -137,7 +139,7 @@ export class EditBuslineComponent implements OnInit, OnDestroy {
     this.busLineService.editBusLine(this.id, this.buslineForm.value).subscribe(
       (response) => {
         this.notificationService.notifyEvent.emit('Successfully edited busline.');
-        this.router.navigate([`/buslines/${this.id}`]);
+        this.router.navigate([`/timetables/${this.id}`]);
       },
 
       (error) => {

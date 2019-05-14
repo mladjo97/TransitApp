@@ -14,16 +14,20 @@ import { RegisterService } from './services/register.service';
 import { NotificationService } from './services/notification.service';
 import { LoginService } from './services/login.service';
 import { AuthService } from './services/auth.service';
-import { BuslinesComponent } from './buslines/buslines.component';
-import { BuslineComponent } from './buslines/busline/busline.component';
+import { BuslinesComponent } from './timetables/buslines/buslines.component';
+import { TimetableComponent } from './timetables/buslines/timetable/timetable.component';
 import { BusLineService } from './services/busline.service';
-import { AddBuslineComponent } from './buslines/add-busline/add-busline.component';
-import { EditBuslineComponent } from './buslines/edit-busline/edit-busline.component';
+import { AddBuslineComponent } from './admin-panel/add-busline/add-busline.component';
+import { EditBuslineComponent } from './timetables/buslines/edit-busline/edit-busline.component';
 import { ProfileComponent } from './profile-panel/profile/profile.component';
 import { UserService } from './services/user.service';
 import { EditProfileComponent } from './profile-panel/profile/edit-profile/edit-profile.component';
 import { ProfilePanelComponent } from './profile-panel/profile-panel.component';
 import { ChangePasswordComponent } from './profile-panel/profile/change-password/change-password.component';
+import { MapComponent } from './map/map.component';
+import { AdminPanelComponent } from './admin-panel/admin-panel.component';
+import { DashboardComponent } from './admin-panel/dashboard/dashboard.component';
+import { TimetablesComponent } from './timetables/timetables.component';
 
 
 @NgModule({
@@ -34,13 +38,17 @@ import { ChangePasswordComponent } from './profile-panel/profile/change-password
     RegisterComponent,
     HomeComponent,
     BuslinesComponent,
-    BuslineComponent,
+    TimetableComponent,
     AddBuslineComponent,
     EditBuslineComponent,
     ProfileComponent,
     EditProfileComponent,
     ProfilePanelComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    MapComponent,
+    AdminPanelComponent,
+    DashboardComponent,
+    TimetablesComponent
   ],
   imports: [
     BrowserModule,

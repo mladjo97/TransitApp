@@ -90,7 +90,7 @@ export class AddBuslineComponent implements OnInit {
        (response) => {
           this.submitted = false;  //animation
           this.notificationService.notifyEvent.emit('Successfully added a new bus line.');
-          this.router.navigate(['/buslines']);
+          this.router.navigate(['/admin']);
        },
 
        (error) => { 

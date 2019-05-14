@@ -1,15 +1,15 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { BusLineService } from 'src/app/services/busline.service';
 import { Subscription } from 'rxjs';
 import * as moment from 'moment';
 
 @Component({
-  selector: 'app-busline',
-  templateUrl: './busline.component.html',
-  styleUrls: ['./busline.component.css']
+  selector: 'app-timetable',
+  templateUrl: './timetable.component.html',
+  styleUrls: ['./timetable.component.css']
 })
-export class BuslineComponent implements OnInit, OnDestroy {
+export class TimetableComponent implements OnInit, OnDestroy {
   private id: number;
   private idSubscription: Subscription;
   private busLine: {} = {};
@@ -21,6 +21,8 @@ export class BuslineComponent implements OnInit, OnDestroy {
                }
 
   ngOnInit() {
+    console.log('TIMETABLE INIT')
+
     this.idSubscription = this.route.params.subscribe( 
       (params: Params) => {
          this.id = +params['id'];     

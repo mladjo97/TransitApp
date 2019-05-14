@@ -4,7 +4,7 @@ tbody > tr:hover {
 
 #showFiltersButton, #clearFiltersButton {
     margin-left: 12px;
-    width: 150px;
+    width: 200px;
 }
 
 .left-border {
@@ -13,4 +13,8 @@ tbody > tr:hover {
 
 .same-width {
     width: 150px;
+}
+
+.full-width {
+    width: 100%;
 }

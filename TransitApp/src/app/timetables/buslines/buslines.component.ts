@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { BusLineService } from '../services/busline.service';
-import { AuthService } from '../services/auth.service';
+import { BusLineService } from '../../services/busline.service';
+import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { NotificationService } from '../services/notification.service';
-import * as $ from 'jquery';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-buslines',
@@ -56,24 +55,21 @@ export class BuslinesComponent implements OnInit {
     });
   }
 
-  onDelete(id: number): void {
-    
+  onDelete(id: number): void {    
     this.busLineService.deleteBusLine(id).subscribe(
       (response) => {
         this.getAllBusLines();
         this.notificationService.notifyEvent.emit('Successfully deleted busline: ' + response.json().Name);
-        this.router.navigate(['/buslines']);
+        this.router.navigate(['/timetables']);
       },
 
       (error) => {
         console.log(error.json());
       }
-    );
-    
+    );    
   }
 
   onChange(busLineTypeId: string): void {
-
     if(busLineTypeId == '-1') {
       this.getAllBusLines();
     } else {
@@ -87,7 +83,6 @@ export class BuslinesComponent implements OnInit {
         }
       );
     }
-
   }
 
   onShowFilters(): void {
