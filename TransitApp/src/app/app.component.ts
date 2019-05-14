@@ -21,7 +21,11 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     // observables
     this.notificationService.notifyEvent.subscribe((message: string) => this.onNotify(message));
-    this.notificationService.sessionEvent.subscribe((loggedIn: boolean) => this.loggedIn = loggedIn);
+    this.notificationService.sessionEvent.subscribe(
+      (loggedIn: boolean) =>  { 
+        this.loggedIn = loggedIn;
+        this.isAdmin = this.authService.isAdmin();
+    });
 
     // session
     this.loggedIn = this.authService.isLoggedIn();

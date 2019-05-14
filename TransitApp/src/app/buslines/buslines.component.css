@@ -1,3 +1,16 @@
 tbody > tr:hover {
     cursor: pointer;
 }
+
+#showFiltersButton, #clearFiltersButton {
+    margin-left: 12px;
+    width: 150px;
+}
+
+.left-border {
+    border-left: 1px black solid;
+}
+
+.same-width {
+    width: 150px;
+}

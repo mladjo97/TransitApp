@@ -3,6 +3,7 @@ import { BusLineService } from '../services/busline.service';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { NotificationService } from '../services/notification.service';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-buslines',
@@ -12,6 +13,8 @@ import { NotificationService } from '../services/notification.service';
 export class BuslinesComponent implements OnInit {
   private busLines: [];
   private isAdmin: boolean = false;
+  private busLineTypes: {}[] = [];
+  private showFilters: boolean = false;
 
   constructor(private notificationService: NotificationService,
               private busLineService: BusLineService,
@@ -19,12 +22,27 @@ export class BuslinesComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit() {
-      if(this.authService.isAdmin()){
-        this.isAdmin = true;
-      }
+    if(this.authService.isAdmin()){
+      this.isAdmin = true;
+    }
 
-      this.getAllBusLines();
-    
+    this.busLineService.getAllBusLineTypes().subscribe(
+      (response) => { 
+        // an additional busline type for default 
+        this.busLineTypes.push({Id: "-1", Name: "All bus line types"});
+        
+        const responseJson = response.json();
+        for(let i = 0; i < responseJson.length; i++){            
+          this.busLineTypes.push(responseJson[i]);
+        }
+
+      },
+
+      (error) => console.log('Error in BUSLINES / ngOnInit() -> getAllBusLines()')
+    );
+
+    this.getAllBusLines();
+  
   }
 
   getAllBusLines(): void {
@@ -38,7 +56,7 @@ export class BuslinesComponent implements OnInit {
     });
   }
 
-  onDelete(id: number) {
+  onDelete(id: number): void {
     
     this.busLineService.deleteBusLine(id).subscribe(
       (response) => {
@@ -52,6 +70,33 @@ export class BuslinesComponent implements OnInit {
       }
     );
     
+  }
+
+  onChange(busLineTypeId: string): void {
+
+    if(busLineTypeId == '-1') {
+      this.getAllBusLines();
+    } else {
+      this.busLineService.filterBusLines(+busLineTypeId).subscribe(
+        (response) => {
+          this.busLines = response.json();
+        },
+
+        (error) => {
+          console.log(error);
+        }
+      );
+    }
+
+  }
+
+  onShowFilters(): void {
+    this.showFilters = true;
+  }
+
+  onClearFilters(): void {
+    this.showFilters = false;
+    this.getAllBusLines();
   }
 
 }

@@ -39,8 +39,6 @@ export class BusLineService {
     }
 
     deleteBusLine(id: number): Observable<any> {
-        console.log('Deleting busline with id: ' + id);
-
         const headers = new Headers()
         headers.append('Content-type','application/json');
         headers.append('Authorization','Bearer ' + JSON.parse(localStorage.getItem("token")).token);
@@ -49,4 +47,7 @@ export class BusLineService {
         return this.http.delete(`${this.apiAddress}/${id}`, {headers: headers});
     }
 
+    filterBusLines(busLineTypeId: number): Observable<any> {
+        return this.http.get(`${this.apiAddress}?busLineTypeId=${busLineTypeId}`);
+    }
 }

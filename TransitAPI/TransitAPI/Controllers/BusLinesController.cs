@@ -47,8 +47,15 @@ namespace TransitAPI.Controllers
             }
 
             return Ok(busLine);
-        }   
-        
+        }
+
+        // GET: api/BusLines?busLineTypeId=4
+        [AllowAnonymous]
+        public IQueryable<BusLine> GetBusLines(int busLineTypeId)
+        {
+            return db.BusLines.Where(x => x.BusLineTypeId == busLineTypeId);
+        }
+
 
         // POST: api/BusLines
         [Authorize(Roles = "Admin")]

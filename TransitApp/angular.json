@@ -27,7 +27,10 @@
               "node_modules/bootstrap/dist/css/bootstrap.css",
               "node_modules/ngx-snackbar/bundles/style.css"
             ],
-            "scripts": [ ],
+            "scripts": [ 
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.js"
+             ],
             "es5BrowserSupport": true
           },
           "configurations": {
