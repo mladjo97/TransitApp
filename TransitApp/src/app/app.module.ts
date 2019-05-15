@@ -14,11 +14,11 @@ import { RegisterService } from './services/register.service';
 import { NotificationService } from './services/notification.service';
 import { LoginService } from './services/login.service';
 import { AuthService } from './services/auth.service';
-import { BuslinesComponent } from './timetables/buslines/buslines.component';
-import { TimetableComponent } from './timetables/buslines/timetable/timetable.component';
+import { BuslinesComponent } from './buslines/buslines.component';
+import { TimetableComponent } from './buslines/timetable/timetable.component';
 import { BusLineService } from './services/busline.service';
 import { AddBuslineComponent } from './admin-panel/add-busline/add-busline.component';
-import { EditBuslineComponent } from './timetables/buslines/edit-busline/edit-busline.component';
+import { EditBuslineComponent } from './buslines/edit-busline/edit-busline.component';
 import { ProfileComponent } from './profile-panel/profile/profile.component';
 import { UserService } from './services/user.service';
 import { EditProfileComponent } from './profile-panel/profile/edit-profile/edit-profile.component';
@@ -28,6 +28,8 @@ import { MapComponent } from './map/map.component';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { DashboardComponent } from './admin-panel/dashboard/dashboard.component';
 import { TimetablesComponent } from './timetables/timetables.component';
+import { BusRoutesComponent } from './bus-routes/bus-routes.component';
+import { DrawService } from './services/draw.service';
 
 
 @NgModule({
@@ -48,7 +50,8 @@ import { TimetablesComponent } from './timetables/timetables.component';
     MapComponent,
     AdminPanelComponent,
     DashboardComponent,
-    TimetablesComponent
+    TimetablesComponent,
+    BusRoutesComponent
   ],
   imports: [
     BrowserModule,
@@ -64,7 +67,8 @@ import { TimetablesComponent } from './timetables/timetables.component';
     AuthService,
     BusLineService,
     UserService,
-    NotificationService
+    NotificationService,
+    DrawService
   ],
   bootstrap: [AppComponent]
 })

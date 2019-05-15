@@ -6,6 +6,8 @@ import OlTileLayer from 'ol/layer/Tile';
 import OlView from 'ol/View';
 
 import { fromLonLat } from 'ol/proj';
+import { DrawService } from '../services/draw.service';
+import { BusLine } from '../models/busline.model';
 
 
 @Component({
@@ -19,7 +21,11 @@ export class MapComponent implements OnInit {
   layer: OlTileLayer;
   view: OlView;
 
-  constructor() { }
+  constructor(private drawService: DrawService)
+   {
+     // subscribe for drawing
+    this.drawService.drawEvent.subscribe((busLine: BusLine) => this.onDraw(busLine));
+   }
 
   ngOnInit() {
     console.log('Initilazing map...');
@@ -42,7 +48,10 @@ export class MapComponent implements OnInit {
       layers: [this.layer],
       view: this.view
     });
+  }
 
+  onDraw(busLine: BusLine): void {
+    console.log(busLine);
   }
 
 }

@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { BusLineService } from '../../services/busline.service';
-import { AuthService } from '../../services/auth.service';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { BusLineService } from '../services/busline.service';
+import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
-import { NotificationService } from '../../services/notification.service';
+import { NotificationService } from '../services/notification.service';
+import { BusLine } from '../models/busline.model';
+import { DrawService } from '../services/draw.service';
 
 @Component({
   selector: 'app-buslines',
@@ -14,10 +16,14 @@ export class BuslinesComponent implements OnInit {
   private isAdmin: boolean = false;
   private busLineTypes: {}[] = [];
   private showFilters: boolean = false;
+  
+  @Input() isRoute: boolean = false;
+  @Output() clickEvent: EventEmitter<BusLine> = new EventEmitter<BusLine>();
 
   constructor(private notificationService: NotificationService,
               private busLineService: BusLineService,
               private authService: AuthService,
+              private drawService: DrawService,
               private router: Router) { }
 
   ngOnInit() {
@@ -53,6 +59,31 @@ export class BuslinesComponent implements OnInit {
       (error) => {
         console.log('Error in BusLinesComponent onNgInit() -> getAll()');        
     });
+  }
+
+  onBusLineClick(busLineId: number): void {
+    if(!this.isRoute){
+      this.router.navigate(['/timetables', busLineId]);
+    } else {
+      console.log('Drawing route on map');
+      
+      // fetch busline data
+      this.busLineService.getById(busLineId).subscribe(
+        (response) => {
+          let busLineJson = response.json();
+          let busLine = new BusLine(busLineJson.Id, busLineJson.Name, busLineJson.Description,
+                                    busLineJson.BusLineTypeId, busLineJson.Timetable);
+          // notify map to draw elements
+          this.drawService.drawEvent.emit(busLine);
+
+        },
+  
+        (error) => {
+          this.router.navigate(['/routes']);
+        }
+      );
+
+    }
   }
 
   onDelete(id: number): void {    

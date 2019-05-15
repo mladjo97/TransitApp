@@ -5,9 +5,9 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { HomeComponent } from './home/home.component';
-import { TimetableComponent } from './timetables/buslines/timetable/timetable.component';
+import { TimetableComponent } from './buslines/timetable/timetable.component';
 import { AddBuslineComponent } from './admin-panel/add-busline/add-busline.component';
-import { EditBuslineComponent } from './timetables/buslines/edit-busline/edit-busline.component';
+import { EditBuslineComponent } from './buslines/edit-busline/edit-busline.component';
 import { ProfileComponent } from './profile-panel/profile/profile.component';
 import { EditProfileComponent } from './profile-panel/profile/edit-profile/edit-profile.component';
 import { ProfilePanelComponent } from './profile-panel/profile-panel.component';
@@ -16,6 +16,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { DashboardComponent } from './admin-panel/dashboard/dashboard.component';
 import { TimetablesComponent } from './timetables/timetables.component';
+import { BusRoutesComponent } from './bus-routes/bus-routes.component';
 
 const appRoutes: Routes = [
     { path:'', component: HomeComponent },
@@ -35,11 +36,13 @@ const appRoutes: Routes = [
       { path:'addbusline', component: AddBuslineComponent}
     ]},
     
-    
+    { path: 'timetables/edit/:id', component: EditBuslineComponent },
     { path: 'timetables', component: TimetablesComponent, children: [
-      { path: ':id', component: TimetableComponent },
-      { path: 'edit/:id', component: EditBuslineComponent }
+      { path: ':id', component: TimetableComponent }
     ] },
+
+    { path: 'routes', component: BusRoutesComponent },
+
     { path: '**', component: NotFoundComponent }
   ];
   
