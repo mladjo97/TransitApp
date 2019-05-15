@@ -20,12 +20,18 @@ namespace TransitAPI.Models
         [StringLength(1024)]
         public string Description { get; set; }
 
-
         [ForeignKey("Type")]
         public int BusLineTypeId { get; set; }
         public BusLineType Type { get; set; }        
 
-        public List<StartTime> Timetable { get; set; }
+        public virtual ICollection<StartTime> Timetable { get; set; }
+        public virtual ICollection<Station> Stations { get; set; }
+
+        public BusLine()
+        {
+            this.Timetable = new HashSet<StartTime>();
+            this.Stations = new HashSet<Station>();
+        }
 
     }
 }

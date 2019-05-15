@@ -111,7 +111,7 @@ namespace TransitAPI
             List<BusLine> busLines = new List<BusLine>()
             {
                 new BusLine() { Name = "1", Description = "Gradski - 1 (Novi Sad)", BusLineTypeId = blType.Id,
-                                Timetable = new List<StartTime>() { new StartTime() { Time = DateTime.Now } } }
+                                Timetable = new HashSet<StartTime>() { new StartTime() { Time = DateTime.Now } } }
 
             };
 

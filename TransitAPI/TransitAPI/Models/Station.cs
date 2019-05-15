@@ -16,8 +16,19 @@ namespace TransitAPI.Models
         [Required]
         [StringLength(256)]
         public string Address { get; set; }
-        
-        public List<BusLine> BusLines { get; set; }
+
+        [Required]
+        public float Lon { get; set; }
+
+        [Required]
+        public float Lat { get; set; }
+
+        public virtual ICollection<BusLine> BusLines { get; set; }
+
+        public Station()
+        {
+            this.BusLines = new HashSet<BusLine>();
+        }
 
     }
 }
