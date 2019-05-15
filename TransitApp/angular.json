@@ -31,7 +31,8 @@
             "scripts": [ 
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.js",
-              "src/assets/js/ol.js"
+              "src/assets/js/ol.js",
+              "src/assets/js/map.js"
              ],
             "es5BrowserSupport": true
           },
