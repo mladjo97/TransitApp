@@ -76,6 +76,9 @@ function loadMap() {
     });
 
     $('#map').data('loaded', true);
+    
+    // test for route
+    addRouteToMap(19.832058995962143, 45.26104758226012, 19.835076481103897, 45.25561947427374);
 
     // test for station adding
     addStationOnMap(19.832058995962143, 45.26104758226012, 'Simpo', 'Adresa ova neka kao test');
@@ -107,6 +110,30 @@ function addStationOnMap(lon, lat, name, address){
 
     map.addLayer(markerLayer);
 }
+
+
+function addRouteToMap(start_lon, start_lat, end_lon, end_lat) {
+    console.log('Adding route to map ..');
+    var start_point = ol.proj.fromLonLat([start_lon, start_lat]);
+    var end_point = ol.proj.fromLonLat([end_lon, end_lat]);
+
+    let route = new ol.Feature({
+        geometry: new ol.geom.LineString([start_point, end_point])
+    });
+
+    route.setStyle(new ol.style.Style({
+        stroke : new ol.style.Stroke({color: 'blue', width: 4}) 
+    }));
+
+    let routeLayer = new ol.layer.Vector({
+        source: new ol.source.Vector({
+            features: [route]
+        })
+    });
+
+    map.addLayer(routeLayer);
+}
+
 
 function enableLonLatOnClick() {
      map.on('click', function (evt) {
