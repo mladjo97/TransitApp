@@ -72,7 +72,7 @@ export class BuslinesComponent implements OnInit {
         (response) => {
           let busLineJson = response.json();
           let busLine = new BusLine(busLineJson.Id, busLineJson.Name, busLineJson.Description,
-                                    busLineJson.BusLineTypeId, busLineJson.Timetable);
+                                    busLineJson.BusLineTypeId, busLineJson.Timetable, busLineJson.Stations);
           // notify map to draw elements
           this.drawService.drawEvent.emit(busLine);
 

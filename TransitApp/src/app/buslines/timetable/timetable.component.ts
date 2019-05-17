@@ -45,7 +45,7 @@ export class TimetableComponent implements OnInit, OnDestroy {
       },
 
       (error) => {
-        this.router.navigate(['/buslines']);
+        this.router.navigate(['/timetables']);
       }
     );
   }

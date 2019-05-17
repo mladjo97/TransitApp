@@ -249,13 +249,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201905081845439_AddedBusLineClasses.cs" />
-    <Compile Include="Migrations\201905081845439_AddedBusLineClasses.Designer.cs">
-      <DependentUpon>201905081845439_AddedBusLineClasses.cs</DependentUpon>
+    <Compile Include="Migrations\201905161755220_InitialBuslineMigration.cs" />
+    <Compile Include="Migrations\201905161755220_InitialBuslineMigration.Designer.cs">
+      <DependentUpon>201905161755220_InitialBuslineMigration.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201905151443379_AddedStationsForBusLines.cs" />
-    <Compile Include="Migrations\201905151443379_AddedStationsForBusLines.Designer.cs">
-      <DependentUpon>201905151443379_AddedStationsForBusLines.cs</DependentUpon>
+    <Compile Include="Migrations\201905162214148_BiggerDoublePrecision.cs" />
+    <Compile Include="Migrations\201905162214148_BiggerDoublePrecision.Designer.cs">
+      <DependentUpon>201905162214148_BiggerDoublePrecision.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -364,11 +364,11 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201905081845439_AddedBusLineClasses.resx">
-      <DependentUpon>201905081845439_AddedBusLineClasses.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201905161755220_InitialBuslineMigration.resx">
+      <DependentUpon>201905161755220_InitialBuslineMigration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201905151443379_AddedStationsForBusLines.resx">
-      <DependentUpon>201905151443379_AddedStationsForBusLines.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201905162214148_BiggerDoublePrecision.resx">
+      <DependentUpon>201905162214148_BiggerDoublePrecision.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

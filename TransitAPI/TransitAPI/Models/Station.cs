@@ -18,10 +18,10 @@ namespace TransitAPI.Models
         public string Address { get; set; }
 
         [Required]
-        public float Lon { get; set; }
+        public decimal Lon { get; set; }
 
         [Required]
-        public float Lat { get; set; }
+        public decimal Lat { get; set; }
 
         public virtual ICollection<BusLine> BusLines { get; set; }
 

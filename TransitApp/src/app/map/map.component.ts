@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { DrawService } from '../services/draw.service';
 import { BusLine } from '../models/busline.model';
 
+// javascript file to handle map interaction
+import * as mapJS from '../../assets/js/map.js';
+declare var addStationOnMap: any;
 
 @Component({
   selector: 'app-map',
@@ -16,7 +19,8 @@ export class MapComponent implements OnInit {
       this.drawService.drawEvent.subscribe((busLine: BusLine) => this.onDraw(busLine));
     }
 
-  ngOnInit() {
+  ngOnInit() {    
+    
   }
 
   onDraw(busLine: BusLine): void {

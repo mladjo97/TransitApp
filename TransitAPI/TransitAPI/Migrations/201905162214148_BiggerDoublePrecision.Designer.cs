@@ -7,13 +7,13 @@ namespace TransitAPI.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class AddedBusLineClasses : IMigrationMetadata
+    public sealed partial class BiggerDoublePrecision : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddedBusLineClasses));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(BiggerDoublePrecision));
         
         string IMigrationMetadata.Id
         {
-            get { return "201905081845439_AddedBusLineClasses"; }
+            get { return "201905162214148_BiggerDoublePrecision"; }
         }
         
         string IMigrationMetadata.Source

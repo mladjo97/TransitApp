@@ -13,6 +13,15 @@ namespace TransitAPI.Models
         public ApplicationDbContext()
             : base("TransitAppDbConnection", throwIfV1Schema: false)
         {
+            this.Configuration.ProxyCreationEnabled = false;
+            this.Configuration.LazyLoadingEnabled = false;
+        }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Station>().Property(p => p.Lat).HasPrecision(20, 18);
+            modelBuilder.Entity<Station>().Property(p => p.Lon).HasPrecision(20, 18);
+            base.OnModelCreating(modelBuilder);
         }
 
         public static ApplicationDbContext Create()

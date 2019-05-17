@@ -1,0 +1,20 @@
+[
+    {
+        "Name": "Zeleznicka",
+        "Address": "Bulevar Jase Tomica",
+        "Lon": 19.829617515206333,
+        "Lat": 45.26404556344096 
+    },
+    {
+        "Name": "Simpo",
+        "Address": "Bulevar Oslobodjenja - Bulevar Kralja Petra",
+        "Lon": 19.832058995962143,
+        "Lat": 45.26104758226012 
+    },
+    {
+        "Name": "Aleksandar Zgrada",
+        "Address": "Bulevar Oslobodjenja - Bulevar Papa Pavla",
+        "Lon": 19.835076481103897,
+        "Lat": 45.25561947427374 
+    }
+]

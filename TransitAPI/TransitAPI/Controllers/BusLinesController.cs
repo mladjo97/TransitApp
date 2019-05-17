@@ -18,9 +18,9 @@ namespace TransitAPI.Controllers
 
         // GET: api/BusLines
         [AllowAnonymous]
-        public IQueryable<BusLine> GetBusLines()
+        public IEnumerable<BusLine> GetBusLines()
         {
-            return db.BusLines;
+            return db.BusLines.ToList();
         }
 
         // GET: api/BusLines/5
@@ -48,12 +48,12 @@ namespace TransitAPI.Controllers
             }
 
             // ... i stations
-            //busLine.Stations = new List<Station>();
-            //List<Station> stations = db.Stations.Where(x => x.BusLines.Any(o => o.Id == busLine.Id)).ToList();
-            //if (stations != null)
-            //{
-            //    busLine.Stations = stations;
-            //}
+            busLine.Stations = new List<Station>();
+            List<Station> stations = db.Stations.Where(x => x.BusLines.Any(o => o.Id == busLine.Id)).ToList();
+            if (stations != null)
+            {
+                busLine.Stations = stations;
+            }
 
             return Ok(busLine);
         }

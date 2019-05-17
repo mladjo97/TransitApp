@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
@@ -25,13 +27,14 @@ namespace TransitAPI
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             // Seed metoda nije radila - moram ovako za sad
-            AddAdmins();
+            AddAdminsAndRoles();
+            AddStations();
             AddBusLineTypes();
             AddBusLines();
 
         }
 
-        private void AddAdmins()
+        private void AddAdminsAndRoles()
         {
             // Initialize default identity roles
             using (var context = new ApplicationDbContext())
@@ -74,12 +77,43 @@ namespace TransitAPI
 
         }
 
+        private void AddStations()
+        {
+            List<Station> initialStations = new List<Station>();
+
+            using (StreamReader r = new StreamReader(@"C:\Users\Mladjo\Desktop\TransitApp\TransitApp\src\assets\data\stations.json"))
+            {
+                string json = r.ReadToEnd();
+
+                initialStations = JsonConvert.DeserializeObject<List<Station>>(json);
+            }
+
+            using (var db = new ApplicationDbContext())
+            {
+                foreach (var station in initialStations)
+                {
+                    var result = db.Stations.FirstOrDefault(x => x.Lat == station.Lat &&
+                                                                 x.Lon == station.Lon &&
+                                                                 x.Name == station.Name &&
+                                                                 x.Address == station.Address);
+                    if (result == null)
+                        db.Stations.Add(station);
+                }
+
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (Exception) { }
+            }
+        }
+
         private void AddBusLineTypes()
         {
             List<BusLineType> busLineTypes = new List<BusLineType>()
             {
-                new BusLineType() { Name = "Urban", Id=1 },
-                new BusLineType() { Name = "Suburban", Id=2 }
+                new BusLineType() { Name = "Urban" },
+                new BusLineType() { Name = "Suburban" }
             };
 
             using (var db = new ApplicationDbContext())
@@ -107,21 +141,32 @@ namespace TransitAPI
             {
                 blType = db.BusLineTypes.FirstOrDefault(x => x.Name == "Urban");
             }
+            
+            
 
             List<BusLine> busLines = new List<BusLine>()
             {
-                new BusLine() { Name = "1", Description = "Gradski - 1 (Novi Sad)", BusLineTypeId = blType.Id,
-                                Timetable = new HashSet<StartTime>() { new StartTime() { Time = DateTime.Now } } }
-
+                new BusLine() { Name = "7A", Description = "Zeleznicka - Futoska - Liman - N.Naselje", BusLineTypeId = blType.Id,
+                                Timetable = new HashSet<StartTime>() { new StartTime() { Time = DateTime.Now } }
+                               }
             };
 
             using (var db = new ApplicationDbContext())
             {
                 foreach (var bl in busLines)
                 {
+                    List<Station> stations = db.Stations.Where(x => x.Name == "Zeleznicka" ||
+                                                          x.Name == "Simpo" ||
+                                                          x.Name == "Aleksandar Zgrada").ToList();
+
                     var result = db.BusLines.FirstOrDefault(x => x.Name == bl.Name);
                     if (result == null)
+                    {
+                        foreach (var s in stations)
+                            bl.Stations.Add(s);
+
                         db.BusLines.Add(bl);
+                    }
                 }
 
                 try
@@ -132,6 +177,7 @@ namespace TransitAPI
                
             }
         }
+
 
 
     }
