@@ -30,6 +30,7 @@ import { DashboardComponent } from './admin-panel/dashboard/dashboard.component'
 import { TimetablesComponent } from './timetables/timetables.component';
 import { BusRoutesComponent } from './bus-routes/bus-routes.component';
 import { DrawService } from './services/draw.service';
+import { OpenRouteService } from './services/open-route.service';
 
 
 @NgModule({
@@ -68,7 +69,8 @@ import { DrawService } from './services/draw.service';
     BusLineService,
     UserService,
     NotificationService,
-    DrawService
+    DrawService,
+    OpenRouteService
   ],
   bootstrap: [AppComponent]
 })

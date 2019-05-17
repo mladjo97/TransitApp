@@ -1,13 +1,13 @@
 export class Station {
-    name: string;
-    address: string;
-    lat: number;
-    lon: number;
+    Name: string;
+    Address: string;
+    Lat: number;
+    Lon: number;
     
     constructor(name: string, address: string, lat: number, lon: number){
-        this.name = name;
-        this.address = address;
-        this.lat = lat;
-        this.lon = lon;
+        this.Name = name;
+        this.Address = address;
+        this.Lat = lat;
+        this.Lon = lon;
     }
 }
