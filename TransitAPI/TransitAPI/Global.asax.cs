@@ -146,24 +146,25 @@ namespace TransitAPI
 
             List<BusLine> busLines = new List<BusLine>()
             {
-                new BusLine() { Name = "7A", Description = "Zeleznicka - Futoska - Liman - N.Naselje", BusLineTypeId = blType.Id,
+                new BusLine() { Name = "7B", Description = "N.Naselje - Liman - Futoska - Zeleznicka", BusLineTypeId = blType.Id,
                                 Timetable = new HashSet<StartTime>() { new StartTime() { Time = DateTime.Now } }
                                }
             };
 
             using (var db = new ApplicationDbContext())
             {
+                List<Station> stations = new List<Station>();
                 foreach (var bl in busLines)
                 {
-                    List<Station> stations = db.Stations.Where(x => x.Name == "Zeleznicka" ||
-                                                          x.Name == "Simpo" ||
-                                                          x.Name == "Aleksandar Zgrada").ToList();
+                    stations.Add(db.Stations.FirstOrDefault(x => x.Name == "Aleksandar Zgrada"));
+                    stations.Add(db.Stations.FirstOrDefault(x => x.Name == "Simpo"));
+                    stations.Add(db.Stations.FirstOrDefault(x => x.Name == "Zeleznicka"));
 
                     var result = db.BusLines.FirstOrDefault(x => x.Name == bl.Name);
                     if (result == null)
                     {
-                        foreach (var s in stations)
-                            bl.Stations.Add(s);
+                        for(int i = 0; i< stations.Count; i++)
+                            db.BusLineStations.Add(new BusLineStations() { BusLineId = bl.Id, BusLine = bl, StationId = stations[i].Id, Station = stations[i], StopOrder = i });
 
                         db.BusLines.Add(bl);
                     }

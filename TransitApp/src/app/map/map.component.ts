@@ -7,6 +7,7 @@ import * as mapJS from '../../assets/js/map.js';
 import { OpenRouteService } from '../services/open-route.service';
 declare var addStationOnMap: any;
 declare var addRouteOnMap: any;
+declare var loadMap: any;
 
 @Component({
   selector: 'app-map',
@@ -22,39 +23,42 @@ export class MapComponent implements OnInit {
     }
 
   ngOnInit() {    
-    
+    loadMap();
   }
 
-  onDraw(busLine: BusLine): void {
+  onDraw(busLine: any): void {
     console.log(busLine);
 
     // foreach busline station get routes and add routes to map
-    // for(let i = 0; i < busLine.stations.length - 1; i++) {
-    //   this.routeService.getRoutes(busLine.stations[i].Lon, busLine.stations[i].Lat,
-    //                               busLine.stations[i+1].Lon, busLine.stations[i].Lat).subscribe(
+    for(let i = 0; i < busLine.BusLineStations.length - 1; i++) {
 
-    //                                 (response) => {
-    //                                   const routeCoordinates = response.json().features[0].geometry.coordinates;
-    //                                   for(let i = 0; i < routeCoordinates.length - 1; i++) {
-    //                                     let start_lon = routeCoordinates[i][0];
-    //                                     let start_lat = routeCoordinates[i][1];
+      console.log('Adding route: ' + busLine.BusLineStations[i].Station.Name);
 
-    //                                     let end_lon = routeCoordinates[i+1][0];
-    //                                     let end_lat = routeCoordinates[i+1][1];
+      this.routeService.getRoutes(busLine.BusLineStations[i].Station.Lon, busLine.BusLineStations[i].Station.Lat,
+                                  busLine.BusLineStations[i+1].Station.Lon, busLine.BusLineStations[i+1].Station.Lat).subscribe(
 
-    //                                     addRouteOnMap(start_lon, start_lat, end_lon, end_lat);
-    //                                   }
-    //                                 },
+                                    (response) => {
+                                      const routeCoordinates = response.json().features[0].geometry.coordinates;
+                                      for(let i = 0; i < routeCoordinates.length - 1; i++) {
+                                        let start_lon = routeCoordinates[i][0];
+                                        let start_lat = routeCoordinates[i][1];
 
-    //                                 (error) => {
-    //                                   console.log(error);
-    //                                 }
-    //                               );
-    // }
+                                        let end_lon = routeCoordinates[i+1][0];
+                                        let end_lat = routeCoordinates[i+1][1];
+
+                                        addRouteOnMap(start_lon, start_lat, end_lon, end_lat);
+                                      }
+                                    },
+
+                                    (error) => {
+                                      console.log(error);
+                                    }
+                                  );
+    }
 
     // add stations on map
-    for(let i = 0; i < busLine.stations.length; i++) {
-      addStationOnMap(busLine.stations[i].Lon, busLine.stations[i].Lat, busLine.stations[i].Name, busLine.stations[i].Address);
+    for(let i = 0; i < busLine.BusLineStations.length; i++) {
+      addStationOnMap(busLine.BusLineStations[i].Station.Lon, busLine.BusLineStations[i].Station.Lat, busLine.BusLineStations[i].Station.Name, busLine.BusLineStations[i].Station.Address);
     }
 
   }

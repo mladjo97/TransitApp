@@ -48,11 +48,17 @@ namespace TransitAPI.Controllers
             }
 
             // ... i stations
-            busLine.Stations = new List<Station>();
-            List<Station> stations = db.Stations.Where(x => x.BusLines.Any(o => o.Id == busLine.Id)).ToList();
+            busLine.BusLineStations = new List<BusLineStations>();
+            List<BusLineStations> stations = db.BusLineStations.Where(x => x.BusLineId == busLine.Id).ToList();
+            
             if (stations != null)
             {
-                busLine.Stations = stations;
+                foreach (var s in stations)
+                {
+                    s.Station = db.Stations.FirstOrDefault(x => x.Id == s.StationId);
+                }
+
+                busLine.BusLineStations = stations.OrderBy(x => x.StopOrder).ToList();
             }
 
             return Ok(busLine);

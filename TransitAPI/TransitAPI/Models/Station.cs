@@ -23,11 +23,11 @@ namespace TransitAPI.Models
         [Required]
         public decimal Lat { get; set; }
 
-        public virtual ICollection<BusLine> BusLines { get; set; }
+        public virtual ICollection<BusLineStations> BusLineStations { get; set; }
 
         public Station()
         {
-            this.BusLines = new HashSet<BusLine>();
+            this.BusLineStations = new HashSet<BusLineStations>();
         }
 
     }

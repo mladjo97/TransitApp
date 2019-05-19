@@ -21,27 +21,8 @@ var overlay;
 
 
 $(document).ready(function() {
-    // setting up the popup
-    container = document.getElementById('popup');
-    content = document.getElementById('popup-content');
-    closer = document.getElementById('popup-closer');
-    overlay = new ol.Overlay({
-        element: container,
-        autoPan: true,
-        autoPanAnimation: {
-        duration: 250
-        }
-    });
-    
-    closer.onclick = function() {
-        overlay.setPosition(undefined);
-        closer.blur();
-        return false;
-    };
-
     // map loading
-    $('#map').data('loaded', false);
-    loadMap();
+    $('#map').data('loaded', false);    
     $('#routesButton').click(function() {
         loadMap();
     });
@@ -53,6 +34,25 @@ function loadMap() {
         return;
 
     console.log('Loading map ...');
+
+     // setting up the popup
+     container = document.getElementById('popup');
+     content = document.getElementById('popup-content');
+     closer = document.getElementById('popup-closer');
+     overlay = new ol.Overlay({
+         element: container,
+         autoPan: true,
+         autoPanAnimation: {
+         duration: 250
+         }
+     });
+     
+     closer.onclick = function() {
+         overlay.setPosition(undefined);
+         closer.blur();
+         return false;
+     };
+
     map = new ol.Map({
         overlays: [overlay],
         target: 'map',
@@ -69,13 +69,15 @@ function loadMap() {
 
     map.on('click', function(event) {
         map.forEachFeatureAtPixel(event.pixel, function(feature) {
-            content.innerHTML = `<p>${feature.get('name')}
-                                   <hr> <i>${feature.get('address')}</i></p>`;
-            overlay.setPosition(event.coordinate);
+            if(feature.get('name') !== undefined){
+                content.innerHTML = `<p>${feature.get('name')}<hr><i>${feature.get('address')}</i></p>`;
+                overlay.setPosition(event.coordinate);
+            }            
         });
     });
 
     $('#map').data('loaded', true);
+
 }
 
 function addStationOnMap(lon, lat, name, address){

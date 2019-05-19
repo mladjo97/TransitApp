@@ -257,6 +257,10 @@
     <Compile Include="Migrations\201905162214148_BiggerDoublePrecision.Designer.cs">
       <DependentUpon>201905162214148_BiggerDoublePrecision.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905191534017_AddedBusLineStationsJoinTable.cs" />
+    <Compile Include="Migrations\201905191534017_AddedBusLineStationsJoinTable.Designer.cs">
+      <DependentUpon>201905191534017_AddedBusLineStationsJoinTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -267,6 +271,7 @@
     <Compile Include="Models\Enums.cs" />
     <Compile Include="Models\StartTime.cs" />
     <Compile Include="Models\Station.cs" />
+    <Compile Include="Models\BusLineStations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
@@ -369,6 +374,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905162214148_BiggerDoublePrecision.resx">
       <DependentUpon>201905162214148_BiggerDoublePrecision.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905191534017_AddedBusLineStationsJoinTable.resx">
+      <DependentUpon>201905191534017_AddedBusLineStationsJoinTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -25,12 +25,12 @@ namespace TransitAPI.Models
         public BusLineType Type { get; set; }        
 
         public virtual ICollection<StartTime> Timetable { get; set; }
-        public virtual ICollection<Station> Stations { get; set; }
+        public virtual ICollection<BusLineStations> BusLineStations { get; set; }
 
         public BusLine()
         {
             this.Timetable = new HashSet<StartTime>();
-            this.Stations = new HashSet<Station>();
+            this.BusLineStations = new HashSet<BusLineStations>();
         }
 
     }
