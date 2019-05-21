@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs';
 })
 export class EditBuslineComponent implements OnInit, OnDestroy {
   private id: number;
-  private busLine: {};
+  private busLine: any;
   private idSubscription: Subscription;
   private busLineTypes: [] = [];
   private timetable: StartTime[] = [];

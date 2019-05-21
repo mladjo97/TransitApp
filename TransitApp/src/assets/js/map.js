@@ -82,6 +82,8 @@ function loadMap() {
 }
 
 function addStationOnMap(lon, lat, name, address){
+    console.log('Adding station on map');
+
     let position = new ol.Feature({
         geometry: new ol.geom.Point(ol.proj.fromLonLat([lon, lat]))
     });
@@ -108,6 +110,7 @@ function addStationOnMap(lon, lat, name, address){
 
 function removeStationsFromMap() {
     map.removeLayer(markerLayer);
+    map.removeLayer(clickedMarkerLayer);
 }
 
 
@@ -134,7 +137,7 @@ function addRouteOnMap(start_lon, start_lat, end_lon, end_lat) {
 }
 
 
-function enableLonLatOnClick() {
+function enableClickOnMap(callback) {
      map.on('click', function (evt) {
         let lonlat = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
         let clickedLon = lonlat[0];
@@ -143,6 +146,8 @@ function enableLonLatOnClick() {
         console.log('Lat: ' + clickedLat);
 
         map.removeLayer(clickedMarkerLayer);
+        map.removeLayer(markerLayer);
+
         let clickedPosition = new ol.Feature({
             geometry: new ol.geom.Point(ol.proj.fromLonLat([clickedLon, clickedLat]))
         });
@@ -162,6 +167,7 @@ function enableLonLatOnClick() {
         });
 
         map.addLayer(clickedMarkerLayer);
-
+        
+        callback(null, [clickedLon, clickedLat]);
     });
 }

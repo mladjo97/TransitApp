@@ -48,6 +48,15 @@ export class MapComponent implements OnInit {
 
                                         addRouteOnMap(start_lon, start_lat, end_lon, end_lat);
                                       }
+
+                                      // add stations on map
+                                      for(let i = 0; i < busLine.BusLineStations.length; i++) {
+                                        addStationOnMap(busLine.BusLineStations[i].Station.Lon,
+                                                        busLine.BusLineStations[i].Station.Lat, 
+                                                        busLine.BusLineStations[i].Station.Name,
+                                                        busLine.BusLineStations[i].Station.Address);
+                                      }
+
                                     },
 
                                     (error) => {
@@ -56,10 +65,7 @@ export class MapComponent implements OnInit {
                                   );
     }
 
-    // add stations on map
-    for(let i = 0; i < busLine.BusLineStations.length; i++) {
-      addStationOnMap(busLine.BusLineStations[i].Station.Lon, busLine.BusLineStations[i].Station.Lat, busLine.BusLineStations[i].Station.Name, busLine.BusLineStations[i].Station.Address);
-    }
+    
 
   }
 

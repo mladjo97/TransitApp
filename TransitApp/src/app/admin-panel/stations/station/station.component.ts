@@ -47,7 +47,7 @@ export class StationComponent implements OnInit, OnDestroy {
 
       (error) => {
         console.log(error);
-        this.router.navigate(['/admin-panel/stations']);
+        this.router.navigate(['/admin/stations']);
       }
     );
   }
