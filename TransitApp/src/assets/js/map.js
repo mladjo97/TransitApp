@@ -10,6 +10,7 @@ var globLat = 45.251929952692876;
 
 var map;
 var clickedMarkerLayer;
+var markerLayer;
 
 /**
  * Elements that make up the popup.
@@ -96,14 +97,17 @@ function addStationOnMap(lon, lat, name, address){
         }))
     }));
 
-    let markerLayer = new ol.layer.Vector({
+    markerLayer = new ol.layer.Vector({
         source: new ol.source.Vector({
             features: [position]
         })
     });
 
     map.addLayer(markerLayer);
-    console.log('added station: ' + name);
+}
+
+function removeStationsFromMap() {
+    map.removeLayer(markerLayer);
 }
 
 

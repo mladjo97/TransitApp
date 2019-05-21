@@ -17,6 +17,10 @@ import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { DashboardComponent } from './admin-panel/dashboard/dashboard.component';
 import { TimetablesComponent } from './timetables/timetables.component';
 import { BusRoutesComponent } from './bus-routes/bus-routes.component';
+import { AdminRoleGuard } from './guards/admin-role.guard';
+import { StationsComponent } from './admin-panel/stations/stations.component';
+import { StationComponent } from './admin-panel/stations/station/station.component';
+import { EditStationComponent } from './admin-panel/stations/edit-station/edit-station.component';
 
 const appRoutes: Routes = [
     { path:'', component: HomeComponent },
@@ -30,13 +34,17 @@ const appRoutes: Routes = [
       { path: 'changepassword', component: ChangePasswordComponent }
     ] },
 
-    { path:'admin', component: AdminPanelComponent, canActivate: [AuthGuard], children: [
+    { path:'admin', component: AdminPanelComponent, canActivate: [AuthGuard, AdminRoleGuard], children: [
       { path:'', component: DashboardComponent },
       { path:'register', component: RegisterComponent },
-      { path:'addbusline', component: AddBuslineComponent}
+      { path:'addbusline', component: AddBuslineComponent},
+      { path:'stations', component: StationsComponent, children: [
+        { path:':id', component: StationComponent }
+      ] },
+      { path:'stations/edit/:id', component: EditStationComponent }
     ]},
     
-    { path: 'timetables/edit/:id', component: EditBuslineComponent },
+    { path: 'timetables/edit/:id', component: EditBuslineComponent, canActivate: [AuthGuard, AdminRoleGuard] },
     { path: 'timetables', component: TimetablesComponent, children: [
       { path: ':id', component: TimetableComponent }
     ] },

@@ -31,6 +31,11 @@ import { TimetablesComponent } from './timetables/timetables.component';
 import { BusRoutesComponent } from './bus-routes/bus-routes.component';
 import { DrawService } from './services/draw.service';
 import { OpenRouteService } from './services/open-route.service';
+import { StationsComponent } from './admin-panel/stations/stations.component';
+import { StationComponent } from './admin-panel/stations/station/station.component';
+import { AddStationComponent } from './admin-panel/stations/add-station/add-station.component';
+import { EditStationComponent } from './admin-panel/stations/edit-station/edit-station.component';
+import { StationsService } from './services/station.service';
 
 
 @NgModule({
@@ -52,7 +57,11 @@ import { OpenRouteService } from './services/open-route.service';
     AdminPanelComponent,
     DashboardComponent,
     TimetablesComponent,
-    BusRoutesComponent
+    BusRoutesComponent,
+    StationsComponent,
+    StationComponent,
+    AddStationComponent,
+    EditStationComponent
   ],
   imports: [
     BrowserModule,
@@ -67,6 +76,7 @@ import { OpenRouteService } from './services/open-route.service';
     LoginService,
     AuthService,
     BusLineService,
+    StationsService,
     UserService,
     NotificationService,
     DrawService,

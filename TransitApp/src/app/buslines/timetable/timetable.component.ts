@@ -20,9 +20,7 @@ export class TimetableComponent implements OnInit, OnDestroy {
               private router: Router) {                
                }
 
-  ngOnInit() {
-    console.log('TIMETABLE INIT')
-
+  ngOnInit() { 
     this.idSubscription = this.route.params.subscribe( 
       (params: Params) => {
          this.id = +params['id'];     
