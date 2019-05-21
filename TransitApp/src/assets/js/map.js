@@ -154,9 +154,8 @@ function enableClickOnMap(callback) {
 
         clickedPosition.setStyle(new ol.style.Style({
             image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
-                color: '#0f7ac6',
                 crossOrigin: 'anonymous',
-                src: 'assets/img/dot.png'
+                src: 'assets/img/map-station.png'
             }))
         }));
 

@@ -21,6 +21,7 @@ import { AdminRoleGuard } from './guards/admin-role.guard';
 import { StationsComponent } from './admin-panel/stations/stations.component';
 import { StationComponent } from './admin-panel/stations/station/station.component';
 import { EditStationComponent } from './admin-panel/stations/edit-station/edit-station.component';
+import { AddStationComponent } from './admin-panel/stations/add-station/add-station.component';
 
 const appRoutes: Routes = [
     { path:'', component: HomeComponent },
@@ -38,10 +39,11 @@ const appRoutes: Routes = [
       { path:'', component: DashboardComponent },
       { path:'register', component: RegisterComponent },
       { path:'addbusline', component: AddBuslineComponent},
+      { path: 'stations/add', component: AddStationComponent },
+      { path:'stations/edit/:id', component: EditStationComponent },
       { path:'stations', component: StationsComponent, children: [
         { path:':id', component: StationComponent }
       ] },
-      { path:'stations/edit/:id', component: EditStationComponent }
     ]},
     
     { path: 'timetables/edit/:id', component: EditBuslineComponent, canActivate: [AuthGuard, AdminRoleGuard] },
