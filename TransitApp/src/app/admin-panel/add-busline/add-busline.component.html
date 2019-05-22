@@ -1,6 +1,6 @@
 <div class="container">
     <div class="row">
-      <div class="col-sm-7">          
+      <div class="col-sm-4">          
         <h3>Add new bus line</h3>
         <hr>
         <form autocomplete="off" (ngSubmit)="onSubmit(f)" #f="ngForm">
@@ -11,7 +11,7 @@
           </div>
           <div class="form-group row">
             <label for="description">Description</label>
-            <input type="text" ngModel name="description" class="form-control" id="description" placeholder="Bus line description (ex: Futoska - Centar - Liman)" #description="ngModel">
+            <input type="text" ngModel name="description" class="form-control" id="description" placeholder="Description (ex: Futoska - Centar - Liman)" #description="ngModel">
           </div>  
           <div class="form-group row">
             <label for="busLineTypeSelect">Type</label>
@@ -19,11 +19,19 @@
               <option *ngFor="let blt of busLineTypes" [value]="blt.Id"> {{ blt.Name }}</option>               
             </select>
           </div>
+          <label for="station">Stations</label>
+          <div class="form-group row">            
+            <select id="station" class="col-8 form-control" ngModel name="station" #station>
+              <option *ngFor="let s of stationSelect" [value]="s.Id"> {{ s.Name }} - {{ s.Address }}</option>               
+            </select>
+            <div class="col-1"></div>
+            <button type="button" class="col-2 btn btn-primary" (click)="onAddStation(station.value)"><i class="fas fa-plus"></i></button>
+          </div>
           <label for="time">Time</label>
           <div class="form-group row">             
-            <input type="text" class="col-7 form-control" placeholder="Bus line start time (ex: 07:45) (24h format)" #time>
-            <div class="col-2"></div>
-            <button type="button" class="col-3 btn btn-primary" (click)="onAddTime(time.value)">Add time</button>
+            <input type="text" class="col-8 form-control" placeholder="Start time (ex: 07:45) (24h format)" #time>
+            <div class="col-1"></div>
+            <button type="button" class="col-2 btn btn-primary" (click)="onAddTime(time.value)"><i class="fas fa-plus"></i></button>
             <span class="invalid-input" *ngIf="invalidTimeFormat"> Please enter a valid time. </span>
           </div> 
 
@@ -36,10 +44,19 @@
         </form>
       </div>   
 
-      <div class="col-sm-1">          
+      <div class="col-sm-5">      
+          <ul class="list-group" *ngIf="stationsActive">
+              <h3><u>Stations</u> <i>(ordered)</i></h3>
+              <li class="list-group-item timetable-time" *ngFor="let s of stations; let i = index"> 
+                {{ s.Name }} 
+                <button type="button" class="btn btn-danger float-right" (click)="onRemoveStation(i)"><i class="fas fa-trash-alt"></i></button>
+                <button type="button" class="btn btn-primary float-right" (click)="onMoveDownStation(i)"><i class="fas fa-arrow-down"></i></button>
+                <button type="button" class="btn btn-primary float-right" (click)="onMoveUpStation(i)"><i class="fas fa-arrow-up"></i></button>               
+             </li>        
+            </ul>
       </div>
   
-      <div class="col-sm-4">
+      <div class="col-sm-3">
         <ul class="list-group" *ngIf="timetableActive">
           <h3><u>Timetable</u></h3>
           <li class="list-group-item timetable-time" *ngFor="let time of timetable"> 

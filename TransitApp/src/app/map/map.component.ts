@@ -8,6 +8,7 @@ import { OpenRouteService } from '../services/open-route.service';
 declare var addStationOnMap: any;
 declare var addRouteOnMap: any;
 declare var loadMap: any;
+declare var removeLayersFromMap: any;
 
 @Component({
   selector: 'app-map',
@@ -27,7 +28,7 @@ export class MapComponent implements OnInit {
   }
 
   onDraw(busLine: any): void {
-    console.log(busLine);
+    removeLayersFromMap(); // clear map
 
     // foreach busline station get routes and add routes to map
     for(let i = 0; i < busLine.BusLineStations.length - 1; i++) {

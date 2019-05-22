@@ -6,6 +6,10 @@ import { NotificationService } from '../services/notification.service';
 import { BusLine } from '../models/busline.model';
 import { DrawService } from '../services/draw.service';
 
+// javascript file to handle map interaction
+import * as mapJS from '../../assets/js/map.js';
+declare var removeLayersFromMap: any;
+
 @Component({
   selector: 'app-buslines',
   templateUrl: './buslines.component.html',
@@ -65,7 +69,6 @@ export class BuslinesComponent implements OnInit {
     if(!this.isRoute){
       this.router.navigate(['/timetables', busLineId]);
     } else {
-      console.log('Drawing route on map');
       
       // fetch busline data
       this.busLineService.getById(busLineId).subscribe(

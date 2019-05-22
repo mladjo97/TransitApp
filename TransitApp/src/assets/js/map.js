@@ -10,7 +10,8 @@ var globLat = 45.251929952692876;
 
 var map;
 var clickedMarkerLayer;
-var markerLayer;
+var markerLayers = [];
+var routeLayers = [];
 
 /**
  * Elements that make up the popup.
@@ -99,18 +100,25 @@ function addStationOnMap(lon, lat, name, address){
         }))
     }));
 
-    markerLayer = new ol.layer.Vector({
+    let markerLayer = new ol.layer.Vector({
         source: new ol.source.Vector({
             features: [position]
         })
     });
 
+    markerLayers.push(markerLayer);
+
     map.addLayer(markerLayer);
 }
 
-function removeStationsFromMap() {
-    map.removeLayer(markerLayer);
+function removeLayersFromMap() {
     map.removeLayer(clickedMarkerLayer);
+    
+    for(let i = 0; i < markerLayers.length; i++)
+        map.removeLayer(markerLayers[i]);
+
+    for(let i = 0; i < routeLayers.length; i++)
+        map.removeLayer(routeLayers[i]);
 }
 
 
@@ -133,6 +141,7 @@ function addRouteOnMap(start_lon, start_lat, end_lon, end_lat) {
         })
     });
 
+    routeLayers.push(routeLayer);
     map.addLayer(routeLayer);
 }
 

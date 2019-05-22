@@ -24,6 +24,7 @@ import { EditStationComponent } from './admin-panel/stations/edit-station/edit-s
 import { AddStationComponent } from './admin-panel/stations/add-station/add-station.component';
 
 const appRoutes: Routes = [
+
     { path:'', component: HomeComponent },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
@@ -51,6 +52,7 @@ const appRoutes: Routes = [
       { path: ':id', component: TimetableComponent }
     ] },
 
+    { path: 'routes/edit/:id', component: EditBuslineComponent, canActivate: [AuthGuard, AdminRoleGuard]},
     { path: 'routes', component: BusRoutesComponent },
 
     { path: '**', component: NotFoundComponent }

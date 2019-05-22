@@ -82,10 +82,22 @@ namespace TransitAPI.Controllers
             if (blt != null)
                 busLine.Type = blt;
 
+            // get referenced stations
+            foreach(var s in busLine.BusLineStations)
+            {
+                Station station = db.Stations.FirstOrDefault(x => x.Id == s.StationId);
+                if(station != null)
+                    s.Station = station;
+
+                s.BusLineId = busLine.Id;
+                s.BusLine = busLine;
+            }
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+
 
             db.BusLines.Add(busLine);
             db.SaveChanges();

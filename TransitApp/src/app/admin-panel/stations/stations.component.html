@@ -23,8 +23,8 @@
             <td class="center-block text-center">
               {{ station.Address }}
               <div class="btn-group btn-group-sm float-right" role="group">
-                <button type="button" class="btn btn-info left-border" [routerLink]="['edit', station.Id]" *ngIf="isAdmin">Edit</button>
-                <button type="button" class="btn btn-danger left-border" (click)="onDelete(station.Id)" *ngIf="isAdmin">Delete</button>
+                <button type="button" class="btn btn-info left-border" [routerLink]="['edit', station.Id]" *ngIf="isAdmin"><i class="fas fa-pen"></i></button>
+                <button type="button" class="btn btn-danger left-border" (click)="onDelete(station.Id)" *ngIf="isAdmin"><i class="fas fa-trash-alt"></i></button>
               </div>
             </td>
           </tr>          
