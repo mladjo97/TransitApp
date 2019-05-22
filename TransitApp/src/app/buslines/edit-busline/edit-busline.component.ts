@@ -7,6 +7,8 @@ import { StartTime } from 'src/app/models/start-time.model';
 import * as moment from 'moment';
 import { NgForm, FormGroup, FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { Station } from 'src/app/models/station.model';
+import { StationsService } from 'src/app/services/station.service';
 
 @Component({
   selector: 'app-edit-busline',
@@ -14,33 +16,46 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./edit-busline.component.css']
 })
 export class EditBuslineComponent implements OnInit, OnDestroy {
+
   private id: number;
   private busLine: any;
   private idSubscription: Subscription;
   private busLineTypes: [] = [];
   private timetable: StartTime[] = [];
+  private stationsSelect: any[] = [];
+  private stations: Station[] = [];
+
   private invalidTimeFormat: boolean = false;
   private timetableActive: boolean = false;
+  private submitted: boolean = false;
+  private stationsActive: boolean = false;
 
   private buslineForm = new FormGroup({
     id: new FormControl(null),
     name: new FormControl(null),
     description: new FormControl(null),
     busLineTypeId: new FormControl(null),
-    timetable: new FormControl(null)
+    timetable: new FormControl(null),
+    busLineStations: new FormControl(null)
   });
 
   constructor(private notificationService: NotificationService,
               private route: ActivatedRoute,
               private busLineService: BusLineService,
+              private stationsService: StationsService,
               private router: Router) { }
 
   ngOnInit() {
-    console.log('EDITBUSLINE INIT')
-
+    // update all busline type (for select)
     this.busLineService.getAllBusLineTypes().subscribe(
       (response) => this.busLineTypes = response.json(),
       (error) => console.log('Error in EditBuslineComponent / ngOnInit() -> getAllBusLines()')
+    );
+
+     // update all station (for select)
+     this.stationsService.getAll().subscribe(
+      (response) => this.stationsSelect = response.json(),
+      (error) => console.log(error)
     );
 
     this.idSubscription = this.route.params.subscribe( 
@@ -58,19 +73,26 @@ export class EditBuslineComponent implements OnInit, OnDestroy {
     this.busLineService.getById(this.id).subscribe(
       (response) => {
         // get busline information
-        let busLineJSON = response.json();
-        this.busLine = busLineJSON;
+        this.busLine = response.json();
         
+        // get busline stations
+        for(let i = 0; i < this.busLine.BusLineStations.length; i++)
+          this.stations.push(this.busLine.BusLineStations[i].Station);
+
+        if(this.stations.length > 0)
+          this.stationsActive = true;
+
         // update form values
         this.buslineForm.patchValue({
-          name: busLineJSON.Name,
-          description: busLineJSON.Description,
-          busLineTypeId: busLineJSON.BusLineTypeId
+          name: this.busLine.Name,
+          description: this.busLine.Description,
+          busLineTypeId: this.busLine.BusLineTypeId,
+          busLineStations: this.stations
         });
 
         // update side timetable 
-        for(let i = 0; i < busLineJSON.Timetable.length; i++) {
-          let time = moment.utc(busLineJSON.Timetable[i].Time).format("HH:mm");
+        for(let i = 0; i < this.busLine.Timetable.length; i++) {
+          let time = moment.utc(this.busLine.Timetable[i].Time).format("HH:mm");
           this.onAddTime(time);
         }
 
@@ -80,6 +102,42 @@ export class EditBuslineComponent implements OnInit, OnDestroy {
         this.router.navigate(['/timetables']);
       }
     );
+  }
+
+  onAddStation(stationId: number): void {
+
+    let station = this.stationsSelect.find(s => { return s.Id == stationId});
+
+    if(station !== undefined) {
+      if(this.stations.find(s => s.Id == station.Id) === undefined) {
+        this.stations.push(station);
+        this.stationsActive = true;
+      }
+    }
+  }
+
+  onRemoveStation(stationIndex: number): void {
+
+    this.stations.splice(stationIndex, 1);
+
+    if(this.stations.length == 0)
+      this.stationsActive = false;
+  }
+
+  onMoveUpStation(stationIndex: number): void {
+    if(stationIndex !== 0) {
+      let temp = this.stations[stationIndex];
+      this.stations[stationIndex] = this.stations[stationIndex - 1];
+      this.stations[stationIndex - 1] = temp;
+    }
+  }
+
+  onMoveDownStation(stationIndex: number): void {
+    if(stationIndex !== this.stations.length - 1){
+      let temp = this.stations[stationIndex];
+      this.stations[stationIndex] = this.stations[stationIndex + 1];
+      this.stations[stationIndex + 1] = temp;
+    }
   }
 
   onAddTime(time: string): void {
@@ -128,21 +186,35 @@ export class EditBuslineComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(f: NgForm): void {
-    
-    // update timetable & id
+    this.submitted = true;
+
+    // dummy object array for busline stations
+    let busLineStations = [];
+    for(let i = 0; i < this.stations.length; i++){
+      busLineStations.push({
+        stationId: this.stations[i].Id,
+        station: this.stations[i],
+        stopOrder: i
+      });
+    }
+
+    // update timetable, id & stations
     this.buslineForm.patchValue({
       id: this.id,
-      timetable: this.timetable
+      timetable: this.timetable,
+      busLineStations: busLineStations
     });
     
     // PUT to api
     this.busLineService.editBusLine(this.id, this.buslineForm.value).subscribe(
       (response) => {
+        this.submitted = false;
         this.notificationService.notifyEvent.emit('Successfully edited busline.');
         this.router.navigate([`/timetables/${this.id}`]);
       },
 
       (error) => {
+        this.submitted = false;
         console.log(error);
         this.notificationService.notifyEvent.emit('An error occurred during editing.');
       }

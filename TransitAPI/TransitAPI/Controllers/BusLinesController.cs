@@ -121,6 +121,21 @@ namespace TransitAPI.Controllers
                 return BadRequest();
             }
 
+            // find from context to change
+            var contextBusLine = db.BusLines.FirstOrDefault(x => x.Id == busLine.Id);
+            if (contextBusLine == null)
+                return BadRequest();
+
+            // apply changes
+            contextBusLine.Name = busLine.Name;
+            contextBusLine.Description = contextBusLine.Description;
+
+            var type = db.BusLineTypes.FirstOrDefault(x => x.Id == busLine.BusLineTypeId);
+            if (type == null)
+                return BadRequest();
+            contextBusLine.BusLineTypeId = busLine.BusLineTypeId;
+            contextBusLine.Type = type;
+
             // clear all times for busline
             List<StartTime> blTimes = db.StartTimes.Where(x => x.BusLineId.Equals(busLine.Id)).ToList();
             foreach (var time in blTimes)
@@ -132,9 +147,41 @@ namespace TransitAPI.Controllers
                 time.BusLineId = busLine.Id;
                 db.Entry(time).State = EntityState.Added;
             }
-            
 
-            db.Entry(busLine).State = EntityState.Modified;
+            // apply changes
+            contextBusLine.Timetable = busLine.Timetable;
+            
+            // clear stations
+            List<BusLineStations> busLineStations = db.BusLineStations.Where(x => x.BusLineId == busLine.Id).ToList();
+            foreach(var bls in busLineStations)
+            {
+                db.Entry(bls).State = EntityState.Deleted;
+            }
+
+            // update stations
+            foreach(var bls in busLine.BusLineStations)
+            {
+                BusLine bl = db.BusLines.FirstOrDefault(x => x.Id == busLine.Id);
+                if(bl != null)
+                {
+                    bls.BusLineId = bl.Id;
+                    bls.BusLine = bl;
+                }
+
+                Station s = db.Stations.FirstOrDefault(x => x.Id == bls.StationId);
+                if(s != null)
+                {
+                    bls.StationId = s.Id;
+                    bls.Station = s;
+                }
+
+                db.Entry(bls).State = EntityState.Added;
+            }
+
+            // apply changes
+            contextBusLine.BusLineStations = busLine.BusLineStations;
+
+            db.Entry(contextBusLine).State = EntityState.Modified;
 
             try
             {

@@ -1,10 +1,10 @@
 <div class="container">
     <div class="row">
-      <div class="col-sm-2">
-          <button type="button" class="btn btn-primary" [routerLink]="['/timetables']">Go back</button>
+      <div class="col-sm-1">
+          <button type="button" class="btn btn-primary" [routerLink]="['/timetables']"><i class="fas fa-arrow-circle-left"></i></button>
       </div>
 
-      <div class="col-sm-6">          
+      <div class="col-sm-5">          
           <h3>Edit bus line: {{ busLine?.Name }}</h3>
           <hr>
         
@@ -25,12 +25,21 @@
                   <option *ngFor="let blt of busLineTypes" [value]="blt.Id"> {{ blt.Name }}</option>               
                 </select>
               </div> 
+
+              <label for="busLineStations">Stations</label>
+              <div class="form-group row">
+                <select id="busLineStations" class="col-8 form-control" formControlName="busLineStations" #busLineStation>
+                  <option *ngFor="let s of stationsSelect" [value]="s.Id"> {{ s.Name }} - {{ s.Address }}</option>               
+                </select>
+                <div class="col-1"></div>
+                <button type="button" class="col-2 btn btn-primary" (click)="onAddStation(busLineStation.value)"><i class="fas fa-plus"></i></button>
+              </div> 
               
               <label for="time">Time</label>
               <div class="form-group row"> 
-                <input type="text" class="col-7 form-control" placeholder="Bus line start time (ex: 07:45) (24h format)" #time>
+                <input type="text" class="col-8 form-control" placeholder="Start time (ex: 07:45) (24h format)" #time>
                 <div class="col-1"></div>
-                <button type="button" class="col-4 btn btn-primary" (click)="onAddTime(time.value)">Add time</button>
+                <button type="button" class="col-2 btn btn-primary" (click)="onAddTime(time.value)"><i class="fas fa-plus"></i></button>
                 <span class="invalid-input" *ngIf="invalidTimeFormat"> Please enter a valid time. </span>
               </div> 
             
@@ -44,19 +53,28 @@
           </form>
       </div>   
 
-      <div class="col-sm-1">          
+      <div class="col-sm-4">      
+        <ul class="list-group" *ngIf="stationsActive">
+            <h3><u>Stations</u> <i>(ordered)</i></h3>
+            <li class="list-group-item timetable-time" *ngFor="let s of stations; let i = index"> 
+              {{ s.Name }} 
+              <button type="button" class="btn btn-danger float-right" (click)="onRemoveStation(i)"><i class="fas fa-trash"></i></button>
+              <button type="button" class="btn btn-primary float-right" (click)="onMoveDownStation(i)"><i class="fas fa-arrow-down"></i></button>
+              <button type="button" class="btn btn-primary float-right" (click)="onMoveUpStation(i)"><i class="fas fa-arrow-up"></i></button>               
+           </li>        
+          </ul>
       </div>
-  
-      <div class="col-sm-3">
+
+      <div class="col-sm-2">
         <ul class="list-group" *ngIf="timetableActive">
           <h3><u>Timetable</u></h3>
           <li class="list-group-item timetable-time" *ngFor="let time of timetable"> 
             {{ time.time._i }} 
-            <button type="button" class="btn btn-danger float-right" (click)="onRemoveTime(time.time._i)">Remove</button> 
-         </li>        
+            <button type="button" class="btn btn-danger float-right" (click)="onRemoveTime(time.time._i)"><i class="fas fa-trash"></i></button> 
+        </li>        
         </ul>
       </div>
-      
+        
     </div>
   </div>
 

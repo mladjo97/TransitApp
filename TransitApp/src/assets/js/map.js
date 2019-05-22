@@ -94,9 +94,8 @@ function addStationOnMap(lon, lat, name, address){
 
     position.setStyle(new ol.style.Style({
         image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
-            color: '#0f7ac6',
             crossOrigin: 'anonymous',
-            src: 'assets/img/dot.png'
+            src: 'assets/img/map-station.png'
         }))
     }));
 
@@ -154,8 +153,7 @@ function enableClickOnMap(callback) {
         console.log('Lon: ' + clickedLon);
         console.log('Lat: ' + clickedLat);
 
-        map.removeLayer(clickedMarkerLayer);
-        map.removeLayer(markerLayer);
+        removeLayersFromMap();
 
         let clickedPosition = new ol.Feature({
             geometry: new ol.geom.Point(ol.proj.fromLonLat([clickedLon, clickedLat]))
