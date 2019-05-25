@@ -22,6 +22,11 @@ import { StationsComponent } from './admin-panel/stations/stations.component';
 import { StationComponent } from './admin-panel/stations/station/station.component';
 import { EditStationComponent } from './admin-panel/stations/edit-station/edit-station.component';
 import { AddStationComponent } from './admin-panel/stations/add-station/add-station.component';
+import { TicketsComponent } from './tickets/tickets.component';
+import { SingleUseTicketComponent } from './tickets/ticket-plans/single-use-ticket/single-use-ticket.component';
+import { DailyTicketComponent } from './tickets/ticket-plans/daily-ticket/daily-ticket.component';
+import { MonthlyTicketComponent } from './tickets/ticket-plans/monthly-ticket/monthly-ticket.component';
+import { AnnualTicketComponent } from './tickets/ticket-plans/annual-ticket/annual-ticket.component';
 
 const appRoutes: Routes = [
 
@@ -54,6 +59,13 @@ const appRoutes: Routes = [
 
     { path: 'routes/edit/:id', component: EditBuslineComponent, canActivate: [AuthGuard, AdminRoleGuard]},
     { path: 'routes', component: BusRoutesComponent },
+
+    { path: 'tickets', component: TicketsComponent, children: [
+      { path: 'single', component: SingleUseTicketComponent },
+      { path: 'daily', component: DailyTicketComponent },
+      { path: 'monthly', component: MonthlyTicketComponent },
+      { path: 'annual', component: AnnualTicketComponent }
+    ] },
 
     { path: '**', component: NotFoundComponent }
   ];

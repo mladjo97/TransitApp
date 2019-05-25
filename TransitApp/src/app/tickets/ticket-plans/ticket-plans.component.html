@@ -1,0 +1,53 @@
+<div class="container">
+  <div class="row">
+
+    <div class="col-sm">
+      <div class="card ticket-plan">
+        <div class="card-header ticket-header">
+          Single-use ticket
+        </div>
+        <div class="card-body d-flex flex-column">
+          <h6 class="card-subtitle mb-2 text-muted">Get to your destination faster.</h6>
+          <button class="btn btn-outline-primary mt-auto" [routerLink]="['single']" skipLocationChange>Buy ticket</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-sm">
+      <div class="card ticket-plan">
+        <div class="card-header ticket-header">
+          Daily ticket
+        </div>
+        <div class="card-body d-flex flex-column">
+          <h6 class="card-subtitle mb-2 text-muted">Excellent choice for turists. Enjoy our city!</h6>
+          <button class="btn btn-outline-primary mt-auto" [routerLink]="['daily']" skipLocationChange>Buy ticket</button>
+        </div>
+      </div>
+    </div>
+        
+    <div class="col-sm">
+      <div class="card ticket-plan">
+        <div class="card-header ticket-header">
+          Monthly ticket
+        </div>
+        <div class="card-body d-flex flex-column">
+          <h6 class="card-subtitle mb-2 text-muted">Are you a student? Get this one!</h6>
+          <button class="btn btn-outline-primary mt-auto" [routerLink]="['monthly']" skipLocationChange>Buy ticket</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-sm">
+      <div class="card ticket-plan">
+        <div class="card-header ticket-header">
+          Annual ticket
+        </div>
+        <div class="card-body d-flex flex-column">        
+          <h6 class="card-subtitle mb-2 text-muted">If you live in our city, this one is for you.</h6>
+          <button class="btn btn-outline-primary mt-auto" [routerLink]="['annual']" skipLocationChange>Buy ticket</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

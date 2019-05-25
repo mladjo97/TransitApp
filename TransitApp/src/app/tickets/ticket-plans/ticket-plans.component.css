@@ -1,0 +1,9 @@
+.ticket-plan {
+    margin: 5px;
+    height: 185px;
+}
+
+.ticket-header {
+    text-align: center;
+    font-weight: bold;
+}

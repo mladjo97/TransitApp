@@ -36,6 +36,12 @@ import { StationComponent } from './admin-panel/stations/station/station.compone
 import { AddStationComponent } from './admin-panel/stations/add-station/add-station.component';
 import { EditStationComponent } from './admin-panel/stations/edit-station/edit-station.component';
 import { StationsService } from './services/station.service';
+import { TicketsComponent } from './tickets/tickets.component';
+import { TicketPlansComponent } from './tickets/ticket-plans/ticket-plans.component';
+import { SingleUseTicketComponent } from './tickets/ticket-plans/single-use-ticket/single-use-ticket.component';
+import { DailyTicketComponent } from './tickets/ticket-plans/daily-ticket/daily-ticket.component';
+import { MonthlyTicketComponent } from './tickets/ticket-plans/monthly-ticket/monthly-ticket.component';
+import { AnnualTicketComponent } from './tickets/ticket-plans/annual-ticket/annual-ticket.component';
 
 
 @NgModule({
@@ -61,7 +67,13 @@ import { StationsService } from './services/station.service';
     StationsComponent,
     StationComponent,
     AddStationComponent,
-    EditStationComponent
+    EditStationComponent,
+    TicketsComponent,
+    TicketPlansComponent,
+    SingleUseTicketComponent,
+    DailyTicketComponent,
+    MonthlyTicketComponent,
+    AnnualTicketComponent
   ],
   imports: [
     BrowserModule,
