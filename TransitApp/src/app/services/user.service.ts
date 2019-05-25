@@ -9,6 +9,10 @@ export class UserService {
 
     constructor(private http: Http) {}
 
+    getCount(): Observable<any> {
+        return this.http.get(`${this.apiAccountAddress}/Count`);
+    }
+
     getUserInfo(): Observable<any> {
         const headers = new Headers()
         headers.append('Content-type','application/json');

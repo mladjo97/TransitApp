@@ -13,6 +13,15 @@ namespace TransitAPI.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        // GET: api/Stations/Count
+        [Route("api/Stations/Count")]
+        [AllowAnonymous]
+        public int GetStationsCount()
+        {
+            int count = db.Stations.Count();
+            return count;
+        }
+
         // GET: api/Stations
         public IEnumerable<Station> GetStations()
         {

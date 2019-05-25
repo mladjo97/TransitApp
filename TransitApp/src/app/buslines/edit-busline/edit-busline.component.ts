@@ -18,6 +18,8 @@ import { StationsService } from 'src/app/services/station.service';
 export class EditBuslineComponent implements OnInit, OnDestroy {
 
   private id: number;
+  private previousPage: string;
+
   private busLine: any;
   private idSubscription: Subscription;
   private busLineTypes: [] = [];
@@ -62,7 +64,9 @@ export class EditBuslineComponent implements OnInit, OnDestroy {
       (params: Params) => {
           this.id = +params['id'];     
           this.updateForm();
-      } );
+    } );
+
+    this.previousPage = `/${this.router.url.split('/')[1]}`;
   }
 
   ngOnDestroy() {
@@ -99,7 +103,7 @@ export class EditBuslineComponent implements OnInit, OnDestroy {
       },
 
       (error) => {
-        this.router.navigate(['/timetables']);
+        this.router.navigate([this.previousPage]);
       }
     );
   }
@@ -210,7 +214,7 @@ export class EditBuslineComponent implements OnInit, OnDestroy {
       (response) => {
         this.submitted = false;
         this.notificationService.notifyEvent.emit('Successfully edited busline.');
-        this.router.navigate([`/timetables/${this.id}`]);
+        this.router.navigate([this.previousPage]);
       },
 
       (error) => {

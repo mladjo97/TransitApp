@@ -6,7 +6,7 @@ import { ActivatedRoute, Router, Params } from '@angular/router';
 // javascript file to handle map interaction
 import * as mapJS from '../../../../assets/js/map.js';
 declare var addStationOnMap: any;
-declare var removeStationsFromMap: any;
+declare var removeLayersFromMap: any;
 
 
 @Component({
@@ -41,7 +41,7 @@ export class StationComponent implements OnInit, OnDestroy {
         this.station = response.json();
         console.log(this.station);
         
-        removeStationsFromMap();
+        removeLayersFromMap();
         addStationOnMap(this.station.Lon, this.station.Lat, this.station.Name, this.station.Address);
       },
 

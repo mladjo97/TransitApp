@@ -53,6 +53,15 @@ namespace TransitAPI.Controllers
 
         public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
 
+        // GET: api/Account/Count
+        [Route("Count")]
+        [AllowAnonymous]
+        public async Task<int> GetUserCount()
+        {
+            int count = await UserManager.Users.CountAsync();
+            return count;
+        }
+
         // GET api/Account/UserInfo        
         [Route("UserInfo")]
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]

@@ -8,7 +8,7 @@ import { StationsService } from 'src/app/services/station.service';
 // javascript file to handle map interaction
 import * as mapJS from '../../../../assets/js/map.js';
 declare var addStationOnMap: any;
-declare var removeStationsFromMap: any;
+declare var removeLayersFromMap: any;
 declare var enableClickOnMap: any;
 
 @Component({
@@ -66,7 +66,7 @@ export class EditStationComponent implements OnInit, OnDestroy {
         // update map location
         enableClickOnMap(this.updateLatLon.bind(this));
 
-        removeStationsFromMap();
+        removeLayersFromMap();
         addStationOnMap(this.station.Lon, this.station.Lat, this.station.Name, this.station.Address);
       },
 

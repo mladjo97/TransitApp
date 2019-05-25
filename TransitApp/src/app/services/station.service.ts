@@ -8,6 +8,10 @@ export class StationsService {
 
     constructor(private http: Http) { }
 
+    getCount(): Observable<any> {
+        return this.http.get(`${this.apiAddress}/Count`);
+    }
+
     getAll(): Observable<any> {
         return this.http.get(this.apiAddress);
     }
