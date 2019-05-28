@@ -6,11 +6,11 @@ namespace WebApp.Persistence
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public virtual DbSet<BusLine> BusLines { get; set; }
-        public virtual DbSet<Station> Stations { get; set; }
-        public virtual DbSet<BusLineStations> BusLineStations { get; set; }
-        public virtual DbSet<BusLineType> BusLineTypes { get; set; }
-        public virtual DbSet<StartTime> StartTimes { get; set; }
+        public DbSet<BusLine> BusLines { get; set; }
+        public DbSet<Station> Stations { get; set; }
+        public DbSet<BusLineStations> BusLineStations { get; set; }
+        public DbSet<BusLineType> BusLineTypes { get; set; }
+        public DbSet<StartTime> StartTimes { get; set; }
 
         public ApplicationDbContext()
             : base("name=TransitAppDbConnection", throwIfV1Schema: false)

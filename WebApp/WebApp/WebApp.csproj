@@ -254,7 +254,6 @@
     <Compile Include="Controllers\BusLineTypesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\StationsController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -281,9 +280,18 @@
     <Compile Include="Models\StartTime.cs" />
     <Compile Include="Models\Station.cs" />
     <Compile Include="Persistence\ApplicationDbContext.cs" />
+    <Compile Include="Persistence\Repository\BusLineRepository.cs" />
+    <Compile Include="Persistence\Repository\BusLineStationsRepository.cs" />
+    <Compile Include="Persistence\Repository\BusLineTypeRepository.cs" />
+    <Compile Include="Persistence\Repository\IBusLineRepository.cs" />
+    <Compile Include="Persistence\Repository\IBusLineStationsRepository.cs" />
+    <Compile Include="Persistence\Repository\IBusLineTypeRepository.cs" />
     <Compile Include="Persistence\Repository\IRepository.cs" />
+    <Compile Include="Persistence\Repository\IStartTimeRepository.cs" />
+    <Compile Include="Persistence\Repository\IStationRepository.cs" />
     <Compile Include="Persistence\Repository\Repository.cs" />
-    <Compile Include="Persistence\UnitOfWork\DemoUnitOfWork.cs" />
+    <Compile Include="Persistence\Repository\StartTimeRepository.cs" />
+    <Compile Include="Persistence\Repository\StationRepository.cs" />
     <Compile Include="Persistence\UnitOfWork\IUnitOfWork.cs" />
     <Compile Include="Persistence\UnitOfWork\UnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

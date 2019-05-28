@@ -66,10 +66,14 @@ namespace WebApp.App_Start
             // container.LoadConfiguration();
 
             // TODO: Register your type's mappings here.
-            // container.RegisterType<IProductRepository, ProductRepository>();
-           
+            container.RegisterType<IBusLineRepository, BusLineRepository>();
+            container.RegisterType<IStationRepository, StationRepository>();
+            container.RegisterType<IBusLineStationsRepository, BusLineStationsRepository>();
+            container.RegisterType<IBusLineTypeRepository, BusLineTypeRepository>();
+            container.RegisterType<IStartTimeRepository, StartTimeRepository>();
+
             container.RegisterType<DbContext, ApplicationDbContext>(new PerResolveLifetimeManager());
-            container.RegisterType<IUnitOfWork, DemoUnitOfWork>();
+            container.RegisterType<IUnitOfWork, UnitOfWork>();
         }
 
         public void Dispose()

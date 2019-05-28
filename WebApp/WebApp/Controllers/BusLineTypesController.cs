@@ -1,23 +1,22 @@
 ﻿using System.Collections.Generic;
-using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebApp.Models;
-using WebApp.Persistence;
 using WebApp.Persistence.UnitOfWork;
 
 namespace WebApp.Controllers
 {
     public class BusLineTypesController : ApiController
     {
-        private UnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public BusLineTypesController()
+
+        public BusLineTypesController(IUnitOfWork unitOfWork)
         {
-            this._unitOfWork = new UnitOfWork(new ApplicationDbContext());
+            this._unitOfWork = unitOfWork;
         }
 
         // GET: api/BusLineTypes

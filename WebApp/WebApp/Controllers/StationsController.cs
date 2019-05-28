@@ -12,11 +12,11 @@ namespace WebApp.Controllers
 {
     public class StationsController : ApiController
     {
-        private UnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public StationsController()
+        public StationsController(IUnitOfWork unitOfWork)
         {
-            this._unitOfWork = new UnitOfWork(new ApplicationDbContext());
+            this._unitOfWork = unitOfWork;
         }
 
         // GET: api/Stations/Count

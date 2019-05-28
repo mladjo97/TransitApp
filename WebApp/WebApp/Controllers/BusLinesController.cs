@@ -13,11 +13,11 @@ namespace WebApp.Controllers
 {
     public class BusLinesController : ApiController
     {
-        private UnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public BusLinesController()
+        public BusLinesController(IUnitOfWork unitOfWork)
         {
-            this._unitOfWork = new UnitOfWork(new ApplicationDbContext());
+            this._unitOfWork = unitOfWork;
         }
 
         // GET: api/BusLines/Count
