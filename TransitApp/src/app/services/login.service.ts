@@ -1,11 +1,12 @@
 import {Http, Headers} from '@angular/http'
 import { Injectable } from  '@angular/core'
 import { Observable } from 'rxjs';
+import { PORT } from 'src/environments/app_config';
 
 @Injectable()
 export class LoginService
 {
-    private apiAddress: string = 'http://localhost:53162/Token';
+    private apiAddress: string = `http://localhost:${PORT}/oauth/token`;
 
     constructor(private http: Http) { }
 

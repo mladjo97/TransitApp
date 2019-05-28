@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -9,11 +7,10 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  private user: {} = {};
+  private user: {};
+  private userLoaded: boolean = false;
 
-  constructor(private authService: AuthService,
-              private userService: UserService,
-              private router: Router) { }
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
     this.getUserInfo();
@@ -22,7 +19,13 @@ export class ProfileComponent implements OnInit {
   getUserInfo(): void {
     this.userService.getUserInfo().subscribe(
       (response) => {
-        this.user = response.json();
+        var userJSON = response.json();
+
+        var date = new Date(Date.parse(userJSON.DateOfBirth));
+        userJSON.DateOfBirth = `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`;
+
+        this.user = userJSON;
+        this.userLoaded = true;
       },
 
       (error) => {

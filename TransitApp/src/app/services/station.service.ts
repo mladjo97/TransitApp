@@ -1,10 +1,11 @@
 import { Observable } from 'rxjs';
 import { Http, Headers } from '@angular/http';
 import { Injectable } from '@angular/core';
+import { PORT } from 'src/environments/app_config';
 
 @Injectable()
 export class StationsService {
-    private apiAddress: string = 'http://localhost:53162/api/Stations';
+    private apiAddress: string = `http://localhost:${PORT}/api/Stations`;
 
     constructor(private http: Http) { }
 

@@ -1,12 +1,23 @@
 <div class="container">
-  <div class="row">
-    <div class="col-sm">
-      <h2>{{ user?.FirstName }} {{ user?.LastName }}</h2>
-      <p>Email: <i>{{ user?.Email }}</i> - Gender: <i>{{ user?.Gender }}</i> </p>
-    </div>
+  <div class="row" *ngIf="userLoaded">
+      <!-- <div class="col-sm-2 col-md-2">
+          <img src="http://thetransformedmale.files.wordpress.com/2011/06/bruce-wayne-armani.jpg"
+          alt="" class="img-rounded img-responsive" />
+      </div> -->
+      <div class="col-sm-8 col-md-8">
+          <blockquote>
+              <h3>{{ user?.FirstName }} {{ user?.LastName }} </h3> <p> <i class="fas fa-map-marker-alt"></i> {{ user?.Address }} </p>
+          </blockquote>
+          <p> 
+            <i class="fas fa-envelope"></i> {{ user?.Email }}
+            <br>
+            <i class="fas fa-venus-mars"></i> {{ user?.Gender }}
+            <br>
+            <i class="fas fa-birthday-cake"></i> {{ user?.DateOfBirth }}
+          </p>
+      </div>
   </div>
 </div>
-
 
 
 

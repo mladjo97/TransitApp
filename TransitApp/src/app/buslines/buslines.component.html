@@ -31,7 +31,8 @@
           <td class="center-block text-center">
             {{ busLine.Description }}
             <div class="btn-group btn-group-sm float-right" role="group">
-              <button type="button" class="btn btn-info left-border" [routerLink]="['edit', busLine.Id]" *ngIf="isAdmin"><i class="fas fa-pen"></i></button>
+              <button type="button" class="btn btn-info" *ngIf="isBuyTicket && !isAdmin"><i class="fas fa-ticket-alt"></i></button>
+              <button type="button" class="btn btn-info" [routerLink]="['edit', busLine.Id]" *ngIf="isAdmin"><i class="fas fa-pen"></i></button>
               <button type="button" class="btn btn-danger left-border" (click)="onDelete(busLine.Id)" *ngIf="isAdmin"><i class="fas fa-trash-alt"></i></button>
             </div>
           </td>

@@ -1,10 +1,11 @@
 import { Observable } from 'rxjs';
 import { Http, Headers } from '@angular/http';
 import { Injectable } from '@angular/core';
+import { PORT } from 'src/environments/app_config';
 
 @Injectable()
 export class BusLineService {
-    private apiAddress: string = 'http://localhost:53162/api/BusLines';
+    private apiAddress: string = `http://localhost:${PORT}/api/BusLines`;
 
     constructor(private http: Http) { }
 
@@ -21,7 +22,7 @@ export class BusLineService {
     }
 
     getAllBusLineTypes(): Observable<any> {
-        return this.http.get('http://localhost:53162/api/BusLineTypes');
+        return this.http.get(`http://localhost:${PORT}/api/BusLineTypes`);
     }
 
     postBusLine(data: {}): Observable<any> {

@@ -2,10 +2,11 @@ import { Response, Http, Headers } from '@angular/http'
 import { AuthData } from '../models/auth-data.model';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
+import { PORT } from 'src/environments/app_config'
 
 @Injectable()
 export class AuthService{
-    private logOutAddress: string = 'http://localhost:53162/api/Account/Logout';
+    private logOutAddress: string = `http://localhost:${PORT}/api/Account/Logout`;
 
     constructor(private http: Http) { }
 
@@ -13,14 +14,12 @@ export class AuthService{
 
         let responseJson = response.json();
         let accessToken = responseJson.access_token;
-        let role = responseJson.role;
+        let role = response.headers.get('Role');
         let id = response.headers.get('UserId');
 
         let authdata = new AuthData(accessToken, role, id);
         localStorage.setItem('token', JSON.stringify(authdata));
-
-        console.log(localStorage.getItem("token"));
-
+        console.log(authdata);
     }
 
     logOut(): Observable<any> {       

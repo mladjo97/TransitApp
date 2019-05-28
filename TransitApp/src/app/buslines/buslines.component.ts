@@ -17,8 +17,10 @@ declare var removeLayersFromMap: any;
 })
 export class BuslinesComponent implements OnInit {
   private busLines: [];
-  private isAdmin: boolean = false;
   private busLineTypes: {}[] = [];
+  
+  @Input() isBuyTicket: boolean = false;
+  private isAdmin: boolean = false;
   private showFilters: boolean = false;
   
   @Input() isRoute: boolean = false;
@@ -35,6 +37,22 @@ export class BuslinesComponent implements OnInit {
       this.isAdmin = true;
     }
 
+    this.getAllBusLineTypes();
+    this.getAllBusLines();    
+  }
+
+  getAllBusLines(): void {
+    this.busLineService.getAll().subscribe(
+      (response) => {
+        this.busLines = response.json();        
+      },
+      
+      (error) => {
+        console.log('Error in BusLinesComponent onNgInit() -> getAll()');        
+    });
+  }
+
+  getAllBusLineTypes(): void {
     this.busLineService.getAllBusLineTypes().subscribe(
       (response) => { 
         // an additional busline type for default 
@@ -49,20 +67,6 @@ export class BuslinesComponent implements OnInit {
 
       (error) => console.log('Error in BUSLINES / ngOnInit() -> getAllBusLines()')
     );
-
-    this.getAllBusLines();
-  
-  }
-
-  getAllBusLines(): void {
-    this.busLineService.getAll().subscribe(
-      (response) => {
-        this.busLines = response.json();        
-      },
-      
-      (error) => {
-        console.log('Error in BusLinesComponent onNgInit() -> getAll()');        
-    });
   }
 
   onBusLineClick(busLineId: number): void {

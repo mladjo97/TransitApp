@@ -6,6 +6,8 @@ import { RegisterService } from '../services/register.service';
 import { NotificationService } from '../services/notification.service';
 import { AuthService } from '../services/auth.service';
 
+import * as $ from 'jquery';
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -33,7 +35,15 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit(f: NgForm) {
-    this.user = new User(f.value.firstName, f.value.lastName, f.value.email, f.value.gender, f.value.password, f.value.confirmPassword);
+    this.user = new User(f.value.firstName,
+                         f.value.lastName,
+                         f.value.email, 
+                         f.value.gender, 
+                         f.value.password,
+                         f.value.confirmPassword,
+                         f.value.address,
+                         $('#dob').val());
+
     this.submitted = true;  // animation
 
     if(this.role == 'TicketInspector') {

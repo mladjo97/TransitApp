@@ -9,18 +9,18 @@
         <hr>
         <form autocomplete="off" (ngSubmit)="onSubmit(f)" #f="ngForm">
           <div class="form-group">
-              <label for="firstName">First name</label>
-              <input type="text" ngModel name="firstName" class="form-control" id="firstName" aria-describedby="emailHelp" autocomplete="off" placeholder="First name" required #firstName="ngModel">
-              <span class="invalid-input" *ngIf="!firstName.valid && firstName.touched"> Please enter your first name. </span>
-            </div>
-            <div class="form-group">
-                <label for="lastName">Last name</label>
-                <input type="text" ngModel name="lastName" class="form-control" id="lastName" aria-describedby="emailHelp" autocomplete="off" placeholder="Last name" required #lastName="ngModel">
-                <span class="invalid-input" *ngIf="!lastName.valid && lastName.touched"> Please enter your last name. </span>
-              </div>
+            <label for="firstName">First name</label>
+            <input type="text" ngModel name="firstName" class="form-control" id="firstName" aria-describedby="emailHelp" autocomplete="off" placeholder="First name" required #firstName="ngModel">
+            <span class="invalid-input" *ngIf="!firstName.valid && firstName.touched"> Please enter your first name. </span>
+          </div>
+          <div class="form-group">
+            <label for="lastName">Last name</label>
+            <input type="text" ngModel name="lastName" class="form-control" id="lastName" autocomplete="off" placeholder="Last name" required #lastName="ngModel">
+            <span class="invalid-input" *ngIf="!lastName.valid && lastName.touched"> Please enter your last name. </span>
+          </div>
           <div class="form-group">
             <label for="email">Email address</label>
-            <input type="email" ngModel name="email" class="form-control" id="email" aria-describedby="emailHelp" autocomplete="off" placeholder="Enter email" required #email="ngModel">
+            <input type="email" ngModel name="email" class="form-control" id="email" autocomplete="off" placeholder="Enter email" required #email="ngModel">
             <span class="invalid-input" *ngIf="!email.valid && email.touched"> Please enter a valid email address. </span>
           </div>
           <div class="form-group">
@@ -33,6 +33,16 @@
             <input type="password" ngModel name="confirmPassword" class="form-control" id="confirmPassword" placeholder="Confirm Password" required #confirmPassword="ngModel">
             <span class="invalid-input" *ngIf="!confirmPassword.valid && confirmPassword.touched"> Please enter a password confirmation. </span>
           </div>
+          <div class="form-group">
+            <label for="address">Address</label>
+            <input type="text" ngModel name="address" class="form-control" id="address" autocomplete="off" placeholder="Address" required #address="ngModel">
+            <span class="invalid-input" *ngIf="!address.valid && address.touched"> Please enter your address. </span>
+          </div>
+          <div class="form-group">
+            <label for="dob">Date of Birth</label>
+            <input type="text" class="form-control" id="dob" data-toggle="datepicker" placeholder="Date of Birth" ngModel name="dob" #dob="ngModel">
+            <span class="invalid-input" id="dob-input-warning"> Please enter your date of birth. </span>
+          </div>
           
           <div class="radio form-check form-check-inline" *ngFor="let gender of genders; let i = index">
             <label>
@@ -41,7 +51,7 @@
           </div>
           
           <br><hr>
-          <button type="submit" class="btn btn-primary btn-block" [disabled]="!f.valid">
+          <button id="registerButton" type="submit" class="btn btn-primary btn-block" [disabled]="!f.valid">
             <span *ngIf="submitted" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             Register
             </button>
