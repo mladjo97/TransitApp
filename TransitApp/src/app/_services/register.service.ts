@@ -1,4 +1,4 @@
-import { User } from '../models/user.model';
+import { User } from '../_models/user.model';
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http'
 import { PORT } from 'src/environments/app_config';

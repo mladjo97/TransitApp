@@ -1,5 +1,5 @@
 import { Response, Http, Headers } from '@angular/http'
-import { AuthData } from '../models/auth-data.model';
+import { AuthData } from '../_models/auth-data.model';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { PORT } from 'src/environments/app_config'

@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { NotificationService } from 'src/app/services/notification.service';
+import { NotificationService } from 'src/app/_services/notification.service';
 import { ActivatedRoute, Router, Params } from '@angular/router';
-import { StationsService } from 'src/app/services/station.service';
+import { StationsService } from 'src/app/_services/station.service';
 
 // javascript file to handle map interaction
 import * as mapJS from '../../../../assets/js/map.js';

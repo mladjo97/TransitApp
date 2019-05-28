@@ -1,0 +1,59 @@
+.timetable {
+    background-color: #c4a115;
+    color: white;
+    height: 250px;
+    padding: 30px;
+    cursor: pointer;
+}
+
+.timetable:hover {
+    background-color: #a08414;
+}
+
+.login {
+    background-color: #198f2d;
+    color: white;
+    height: 125px;
+    padding: 30px;
+    cursor: pointer;
+}
+
+.login:hover {
+    background-color: #147524;
+}
+
+.register {
+    background-color: #08721a;
+    color: white;    
+    height: 125px;
+    padding: 30px;
+    cursor: pointer;
+}
+
+.register:hover {
+    background-color: #055f14;
+}
+
+.tickets {
+    background-color: #f22e2e;
+    color: white;
+    height: 250px;
+    padding: 30px;
+    cursor: pointer;
+}
+
+.tickets:hover {
+    background-color: #ca1d1d;
+}
+
+.routes {
+    background-color: #4592db;
+    color: white;
+    height: 250px;
+    padding: 30px;
+    cursor: pointer;
+}
+
+.routes:hover {
+    background-color: #296cac;
+}

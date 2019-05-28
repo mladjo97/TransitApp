@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { StationsService } from 'src/app/services/station.service';
-import { AuthService } from 'src/app/services/auth.service';
-import { NotificationService } from 'src/app/services/notification.service';
+import { StationsService } from 'src/app/_services/station.service';
+import { AuthService } from 'src/app/_services/auth.service';
+import { NotificationService } from 'src/app/_services/notification.service';
 
 @Component({
   selector: 'app-stations',

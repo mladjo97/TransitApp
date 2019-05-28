@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SnackbarService } from 'ngx-snackbar';
-import { NotificationService } from './services/notification.service';
-import { AuthService } from './services/auth.service';
+import { NotificationService } from './_services/notification.service';
+import { AuthService } from './_services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({

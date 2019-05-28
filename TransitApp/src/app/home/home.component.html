@@ -1,3 +1,36 @@
-<p>
-  home works!
-</p>
+<div class="container">
+
+  <div class="row">
+    <div class="col-sm-12 col-md-7 timetable" [routerLink]="['/timetables']">
+      <h1 class="display-5">Timetables</h1>
+      <p class="lead">Check out at what exact time do our buses leave.</p>
+      <p class="lead">Never be late again</p>
+    </div>
+
+    <div class="col-md-5">
+      <div class="row">        
+        <div class="col login" [routerLink]="['/login']">
+          <h1 class="display-5">Login</h1>   
+        </div>
+      </div>
+      <div class="row ">
+        <div class="col register" [routerLink]="['/register']">
+          <h1 class="display-5">Register</h1>
+        </div>        
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12 col-md-5 tickets" [routerLink]="['/tickets']">
+      <h1 class="display-5">Tickets</h1>
+      <p class="lead">We offer a variety of tickets and discounts. <br> Check it out.</p>
+    </div>
+
+    <div class="col-md-7 routes" [routerLink]="['/routes']">
+      <h1 class="display-5">Routes</h1>
+      <p class="lead">Not all roads lead to Rome, but our buses do lead to every part of the city.</p>
+    </div>
+  </div>
+
+</div>

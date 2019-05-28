@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, NgForm } from '@angular/forms';
-import { StationsService } from 'src/app/services/station.service';
-import { NotificationService } from 'src/app/services/notification.service.js';
+import { StationsService } from 'src/app/_services/station.service';
+import { NotificationService } from 'src/app/_services/notification.service';
 
 // javascript file to handle map interaction
 import * as mapJS from '../../../../assets/js/map.js';

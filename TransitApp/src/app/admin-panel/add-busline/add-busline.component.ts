@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { BusLineService } from 'src/app/services/busline.service';
+import { BusLineService } from 'src/app/_services/busline.service';
 import { NgForm } from '@angular/forms';
-import { NotificationService } from 'src/app/services/notification.service';
-import { AuthService } from 'src/app/services/auth.service';
+import { NotificationService } from 'src/app/_services/notification.service';
+import { AuthService } from 'src/app/_services/auth.service';
 import { Router } from '@angular/router';
-import { StartTime } from 'src/app/models/start-time.model';
+import { StartTime } from 'src/app/_models/start-time.model';
 import * as moment from 'moment';
-import { StationsService } from 'src/app/services/station.service';
-import { Station } from 'src/app/models/station.model';
+import { StationsService } from 'src/app/_services/station.service';
+import { Station } from 'src/app/_models/station.model';
 
 @Component({
   selector: 'app-add-busline',

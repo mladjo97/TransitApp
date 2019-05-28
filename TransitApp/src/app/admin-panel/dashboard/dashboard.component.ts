@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from 'src/app/services/user.service';
-import { BusLineService } from 'src/app/services/busline.service';
-import { StationsService } from 'src/app/services/station.service';
+import { UserService } from 'src/app/_services/user.service';
+import { BusLineService } from 'src/app/_services/busline.service';
+import { StationsService } from 'src/app/_services/station.service';
 
 @Component({
   selector: 'app-dashboard',

@@ -1,14 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { NotificationService } from 'src/app/services/notification.service';
-import { BusLineService } from 'src/app/services/busline.service';
-import { AuthService } from 'src/app/services/auth.service';
+import { NotificationService } from 'src/app/_services/notification.service';
+import { BusLineService } from 'src/app/_services/busline.service';
+import { AuthService } from 'src/app/_services/auth.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { StartTime } from 'src/app/models/start-time.model';
+import { StartTime } from 'src/app/_models/start-time.model';
 import * as moment from 'moment';
 import { NgForm, FormGroup, FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { Station } from 'src/app/models/station.model';
-import { StationsService } from 'src/app/services/station.service';
+import { Station } from 'src/app/_models/station.model';
+import { StationsService } from 'src/app/_services/station.service';
 
 @Component({
   selector: 'app-edit-busline',

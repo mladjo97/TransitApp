@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { BusLineService } from 'src/app/services/busline.service';
+import { BusLineService } from 'src/app/_services/busline.service';
 import { Subscription } from 'rxjs';
 import * as moment from 'moment';
 

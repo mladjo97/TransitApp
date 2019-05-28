@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NotificationService } from '../services/notification.service';
-import { LoginService } from '../services/login.service';
+import { NotificationService } from '../_services/notification.service';
+import { LoginService } from '../_services/login.service';
 import { NgForm } from '@angular/forms';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../_services/auth.service';
 
 @Component({
   selector: 'app-login',

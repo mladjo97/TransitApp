@@ -1,10 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router'
-import { User } from '../models/user.model';
-import { RegisterService } from '../services/register.service';
-import { NotificationService } from '../services/notification.service';
-import { AuthService } from '../services/auth.service';
+import { User } from '../_models/user.model';
+import { RegisterService } from '../_services/register.service';
+import { NotificationService } from '../_services/notification.service';
+import { AuthService } from '../_services/auth.service';
 
 import * as $ from 'jquery';
 

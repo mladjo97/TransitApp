@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { BusLineService } from '../services/busline.service';
-import { AuthService } from '../services/auth.service';
+import { BusLineService } from '../_services/busline.service';
+import { AuthService } from '../_services/auth.service';
 import { Router } from '@angular/router';
-import { NotificationService } from '../services/notification.service';
-import { BusLine } from '../models/busline.model';
-import { DrawService } from '../services/draw.service';
+import { NotificationService } from '../_services/notification.service';
+import { BusLine } from '../_models/busline.model';
+import { DrawService } from '../_services/draw.service';
 
 // javascript file to handle map interaction
 import * as mapJS from '../../assets/js/map.js';
