@@ -43,8 +43,15 @@
             <input type="text" class="form-control" id="dob" data-toggle="datepicker" placeholder="Date of Birth" ngModel name="dob" #dob="ngModel">
             <span class="invalid-input" id="dob-input-warning"> Please enter your date of birth. </span>
           </div>
+
+          <label for="file">Choose Document Image</label> 
+          <div class="form-group" *ngIf="role !== 'TicketInspector'">  
+            <input type="file"
+                   id="file"
+                   (change)="handleFileInput($event.target.files)">
+          </div>
           
-          <div class="radio form-check form-check-inline" *ngFor="let gender of genders; let i = index">
+          <div class="radio form-check form-check-inline text-center" *ngFor="let gender of genders; let i = index">
             <label>
                 <input type="radio" ngModel name="gender" [value]="i"> {{ gender }}
             </label>                

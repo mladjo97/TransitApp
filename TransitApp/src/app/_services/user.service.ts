@@ -14,6 +14,10 @@ export class UserService {
         return this.http.get(`${this.apiAccountAddress}/Count`);
     }
 
+    getUserTypes(): Observable<any> {
+        return this.http.get(`http://localhost:${PORT}/api/UserTypes`);
+    }
+
     getUserInfo(): Observable<any> {
         const headers = new Headers()
         headers.append('Content-type','application/json');

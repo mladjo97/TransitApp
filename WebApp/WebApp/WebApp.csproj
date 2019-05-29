@@ -269,16 +269,22 @@
     <Compile Include="Migrations\201905272122558_AddedInitialClasses.Designer.cs">
       <DependentUpon>201905272122558_AddedInitialClasses.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905282037386_AddedUserTypesAndDocumentImageUrl.cs" />
+    <Compile Include="Migrations\201905282037386_AddedUserTypesAndDocumentImageUrl.Designer.cs">
+      <DependentUpon>201905282037386_AddedUserTypesAndDocumentImageUrl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\AccountBindingModels.cs" />
+    <Compile Include="Models\BindingModels\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
+    <Compile Include="Models\BindingModels\BusLineBindingModels.cs" />
     <Compile Include="Models\BusLine.cs" />
     <Compile Include="Models\BusLineStations.cs" />
     <Compile Include="Models\BusLineType.cs" />
     <Compile Include="Models\Enums.cs" />
     <Compile Include="Models\StartTime.cs" />
     <Compile Include="Models\Station.cs" />
+    <Compile Include="Models\UserType.cs" />
     <Compile Include="Persistence\ApplicationDbContext.cs" />
     <Compile Include="Persistence\Repository\BusLineRepository.cs" />
     <Compile Include="Persistence\Repository\BusLineStationsRepository.cs" />
@@ -289,9 +295,11 @@
     <Compile Include="Persistence\Repository\IRepository.cs" />
     <Compile Include="Persistence\Repository\IStartTimeRepository.cs" />
     <Compile Include="Persistence\Repository\IStationRepository.cs" />
+    <Compile Include="Persistence\Repository\IUserTypeRepository.cs" />
     <Compile Include="Persistence\Repository\Repository.cs" />
     <Compile Include="Persistence\Repository\StartTimeRepository.cs" />
     <Compile Include="Persistence\Repository\StationRepository.cs" />
+    <Compile Include="Persistence\Repository\UserTypeRepository.cs" />
     <Compile Include="Persistence\UnitOfWork\IUnitOfWork.cs" />
     <Compile Include="Persistence\UnitOfWork\UnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -400,6 +408,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905272122558_AddedInitialClasses.resx">
       <DependentUpon>201905272122558_AddedInitialClasses.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905282037386_AddedUserTypesAndDocumentImageUrl.resx">
+      <DependentUpon>201905282037386_AddedUserTypesAndDocumentImageUrl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -19,6 +19,16 @@ namespace WebApp.Controllers
             this._unitOfWork = unitOfWork;
         }
 
+        // ovo treba premestiti odavde - test
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("api/UserTypes")]
+        public IEnumerable<UserType> GetUserTypes()
+        {
+            return this._unitOfWork.UserTypeRepository.GetAll();
+        }
+
+
         // GET: api/BusLineTypes
         [AllowAnonymous]
         public IEnumerable<BusLineType> GetBusLineTypes()

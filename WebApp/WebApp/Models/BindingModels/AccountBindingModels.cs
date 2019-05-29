@@ -60,7 +60,9 @@ namespace WebApp.Models
 
         [Required]
         [Display(Name = "UserType")]
-        public int UserType { get; set; }
+        public int UserTypeId { get; set; }
+
+        public string DocumentImageUrl { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]

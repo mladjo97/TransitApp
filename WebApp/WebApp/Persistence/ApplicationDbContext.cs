@@ -11,6 +11,7 @@ namespace WebApp.Persistence
         public DbSet<BusLineStations> BusLineStations { get; set; }
         public DbSet<BusLineType> BusLineTypes { get; set; }
         public DbSet<StartTime> StartTimes { get; set; }
+        public DbSet<UserType> UserTypes { get; set; }
 
         public ApplicationDbContext()
             : base("name=TransitAppDbConnection", throwIfV1Schema: false)

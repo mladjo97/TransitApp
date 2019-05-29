@@ -50,9 +50,45 @@ namespace WebApp.Migrations
                 manager.Create(role);
             }
 
+            // User Types
+            if (!context.UserTypes.Any(b => b.Name == "Scholar"))
+            {
+                var ut = new UserType()
+                {
+                    Name = "Scholar"
+                };
+
+                context.UserTypes.Add(ut);
+                context.SaveChanges();
+            }
+
+            if (!context.UserTypes.Any(b => b.Name == "Senior Citizen"))
+            {
+                var ut = new UserType()
+                {
+                    Name = "Senior Citizen"
+                };
+
+                context.UserTypes.Add(ut);
+                context.SaveChanges();
+            }
+
+            if (!context.UserTypes.Any(b => b.Name == "Regular"))
+            {
+                var ut = new UserType()
+                {
+                    Name = "Regular"
+                };
+
+                context.UserTypes.Add(ut);
+                context.SaveChanges();
+            }
+
             // Users
             var userStore = new UserStore<ApplicationUser>(context);
             var userManager = new UserManager<ApplicationUser>(userStore);
+
+            var regularUserType = context.UserTypes.FirstOrDefault(x => x.Name == "Regular");
 
             if (!context.Users.Any(u => u.UserName == "mladjo@demo.com"))
             {
@@ -65,9 +101,10 @@ namespace WebApp.Migrations
                     FirstName = "Mladen",
                     LastName = "Milosevic",
                     Gender = Gender.Male,
-                    UserType = UserType.Regular,
                     DateOfBirth = new DateTime(1997, 1, 31),
-                    Address = "Bulevar Oslobodjenja"
+                    Address = "Bulevar Oslobodjenja",
+                    UserTypeId = regularUserType.Id,
+                    UserType = regularUserType
                 };
                 userManager.Create(user);
                 userManager.AddToRole(user.Id, "Admin");
@@ -84,9 +121,10 @@ namespace WebApp.Migrations
                     FirstName = "Ticket",
                     LastName = "Inspector",
                     Gender = Gender.Male,
-                    UserType = UserType.Regular,
                     DateOfBirth = new DateTime(1995, 3, 16),
-                    Address = "Bulevar Evrope"
+                    Address = "Bulevar Evrope",
+                    UserTypeId = regularUserType.Id,
+                    UserType = regularUserType
                 };
 
                 userManager.Create(user);
@@ -104,9 +142,10 @@ namespace WebApp.Migrations
                     FirstName = "Demo",
                     LastName = "User",
                     Gender = Gender.Male,
-                    UserType = UserType.Regular,
                     DateOfBirth = new DateTime(1995, 3, 16),
-                    Address = "Bulevar Cara Dusana"
+                    Address = "Bulevar Cara Dusana",
+                    UserTypeId = regularUserType.Id,
+                    UserType = regularUserType
                 };
 
                 userManager.Create(user);
@@ -135,6 +174,9 @@ namespace WebApp.Migrations
                 context.BusLineTypes.Add(blt);
                 context.SaveChanges();
             }
+
+            
+
         }
     }
 }

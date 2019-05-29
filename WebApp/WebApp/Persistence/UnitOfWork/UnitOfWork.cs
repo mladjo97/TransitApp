@@ -24,6 +24,8 @@ namespace WebApp.Persistence.UnitOfWork
         [Dependency]
         public IStartTimeRepository StartTimeRepository { get; set; }
 
+        [Dependency]
+        public IUserTypeRepository UserTypeRepository { get; set; }
 
         public UnitOfWork(DbContext context)
         {

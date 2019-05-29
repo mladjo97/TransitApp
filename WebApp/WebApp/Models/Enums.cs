@@ -5,12 +5,5 @@
         Male,
         Female
     }
-
-    public enum UserType
-    {
-        Scholar,
-        Pensioner,
-        Regular
-    }
     
 }

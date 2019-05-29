@@ -1,19 +1,20 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.OAuth;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
-using System.Web.Http.ModelBinding;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.OAuth;
 using WebApp.Models;
 using WebApp.Providers;
 using WebApp.Results;
@@ -68,7 +69,7 @@ namespace WebApp.Controllers
                 DateOfBirth = currentUser.DateOfBirth,
                 Address = currentUser.Address,
                 Gender = currentUser.Gender.ToString(),
-                UserType = currentUser.UserType.ToString()
+                UserType = currentUser.UserType.Name
             };
         }
 
@@ -373,11 +374,35 @@ namespace WebApp.Controllers
         // POST api/Account/Register
         [AllowAnonymous]
         [Route("Register")]
-        public async Task<IHttpActionResult> Register(RegisterBindingModel model)
+        public async Task<IHttpActionResult> Register()
         {
-            if (!ModelState.IsValid)
+            RegisterBindingModel model = new RegisterBindingModel();
+
+            var httpRequest = HttpContext.Current.Request;
+            model = JsonConvert.DeserializeObject<RegisterBindingModel>(httpRequest.Form[0]);
+
+            foreach (string file in httpRequest.Files)
             {
-                return BadRequest(ModelState);
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created);
+
+                var postedFile = httpRequest.Files[file];
+                if (postedFile != null && postedFile.ContentLength > 0)
+                {
+
+                    IList<string> AllowedFileExtensions = new List<string> { ".jpg", ".gif", ".png" };
+                    var extension = postedFile.FileName.Substring(postedFile.FileName.LastIndexOf('.')).ToLower();
+
+                    if (!AllowedFileExtensions.Contains(extension))
+                    {
+                        return BadRequest();
+                    }
+                    else
+                    {
+                        var filePath = HttpContext.Current.Server.MapPath("~/Content/" + postedFile.FileName);
+                        model.DocumentImageUrl = "Content/" + postedFile.FileName;
+                        postedFile.SaveAs(filePath);
+                    }
+                }
             }
 
             var user = new ApplicationUser() {
@@ -388,10 +413,11 @@ namespace WebApp.Controllers
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Gender = (Gender)model.Gender,
-                UserType = (UserType)model.UserType
+                DocumentImageUrl = model.DocumentImageUrl,
+                PasswordHash = ApplicationUser.HashPassword(model.Password)
             };
 
-            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+            IdentityResult result = await UserManager.CreateAsync(user);
 
             if (!result.Succeeded)
             {
@@ -422,10 +448,10 @@ namespace WebApp.Controllers
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Gender = (Gender)model.Gender,
-                UserType = (UserType)model.UserType
+                PasswordHash = ApplicationUser.HashPassword(model.Password)
             };
 
-            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+            IdentityResult result = await UserManager.CreateAsync(user);
 
             if (!result.Succeeded)
             {

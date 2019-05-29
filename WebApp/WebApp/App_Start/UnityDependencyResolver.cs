@@ -1,18 +1,12 @@
-﻿using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.Owin.Security;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Web.Http.Dependencies;
 using Unity;
-using Unity.Injection;
 using Unity.Lifetime;
-using WebApp.Models;
 using WebApp.Persistence;
 using WebApp.Persistence.Repository;
 using WebApp.Persistence.UnitOfWork;
-using WebApp.Providers;
 
 namespace WebApp.App_Start
 {
@@ -71,6 +65,7 @@ namespace WebApp.App_Start
             container.RegisterType<IBusLineStationsRepository, BusLineStationsRepository>();
             container.RegisterType<IBusLineTypeRepository, BusLineTypeRepository>();
             container.RegisterType<IStartTimeRepository, StartTimeRepository>();
+            container.RegisterType<IUserTypeRepository, UserTypeRepository>();
 
             container.RegisterType<DbContext, ApplicationDbContext>(new PerResolveLifetimeManager());
             container.RegisterType<IUnitOfWork, UnitOfWork>();

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WebApp.Persistence.Repository;
 
 namespace WebApp.Persistence.UnitOfWork
@@ -18,6 +14,8 @@ namespace WebApp.Persistence.UnitOfWork
         IBusLineTypeRepository BusLineTypeRepository { get; set; }
 
         IStartTimeRepository StartTimeRepository { get; set; }
+
+        IUserTypeRepository UserTypeRepository { get; set; }
 
         int Complete();
     }

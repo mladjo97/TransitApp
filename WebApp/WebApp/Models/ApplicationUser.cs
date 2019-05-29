@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
@@ -33,8 +34,12 @@ namespace WebApp.Models
         public Gender Gender { get; set; }
 
         [Required]
-        [Display(Name = "UserType")]
-        public UserType UserType { get; set; }
+        [ForeignKey("UserType")]
+        public int UserTypeId { get; set; }
+        public virtual UserType UserType { get; set; }
+
+        [Display(Name = "Document Image URL")]
+        public string DocumentImageUrl { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
         {

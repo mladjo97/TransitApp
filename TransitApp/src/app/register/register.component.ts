@@ -7,6 +7,7 @@ import { NotificationService } from '../_services/notification.service';
 import { AuthService } from '../_services/auth.service';
 
 import * as $ from 'jquery';
+import { UserService } from '../_services/user.service';
 
 @Component({
   selector: 'app-register',
@@ -18,11 +19,14 @@ export class RegisterComponent implements OnInit {
   private submitted: boolean = false;
   private user: User;
   private role: string;  
+  private fileToUpload: File = null;
+  private userTypes: [] = [];
 
   constructor(private router: Router,
               private registerService: RegisterService,
               private notificationService: NotificationService,
-              private authService: AuthService) { }
+              private authService: AuthService,
+              private userService: UserService) { }
 
   ngOnInit() {
     if(this.authService.isLoggedIn()) {
@@ -32,9 +36,20 @@ export class RegisterComponent implements OnInit {
         this.role = 'TicketInspector';
       }
     } 
+
+    // get all user types
+    this.userService.getUserTypes().subscribe(
+      (response) => this.userTypes = response.json(),
+      (error) => console.log(error)
+    );
+  }
+
+  handleFileInput(files: FileList) {
+    this.fileToUpload = files.item(0);
   }
 
   onSubmit(f: NgForm) {
+
     this.user = new User(f.value.firstName,
                          f.value.lastName,
                          f.value.email, 
@@ -75,7 +90,7 @@ export class RegisterComponent implements OnInit {
       );
 
     } else {
-      this.registerService.registerUser(this.user).subscribe( 
+      this.registerService.registerUser(this.user, this.fileToUpload).subscribe( 
         (response) => {
           this.submitted = false;  // animation
 
@@ -85,20 +100,21 @@ export class RegisterComponent implements OnInit {
   
         (error) => {       
           this.submitted = false;  // animation
+          console.log(error);
+
+          // if(error.status !== 0){
+          //   // Notify the user about errors from WebAPI (validation error reply)
+          //   let regReply = JSON.parse(error._body);
+          //   let errorMessages = Object.values(regReply.ModelState);
   
-          if(error.status !== 0){
-            // Notify the user about errors from WebAPI (validation error reply)
-            let regReply = JSON.parse(error._body);
-            let errorMessages = Object.values(regReply.ModelState);
-  
-            if(errorMessages.length > 0) {
-              for(let i = 1; i < errorMessages.length; i++){
-                this.notificationService.notifyEvent.emit(errorMessages[i][0]);
-              }
-            }
-          } else {
-            this.notificationService.notifyEvent.emit('An error ocurred during registration. The server is probably down.');
-          }        
+          //   if(errorMessages.length > 0) {
+          //     for(let i = 1; i < errorMessages.length; i++){
+          //       this.notificationService.notifyEvent.emit(errorMessages[i][0]);
+          //     }
+          //   }
+          // } else {
+          //   this.notificationService.notifyEvent.emit('An error ocurred during registration. The server is probably down.');
+          // }        
         }
       );
     }
