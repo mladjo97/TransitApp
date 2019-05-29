@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
@@ -16,6 +17,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using WebApp.Models;
+using WebApp.Persistence;
 using WebApp.Providers;
 using WebApp.Results;
 
@@ -61,6 +63,12 @@ namespace WebApp.Controllers
             ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
             ApplicationUser currentUser = UserManager.FindById(User.Identity.GetUserId());
 
+            UserType type = new UserType();
+            using(var db = new ApplicationDbContext())
+            {
+                db.UserTypes.FirstOrDefault(x => x.Id == currentUser.UserTypeId);
+            }
+
             return new UserInfoViewModel
             {
                 Email = currentUser.Email,
@@ -69,7 +77,7 @@ namespace WebApp.Controllers
                 DateOfBirth = currentUser.DateOfBirth,
                 Address = currentUser.Address,
                 Gender = currentUser.Gender.ToString(),
-                UserType = currentUser.UserType.Name
+                UserType = type.Name
             };
         }
 
@@ -377,9 +385,24 @@ namespace WebApp.Controllers
         public async Task<IHttpActionResult> Register()
         {
             RegisterBindingModel model = new RegisterBindingModel();
-
             var httpRequest = HttpContext.Current.Request;
             model = JsonConvert.DeserializeObject<RegisterBindingModel>(httpRequest.Form[0]);
+
+            UserType type = new UserType();
+            using (var db = new ApplicationDbContext())
+            {
+                type = db.UserTypes.FirstOrDefault(x => x.Name == "Regular");
+            }
+
+            model.UserTypeId = type.Id;
+
+            ModelState.Clear();
+            Validate(model);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
             foreach (string file in httpRequest.Files)
             {
@@ -399,7 +422,7 @@ namespace WebApp.Controllers
                     else
                     {
                         var filePath = HttpContext.Current.Server.MapPath("~/Content/" + postedFile.FileName);
-                        model.DocumentImageUrl = "Content/" + postedFile.FileName;
+                        model.DocumentImageUrl = $"Content/{postedFile.FileName}";
                         postedFile.SaveAs(filePath);
                     }
                 }
@@ -414,7 +437,9 @@ namespace WebApp.Controllers
                 LastName = model.LastName,
                 Gender = (Gender)model.Gender,
                 DocumentImageUrl = model.DocumentImageUrl,
-                PasswordHash = ApplicationUser.HashPassword(model.Password)
+                PasswordHash = ApplicationUser.HashPassword(model.Password),
+                UserTypeId = type.Id,
+                UserType = type
             };
 
             IdentityResult result = await UserManager.CreateAsync(user);
@@ -422,6 +447,18 @@ namespace WebApp.Controllers
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
+            }
+            else
+            {
+                ApplicationUser currentUser = UserManager.FindByName(user.UserName);
+
+                IdentityResult roleResult = await UserManager.AddToRoleAsync(currentUser.Id, "User");
+
+                if (!roleResult.Succeeded)
+                {
+                    return GetErrorResult(roleResult);
+                }
+
             }
 
             return Ok();

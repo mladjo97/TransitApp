@@ -34,6 +34,12 @@
             <span class="invalid-input" *ngIf="!confirmPassword.valid && confirmPassword.touched"> Please enter a password confirmation. </span>
           </div>
           <div class="form-group">
+            <label for="genderSelect">Gender</label>
+            <select id="genderSelect" class="form-control" required ngModel name="gender" #gender="ngModel" >
+              <option *ngFor="let g of genders; let i = index" [value]="i"> {{ g }}</option>               
+            </select>
+          </div>
+          <div class="form-group">
             <label for="address">Address</label>
             <input type="text" ngModel name="address" class="form-control" id="address" autocomplete="off" placeholder="Address" required #address="ngModel">
             <span class="invalid-input" *ngIf="!address.valid && address.touched"> Please enter your address. </span>
@@ -43,21 +49,23 @@
             <input type="text" class="form-control" id="dob" data-toggle="datepicker" placeholder="Date of Birth" ngModel name="dob" #dob="ngModel">
             <span class="invalid-input" id="dob-input-warning"> Please enter your date of birth. </span>
           </div>
+          <div class="form-group">
+            <label for="userTypeSelect">User Type</label>
+            <select id="userTypeSelect" class="form-control" (change)="onChange($event.target.value)" ngModel name="userTypeId" #userTypeId="ngModel" required>
+              <option *ngFor="let ut of userTypes" [value]="ut.Id"> {{ ut.Name }}</option>               
+            </select>
+          </div>
 
-          <label for="file">Choose Document Image</label> 
-          <div class="form-group" *ngIf="role !== 'TicketInspector'">  
-            <input type="file"
-                   id="file"
-                   (change)="handleFileInput($event.target.files)">
+          <div *ngIf="showImageInput">
+            <label for="file">Choose Document Image</label> 
+            <div class="form-group" *ngIf="role !== 'TicketInspector'">  
+              <input type="file"
+                    id="file"
+                    (change)="handleFileInput($event.target.files)">
+            </div>
           </div>
-          
-          <div class="radio form-check form-check-inline text-center" *ngFor="let gender of genders; let i = index">
-            <label>
-                <input type="radio" ngModel name="gender" [value]="i"> {{ gender }}
-            </label>                
-          </div>
-          
-          <br><hr>
+
+          <hr>
           <button id="registerButton" type="submit" class="btn btn-primary btn-block" [disabled]="!f.valid">
             <span *ngIf="submitted" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             Register

@@ -11,12 +11,10 @@ export class RegisterService {
     constructor(private http: Http) { }
 
     registerUser(user: User, documentImage: File): Observable<any> {
-        console.log(user);
-        console.log(documentImage);
-
         const formData: FormData = new FormData();
         formData.append('user', JSON.stringify(user));
-        formData.append('uploadFile', documentImage, documentImage.name);
+        if(documentImage !== null)
+            formData.append('uploadFile', documentImage, documentImage.name);
 
         const headers = new Headers();
         headers.append('enctype', 'multipart/form-data');       

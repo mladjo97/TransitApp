@@ -8,6 +8,7 @@ import { AuthService } from '../_services/auth.service';
 
 import * as $ from 'jquery';
 import { UserService } from '../_services/user.service';
+import { UserType } from '../_models/user-type.model';
 
 @Component({
   selector: 'app-register',
@@ -20,7 +21,8 @@ export class RegisterComponent implements OnInit {
   private user: User;
   private role: string;  
   private fileToUpload: File = null;
-  private userTypes: [] = [];
+  private userTypes: UserType[];
+  private showImageInput: boolean = false;
 
   constructor(private router: Router,
               private registerService: RegisterService,
@@ -48,6 +50,14 @@ export class RegisterComponent implements OnInit {
     this.fileToUpload = files.item(0);
   }
 
+  onChange(userTypeId: number) {
+    console.log(userTypeId);
+    let userType = this.userTypes.find((type) => {
+      return type.Id == userTypeId;
+    });
+    this.showImageInput = userType.Name !== "Regular";
+  }
+
   onSubmit(f: NgForm) {
 
     this.user = new User(f.value.firstName,
@@ -57,7 +67,8 @@ export class RegisterComponent implements OnInit {
                          f.value.password,
                          f.value.confirmPassword,
                          f.value.address,
-                         $('#dob').val());
+                         new Date($('#dob').val()),
+                         f.value.userTypeId);
 
     this.submitted = true;  // animation
 
@@ -72,20 +83,20 @@ export class RegisterComponent implements OnInit {
   
         (error) => {       
           this.submitted = false;  // animation
-  
+          this.notificationService.notifyEvent.emit('An error ocurred during registration. Please, try again.');
+
           if(error.status !== 0){
             // Notify the user about errors from WebAPI (validation error reply)
             let regReply = JSON.parse(error._body);
             let errorMessages = Object.values(regReply.ModelState);
-  
+            
             if(errorMessages.length > 0) {
               for(let i = 1; i < errorMessages.length; i++){
                 this.notificationService.notifyEvent.emit(errorMessages[i][0]);
               }
             }
-          } else {
-            this.notificationService.notifyEvent.emit('An error ocurred during registration. The server is probably down.');
-          }        
+          } 
+
         }
       );
 
@@ -100,21 +111,19 @@ export class RegisterComponent implements OnInit {
   
         (error) => {       
           this.submitted = false;  // animation
-          console.log(error);
+          this.notificationService.notifyEvent.emit('An error ocurred during registration. Please, try again.');
 
-          // if(error.status !== 0){
-          //   // Notify the user about errors from WebAPI (validation error reply)
-          //   let regReply = JSON.parse(error._body);
-          //   let errorMessages = Object.values(regReply.ModelState);
-  
-          //   if(errorMessages.length > 0) {
-          //     for(let i = 1; i < errorMessages.length; i++){
-          //       this.notificationService.notifyEvent.emit(errorMessages[i][0]);
-          //     }
-          //   }
-          // } else {
-          //   this.notificationService.notifyEvent.emit('An error ocurred during registration. The server is probably down.');
-          // }        
+          if(error.status !== 0){
+            // Notify the user about errors from WebAPI (validation error reply)
+            let regReply = JSON.parse(error._body);
+            let errorMessages = Object.values(regReply.ModelState);
+            if(errorMessages.length > 0) {
+              for(let i = 0; i < errorMessages.length; i++){
+                this.notificationService.notifyEvent.emit(errorMessages[i][0]);
+              }
+            }
+          } 
+
         }
       );
     }
