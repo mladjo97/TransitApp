@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 
 // javascript file to handle map interaction
-import * as mapJS from '../../../../assets/js/map.js';
+import * as mapJS from '../../../_scripts/map.js';
 declare var addStationOnMap: any;
 declare var removeLayersFromMap: any;
 

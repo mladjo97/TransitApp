@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../_services/auth.service';
+import { User } from '../_models/user.model';
+import { UserService } from '../_services/user.service';
 
 @Component({
   selector: 'app-home',
@@ -6,10 +9,24 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  private user: User;
+  private isLoggedIn: boolean = false;
 
-  constructor() { }
+  constructor(private authService: AuthService,
+              private userService: UserService) { }
 
   ngOnInit() {
+    this.isLoggedIn = this.authService.isLoggedIn();
+
+    this.user = new User();
+    // get user info
+    if(this.isLoggedIn){
+      this.userService.getUserInfo().subscribe(
+        (response) => this.user = response.json(),
+        (error) => console.log(error)
+      );
+    }
+    
   }
 
 }

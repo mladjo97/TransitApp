@@ -7,7 +7,15 @@
       <p class="lead">Never be late again</p>
     </div>
 
-    <div class="col-md-5">
+    <div class="col-sm-12 col-md-5 hello-message" [routerLink]="['/profile']" *ngIf="isLoggedIn">
+      <h1 class="display-5">Hi there, <br/>
+        <h1 class="display-6">{{ user.FirstName }} {{ user.LastName }} <br/>
+          <p class="lead">Check out your profile</p>
+        </h1>
+      </h1>
+    </div>
+
+    <div class="col-md-5" *ngIf="!isLoggedIn">
       <div class="row">        
         <div class="col login" [routerLink]="['/login']">
           <h1 class="display-5">Login</h1>   

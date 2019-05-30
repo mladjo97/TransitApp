@@ -101,6 +101,22 @@ namespace WebApp.Models
         [Required]
         [Display(Name = "Gender")]
         public Gender Gender { get; set; }
+
+        [Required]
+        [Display(Name = "User Type")]
+        public int UserTypeId { get; set; }
+    }
+
+    public class EditUserDocumentImageUrl
+    {
+        [Required]
+        [Display(Name = "Old Document Image Url")]
+        public string OldDocumentImageUrl { get; set; }
+
+        [Required]
+        [Display(Name = "New Document Image Url")]
+        public string NewDocumentImageUrl { get; set; }
+
     }
 
     public class RegisterExternalBindingModel

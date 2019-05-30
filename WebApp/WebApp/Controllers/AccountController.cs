@@ -18,6 +18,7 @@ using System.Web;
 using System.Web.Http;
 using WebApp.Models;
 using WebApp.Persistence;
+using WebApp.Persistence.UnitOfWork;
 using WebApp.Providers;
 using WebApp.Results;
 
@@ -66,7 +67,7 @@ namespace WebApp.Controllers
             UserType type = new UserType();
             using(var db = new ApplicationDbContext())
             {
-                db.UserTypes.FirstOrDefault(x => x.Id == currentUser.UserTypeId);
+                type = db.UserTypes.FirstOrDefault(x => x.Id == currentUser.UserTypeId);
             }
 
             return new UserInfoViewModel
@@ -77,7 +78,8 @@ namespace WebApp.Controllers
                 DateOfBirth = currentUser.DateOfBirth,
                 Address = currentUser.Address,
                 Gender = currentUser.Gender.ToString(),
-                UserType = type.Name
+                UserType = type.Name,
+                UserTypeId = type.Id
             };
         }
 
@@ -115,6 +117,7 @@ namespace WebApp.Controllers
             user.UserName = user.Email;
             user.Address = newUserInfo.Address;
             user.DateOfBirth = newUserInfo.DateOfBirth;
+            user.UserTypeId = newUserInfo.UserTypeId;
 
             IdentityResult result = UserManager.Update(user);
 
@@ -124,6 +127,147 @@ namespace WebApp.Controllers
             }
 
             // return Ok() if okay
+            return Ok();
+        }
+
+        // POST api/Account/Register
+        [AllowAnonymous]
+        [Route("Register")]
+        public async Task<IHttpActionResult> Register()
+        {
+            RegisterBindingModel model = new RegisterBindingModel();
+            var httpRequest = HttpContext.Current.Request;
+            model = JsonConvert.DeserializeObject<RegisterBindingModel>(httpRequest.Form[0]);
+
+            UserType type = new UserType();
+            using (var db = new ApplicationDbContext())
+            {
+                type = db.UserTypes.FirstOrDefault(x => x.Id == model.UserTypeId);
+            }
+
+            model.UserTypeId = type.Id;
+
+            ModelState.Clear();
+            Validate(model);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            foreach (string file in httpRequest.Files)
+            {
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created);
+
+                var postedFile = httpRequest.Files[file];
+                if (postedFile != null && postedFile.ContentLength > 0)
+                {
+
+                    IList<string> AllowedFileExtensions = new List<string> { ".jpg", ".gif", ".png" };
+                    var extension = postedFile.FileName.Substring(postedFile.FileName.LastIndexOf('.')).ToLower();
+
+                    if (!AllowedFileExtensions.Contains(extension))
+                    {
+                        return BadRequest();
+                    }
+                    else
+                    {
+                        var filePath = HttpContext.Current.Server.MapPath("~/Content/" + postedFile.FileName);
+                        model.DocumentImageUrl = $"Content/{postedFile.FileName}";
+                        postedFile.SaveAs(filePath);
+                    }
+                }
+            }
+
+            var user = new ApplicationUser()
+            {
+                UserName = model.Email,
+                Email = model.Email,
+                Address = model.Address,
+                DateOfBirth = model.DateOfBirth,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Gender = (Gender)model.Gender,
+                DocumentImageUrl = model.DocumentImageUrl,
+                PasswordHash = ApplicationUser.HashPassword(model.Password),
+                UserTypeId = type.Id,
+                UserType = type
+            };
+
+            IdentityResult result = await UserManager.CreateAsync(user);
+
+            if (!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
+            else
+            {
+                ApplicationUser currentUser = UserManager.FindByName(user.UserName);
+
+                IdentityResult roleResult = await UserManager.AddToRoleAsync(currentUser.Id, "User");
+
+                if (!roleResult.Succeeded)
+                {
+                    return GetErrorResult(roleResult);
+                }
+
+            }
+
+            return Ok();
+        }
+
+        // POST api/Account/RegisterTicketInspector
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [Route("RegisterTicketInspector")]
+        public async Task<IHttpActionResult> RegisterTicketInspector(RegisterBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // get referenced user type
+            UserType type = new UserType();
+            using (var db = new ApplicationDbContext())
+            {
+                type = db.UserTypes.FirstOrDefault(x => x.Name == "Regular"); // u model.UserTypeId je Id od Regular UserType-a, ali better safe than sure
+            }
+
+
+            var user = new ApplicationUser()
+            {
+                UserName = model.Email,
+                Email = model.Email,
+                Address = model.Address,
+                DateOfBirth = model.DateOfBirth,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Gender = (Gender)model.Gender,
+                PasswordHash = ApplicationUser.HashPassword(model.Password),
+                UserTypeId = type.Id,
+                UserType = type
+            };
+
+            IdentityResult result = await UserManager.CreateAsync(user);
+
+            if (!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
+            else
+            {
+                ApplicationUser currentUser = UserManager.FindByName(user.UserName);
+
+                IdentityResult roleResult = await UserManager.AddToRoleAsync(currentUser.Id, "TicketInspector");
+
+                if (!roleResult.Succeeded)
+                {
+                    return GetErrorResult(roleResult);
+                }
+
+            }
+
             return Ok();
         }
 
@@ -379,136 +523,7 @@ namespace WebApp.Controllers
             return logins;
         }
 
-        // POST api/Account/Register
-        [AllowAnonymous]
-        [Route("Register")]
-        public async Task<IHttpActionResult> Register()
-        {
-            RegisterBindingModel model = new RegisterBindingModel();
-            var httpRequest = HttpContext.Current.Request;
-            model = JsonConvert.DeserializeObject<RegisterBindingModel>(httpRequest.Form[0]);
-
-            UserType type = new UserType();
-            using (var db = new ApplicationDbContext())
-            {
-                type = db.UserTypes.FirstOrDefault(x => x.Name == "Regular");
-            }
-
-            model.UserTypeId = type.Id;
-
-            ModelState.Clear();
-            Validate(model);
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            foreach (string file in httpRequest.Files)
-            {
-                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created);
-
-                var postedFile = httpRequest.Files[file];
-                if (postedFile != null && postedFile.ContentLength > 0)
-                {
-
-                    IList<string> AllowedFileExtensions = new List<string> { ".jpg", ".gif", ".png" };
-                    var extension = postedFile.FileName.Substring(postedFile.FileName.LastIndexOf('.')).ToLower();
-
-                    if (!AllowedFileExtensions.Contains(extension))
-                    {
-                        return BadRequest();
-                    }
-                    else
-                    {
-                        var filePath = HttpContext.Current.Server.MapPath("~/Content/" + postedFile.FileName);
-                        model.DocumentImageUrl = $"Content/{postedFile.FileName}";
-                        postedFile.SaveAs(filePath);
-                    }
-                }
-            }
-
-            var user = new ApplicationUser() {
-                UserName = model.Email,
-                Email = model.Email,
-                Address = model.Address,
-                DateOfBirth = model.DateOfBirth,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                Gender = (Gender)model.Gender,
-                DocumentImageUrl = model.DocumentImageUrl,
-                PasswordHash = ApplicationUser.HashPassword(model.Password),
-                UserTypeId = type.Id,
-                UserType = type
-            };
-
-            IdentityResult result = await UserManager.CreateAsync(user);
-
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
-            else
-            {
-                ApplicationUser currentUser = UserManager.FindByName(user.UserName);
-
-                IdentityResult roleResult = await UserManager.AddToRoleAsync(currentUser.Id, "User");
-
-                if (!roleResult.Succeeded)
-                {
-                    return GetErrorResult(roleResult);
-                }
-
-            }
-
-            return Ok();
-        }
-
-        // POST api/Account/RegisterTicketInspector
-        [HttpPost]
-        [Authorize(Roles = "Admin")]
-        [Route("RegisterTicketInspector")]
-        public async Task<IHttpActionResult> RegisterTicketInspector(RegisterBindingModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-
-            var user = new ApplicationUser()
-            {
-                UserName = model.Email,
-                Email = model.Email,
-                Address = model.Address,
-                DateOfBirth = model.DateOfBirth,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                Gender = (Gender)model.Gender,
-                PasswordHash = ApplicationUser.HashPassword(model.Password)
-            };
-
-            IdentityResult result = await UserManager.CreateAsync(user);
-
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
-            else
-            {
-                ApplicationUser currentUser = UserManager.FindByName(user.UserName);
-
-                IdentityResult roleResult = await UserManager.AddToRoleAsync(currentUser.Id, "TicketInspector");
-
-                if (!roleResult.Succeeded)
-                {
-                    return GetErrorResult(roleResult);
-                }
-
-            }
-
-            return Ok();
-        }
+        
 
         // POST api/Account/RegisterExternal
         [OverrideAuthentication]

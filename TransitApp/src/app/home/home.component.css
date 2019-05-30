@@ -1,5 +1,5 @@
 .timetable {
-    background-color: #c4a115;
+    background-color: #d6e22a;
     color: white;
     height: 250px;
     padding: 30px;
@@ -7,7 +7,19 @@
 }
 
 .timetable:hover {
-    background-color: #a08414;
+    background-color: #c0ca2e;
+}
+
+.hello-message {
+    background-color: #198f2d;
+    color: white;
+    height: 250px;
+    padding: 30px;
+    cursor: pointer;
+}
+
+.hello-message:hover {
+    background-color: #147524;
 }
 
 .login {

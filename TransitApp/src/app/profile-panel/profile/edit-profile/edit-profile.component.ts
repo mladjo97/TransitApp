@@ -1,10 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { AuthService } from 'src/app/_services/auth.service';
 import { UserService } from 'src/app/_services/user.service';
-import { Router } from '@angular/router';
 import { User } from 'src/app/_models/user.model';
 import { NotificationService } from 'src/app/_services/notification.service';
+import { UserType } from 'src/app/_models/user-type.model';
+import { AuthService } from 'src/app/_services/auth.service';
+
+// import js functions for date
+import * as mainScript from 'src/app/_scripts/main.js';
+declare var getDate: any;
+declare var setDate: any;
 
 @Component({
   selector: 'app-edit-profile',
@@ -15,6 +20,8 @@ export class EditProfileComponent implements OnInit {
   private user = new User();
   private genders = ['Male', 'Female'];
   private submitted: boolean = false;
+  private userTypes: UserType[];
+  private canChangeUserType: boolean = true;
 
   profileForm = new FormGroup({
     firstName: new FormControl(null),
@@ -22,30 +29,43 @@ export class EditProfileComponent implements OnInit {
     email: new FormControl(null),
     password: new FormControl(null),
     confirmPassword: new FormControl(null),
-    gender: new FormControl(null)
+    gender: new FormControl(null),
+    address: new FormControl(null),
+    userTypeId: new FormControl(null),
+    dateOfBirth: new FormControl(null)
   });
 
 
   constructor(private authService: AuthService,
               private userService: UserService,
-              private router: Router,
               private notificationService: NotificationService) { }
 
   ngOnInit() {
-    this.getUserInfo();
+    // check if user can change usertype
+    if(!this.authService.isUser())
+      this.canChangeUserType = false;
+    // get all user types
+    this.getUserTypes();
+    this.updateUserInfo();
   }
 
-  getUserInfo(): void {
+  getUserTypes(): void {
+    this.userService.getUserTypes().subscribe(
+      (response) => this.userTypes = response.json(),
+      (error) => console.log(error)
+    );
+  }
+
+  updateUserInfo(): void {
     this.userService.getUserInfo().subscribe(
       (response) => {
         let resJSON = response.json();
-        console.log(resJSON);
-        
-        this.user = new User(resJSON.FirstName,
-                             resJSON.LastName,
-                             resJSON.Email, 
-                             this.genders.indexOf(resJSON.Gender),
-                             null, null);
+        const date = new Date(resJSON.DateOfBirth);
+        setDate(date);
+
+        this.user = new User(resJSON.FirstName, resJSON.LastName, resJSON.Email, 
+                             this.genders.indexOf(resJSON.Gender), null, null, resJSON.Address,
+                             date, resJSON.UserTypeId);
 
         this.updateForm();        
       },
@@ -57,17 +77,27 @@ export class EditProfileComponent implements OnInit {
     );
   }
 
-  updateForm(): void {
+  formatDate(date: Date): string {
+    return `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`;
+  }
+
+  updateForm(): void {    
     this.profileForm.patchValue({
       firstName: this.user.firstName,
       lastName: this.user.lastName,
       email: this.user.email,
-      gender: this.user.gender
+      gender: this.user.gender,
+      userTypeId: this.user.userTypeId,
+      dateOfBirth: this.user.dateOfBirth,
+      address: this.user.address
     });
   }
 
   onSubmit() {
     this.submitted = true;
+    
+    // update date from datetimepicker
+    this.profileForm.patchValue({dateOfBirth: getDate()});
 
     this.userService.changeUserInfo(this.profileForm.value).subscribe(
       (response) => {

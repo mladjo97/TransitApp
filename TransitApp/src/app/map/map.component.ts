@@ -3,7 +3,7 @@ import { DrawService } from '../_services/draw.service';
 import { BusLine } from '../_models/busline.model';
 
 // javascript file to handle map interaction
-import * as mapJS from '../../assets/js/map.js';
+import * as mapJS from '../_scripts/map.js';
 import { OpenRouteService } from '../_services/open-route.service';
 declare var addStationOnMap: any;
 declare var addRouteOnMap: any;

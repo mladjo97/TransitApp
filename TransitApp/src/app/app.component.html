@@ -32,7 +32,7 @@
           <a class="nav-link" [routerLink]="['/login']" routerLinkActive="active"> Login</a>
         </li>
         <li *ngIf="!loggedIn" class="nav-item">
-          <a class="nav-link" [routerLink]="['/register']" routerLinkActive="active"> Register</a>
+          <a class="nav-link" id="registerNavButton" [routerLink]="['/register']" routerLinkActive="active"> Register</a>
         </li>
         <li *ngIf="loggedIn && isAdmin" class="nav-item">
           <a class="nav-link" [routerLink]="['/admin']" routerLinkActive="active"><i class="fas fa-user-shield"></i> Admin Panel</a>

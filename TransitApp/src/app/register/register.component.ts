@@ -5,10 +5,11 @@ import { User } from '../_models/user.model';
 import { RegisterService } from '../_services/register.service';
 import { NotificationService } from '../_services/notification.service';
 import { AuthService } from '../_services/auth.service';
-
-import * as $ from 'jquery';
 import { UserService } from '../_services/user.service';
 import { UserType } from '../_models/user-type.model';
+
+import * as mainScript from 'src/app/_scripts/main.js';
+declare var getDate: any;
 
 @Component({
   selector: 'app-register',
@@ -51,7 +52,6 @@ export class RegisterComponent implements OnInit {
   }
 
   onChange(userTypeId: number) {
-    console.log(userTypeId);
     let userType = this.userTypes.find((type) => {
       return type.Id == userTypeId;
     });
@@ -59,20 +59,26 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit(f: NgForm) {
+    // Check for date value
+    let date = getDate();
+    
+    // jesus christ man
+    this.user = new User(f.value.firstName, f.value.lastName, f.value.email, f.value.gender, 
+                         f.value.password, f.value.confirmPassword, f.value.address,
+                         date, f.value.userTypeId);
 
-    this.user = new User(f.value.firstName,
-                         f.value.lastName,
-                         f.value.email, 
-                         f.value.gender, 
-                         f.value.password,
-                         f.value.confirmPassword,
-                         f.value.address,
-                         new Date($('#dob').val()),
-                         f.value.userTypeId);
-
+    return;
     this.submitted = true;  // animation
 
+    // admin adding a new ticket inspector? 
     if(this.role == 'TicketInspector') {
+
+      // change to regular usertype id
+      let userType = this.userTypes.find((type) => {
+        return type.Name == "Regular";
+      });
+      this.user.userTypeId = userType.Id;
+
       this.registerService.registerTicketInspector(this.user).subscribe( 
         (response) => {
           this.submitted = false;  // animation

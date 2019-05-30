@@ -4,7 +4,7 @@ import { StationsService } from 'src/app/_services/station.service';
 import { NotificationService } from 'src/app/_services/notification.service';
 
 // javascript file to handle map interaction
-import * as mapJS from '../../../../assets/js/map.js';
+import * as mapJS from '../../../_scripts/map.js';
 declare var enableClickOnMap: any;
 declare var loadMap: any;
 

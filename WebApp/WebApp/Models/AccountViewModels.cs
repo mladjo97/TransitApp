@@ -39,6 +39,8 @@ namespace WebApp.Models
 
         public string Gender { get; set; }
 
+        public int UserTypeId { get; set; }
+
         public string UserType { get; set; }
     }
 

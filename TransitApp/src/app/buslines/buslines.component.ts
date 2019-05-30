@@ -7,7 +7,7 @@ import { BusLine } from '../_models/busline.model';
 import { DrawService } from '../_services/draw.service';
 
 // javascript file to handle map interaction
-import * as mapJS from '../../assets/js/map.js';
+import * as mapJS from '../_scripts/map.js';
 declare var removeLayersFromMap: any;
 
 @Component({

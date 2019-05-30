@@ -46,10 +46,9 @@
           </div>
           <div class="form-group">
             <label for="dob">Date of Birth</label>
-            <input type="text" class="form-control" id="dob" data-toggle="datepicker" placeholder="Date of Birth" ngModel name="dob" #dob="ngModel">
-            <span class="invalid-input" id="dob-input-warning"> Please enter your date of birth. </span>
+            <input type="text" class="form-control" name="birthday" value="31/01/1997"/>
           </div>
-          <div class="form-group">
+          <div class="form-group" *ngIf="role !== 'TicketInspector'">
             <label for="userTypeSelect">User Type</label>
             <select id="userTypeSelect" class="form-control" (change)="onChange($event.target.value)" ngModel name="userTypeId" #userTypeId="ngModel" required>
               <option *ngFor="let ut of userTypes" [value]="ut.Id"> {{ ut.Name }}</option>               

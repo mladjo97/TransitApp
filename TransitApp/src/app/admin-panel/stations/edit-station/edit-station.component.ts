@@ -6,7 +6,7 @@ import { ActivatedRoute, Router, Params } from '@angular/router';
 import { StationsService } from 'src/app/_services/station.service';
 
 // javascript file to handle map interaction
-import * as mapJS from '../../../../assets/js/map.js';
+import * as mapJS from '../../../_scripts/map.js';
 declare var addStationOnMap: any;
 declare var removeLayersFromMap: any;
 declare var enableClickOnMap: any;
