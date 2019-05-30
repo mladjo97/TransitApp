@@ -42,6 +42,7 @@ import { SingleUseTicketComponent } from './tickets/ticket-plans/single-use-tick
 import { DailyTicketComponent } from './tickets/ticket-plans/daily-ticket/daily-ticket.component';
 import { MonthlyTicketComponent } from './tickets/ticket-plans/monthly-ticket/monthly-ticket.component';
 import { AnnualTicketComponent } from './tickets/ticket-plans/annual-ticket/annual-ticket.component';
+import { tripleArray } from './_pipes/triple-array.pipe';
 
 
 @NgModule({
@@ -73,7 +74,8 @@ import { AnnualTicketComponent } from './tickets/ticket-plans/annual-ticket/annu
     SingleUseTicketComponent,
     DailyTicketComponent,
     MonthlyTicketComponent,
-    AnnualTicketComponent
+    AnnualTicketComponent,
+    tripleArray
   ],
   imports: [
     BrowserModule,

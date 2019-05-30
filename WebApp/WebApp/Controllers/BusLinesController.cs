@@ -159,7 +159,7 @@ namespace WebApp.Controllers
             // apply changes
             contextBusLine.BusLineStations = busLine.BusLineStations;
             
-            _unitOfWork.BusLineRepository.Update(busLine);
+            _unitOfWork.BusLineRepository.Update(contextBusLine);
 
             try
             {

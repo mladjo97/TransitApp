@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router'
 import { User } from '../_models/user.model';
@@ -8,6 +8,7 @@ import { AuthService } from '../_services/auth.service';
 import { UserService } from '../_services/user.service';
 import { UserType } from '../_models/user-type.model';
 
+// js files for date 
 import * as mainScript from 'src/app/_scripts/main.js';
 declare var getDate: any;
 

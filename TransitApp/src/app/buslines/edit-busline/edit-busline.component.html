@@ -36,10 +36,14 @@
               </div> 
               
               <label for="time">Time</label>
-              <div class="form-group row"> 
-                <input type="text" class="col-8 form-control" placeholder="Start time (ex: 07:45) (24h format)" #time>
+              <div class="form-group row">
+                <input type="text" class="col-3 form-control" placeholder="Time" #time>
                 <div class="col-1"></div>
-                <button type="button" class="col-2 btn btn-primary" (click)="onAddTime(time.value)"><i class="fas fa-plus"></i></button>
+                <select id="day" class="col-4 form-control" #day>
+                  <option *ngFor="let d of days; let i = index" [value]="i"> {{ d }} </option>               
+                </select>
+                <div class="col-1"></div>
+                <button type="button" class="col-2 btn btn-primary" (click)="onAddTime(time.value, day.value)"><i class="fas fa-plus"></i></button>
                 <span class="invalid-input" *ngIf="invalidTimeFormat"> Please enter a valid time. </span>
               </div> 
             
@@ -69,8 +73,8 @@
         <ul class="list-group" *ngIf="timetableActive">
           <h3><u>Timetable</u></h3>
           <li class="list-group-item timetable-time" *ngFor="let time of timetable"> 
-            {{ time.time._i }} 
-            <button type="button" class="btn btn-danger float-right" (click)="onRemoveTime(time.time._i)"><i class="fas fa-trash"></i></button> 
+            <small>{{ time.day }} - {{ time.time._i }}</small>  
+            <button type="button" class="btn btn-danger float-right" (click)="onRemoveTime(time.time._i, time.dayOfWeek)"><i class="fas fa-trash"></i></button> 
         </li>        
         </ul>
       </div>

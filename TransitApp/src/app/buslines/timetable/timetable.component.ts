@@ -13,12 +13,14 @@ export class TimetableComponent implements OnInit, OnDestroy {
   private id: number;
   private idSubscription: Subscription;
   private busLine: {} = {};
-  private formattedTimetable: Array<Array<string>> = new Array<Array<string>>();
+
+  private days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  private formattedTimetable: Array<Array<Array<string>>> = new Array<Array<Array<string>>>();
+  private singleDaySelected: Array<Array<string>> = new Array<Array<string>>();
 
   constructor (private route: ActivatedRoute, 
               private busLineService: BusLineService,
-              private router: Router) {                
-               }
+              private router: Router) { }
 
   ngOnInit() { 
     this.idSubscription = this.route.params.subscribe( 
@@ -48,32 +50,46 @@ export class TimetableComponent implements OnInit, OnDestroy {
     );
   }
 
-  formatTimetable(timetable: any) {
-    const keys = [];
+  onChange(day: string): void {
+    this.singleDaySelected = this.formattedTimetable[day];
+  }
 
+  formatTimetable(timetable: any) {
+    // add all days
+    for(let i = 0; i < this.days.length; i++) {
+      this.formattedTimetable[this.days[i]] = new Array();
+    }
+
+    // add all times
     for(let i = 0; i < timetable.length; i++) {
-      let time = moment.utc(timetable[i].Time).format("HH:mm"); 
       
-      let hour = time.split(':')[0];
-      let minute = time.split(':')[1];
-      
-      if(hour in this.formattedTimetable){
-        this.formattedTimetable[`${time.split(':')[0]}`].push(time.split(':')[1]);
+      const day = this.days[timetable[i].DayOfWeek];
+      const time = moment.utc(timetable[i].Time).format("HH:mm"); 
+      const hour = time.split(':')[0];
+      const minute = time.split(':')[1];
+
+      if(hour in this.formattedTimetable[day]) {
+        this.formattedTimetable[day][hour].push(minute);
       } else {
-        this.formattedTimetable[`${time.split(':')[0]}`] = new Array();
-        keys.push(`${time.split(':')[0]}`);
-        this.formattedTimetable[`${time.split(':')[0]}`].push(time.split(':')[1]);
+        this.formattedTimetable[day][hour] = new Array();
+        this.formattedTimetable[day][hour].push(minute);
+      }
+      
+    }
+    
+    // sort timetables by minute
+    for(let prop in this.formattedTimetable) {
+      for(let subprop in this.formattedTimetable[prop]){
+        this.formattedTimetable[prop][subprop].sort((a, b) => {
+          if(a < b) { return -1; }
+          if(a > b) { return 1; }
+          return 0;
+        });
       }
     }
 
-    // sort timetables by minute
-    for(var prop in this.formattedTimetable) {
-      this.formattedTimetable[prop].sort((a, b) => {
-        if(a < b) { return -1; }
-        if(a > b) { return 1; }
-        return 0;
-      });
-    }
+    // select 'Monday'
+    this.singleDaySelected = this.formattedTimetable[this.days[0]];
 
   }
 

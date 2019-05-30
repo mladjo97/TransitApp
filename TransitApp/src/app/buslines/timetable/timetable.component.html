@@ -1,5 +1,11 @@
 <h3><u>Timetable</u> <button type="button" class="btn btn-danger float-right" [routerLink]="['/timetables']">Hide</button></h3>
 <br>
+<div class="form-group">
+  <select id="daySelect" class="form-control" (change)="onChange($event.target.value)">
+    <option *ngFor="let day of days" [value]="day"> {{ day }}</option>               
+  </select>
+</div>
+<hr>
 <ul class="list-group">
-  <li class="list-group-item" *ngFor="let time of formattedTimetable | keyvalue" >{{ time.key }} <sup>{{ time.value}}</sup></li>  
+  <li class="list-group-item" *ngFor="let time of singleDaySelected | keyvalue" > {{ time.key }} <sup> {{ time.value }}</sup> </li>  
 </ul>

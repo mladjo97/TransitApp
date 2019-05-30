@@ -16,7 +16,7 @@ import { StationsService } from 'src/app/_services/station.service';
   styleUrls: ['./edit-busline.component.css']
 })
 export class EditBuslineComponent implements OnInit, OnDestroy {
-
+  private days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   private id: number;
   private previousPage: string;
 
@@ -78,7 +78,7 @@ export class EditBuslineComponent implements OnInit, OnDestroy {
       (response) => {
         // get busline information
         this.busLine = response.json();
-        
+
         // get busline stations
         for(let i = 0; i < this.busLine.BusLineStations.length; i++)
           this.stations.push(this.busLine.BusLineStations[i].Station);
@@ -97,7 +97,7 @@ export class EditBuslineComponent implements OnInit, OnDestroy {
         // update side timetable 
         for(let i = 0; i < this.busLine.Timetable.length; i++) {
           let time = moment.utc(this.busLine.Timetable[i].Time).format("HH:mm");
-          this.onAddTime(time);
+          this.onAddTime(time, this.busLine.Timetable[i].DayOfWeek);
         }
 
       },
@@ -144,7 +144,7 @@ export class EditBuslineComponent implements OnInit, OnDestroy {
     }
   }
 
-  onAddTime(time: string): void {
+  onAddTime(time: string, dayIndex: number): void {
 
     if(!this.validateTimeFormat(time)) {
       this.invalidTimeFormat = true;
@@ -152,11 +152,12 @@ export class EditBuslineComponent implements OnInit, OnDestroy {
     }
 
     this.invalidTimeFormat = false;;
-    let st = new StartTime(moment.utc(time, 'HH:mm'));
-
+    let st = new StartTime(moment.utc(time, 'HH:mm'), dayIndex, this.days[dayIndex]);
+    
     for(let i = 0; i < this.timetable.length; i++) {
       if((this.timetable[i].time.hours().toString() == st.time.hours().toString()) 
-         &&  (this.timetable[i].time.minutes().toString() == st.time.minutes().toString())) {
+         && (this.timetable[i].time.minutes().toString() == st.time.minutes().toString())
+         && (this.timetable[i].dayOfWeek == st.dayOfWeek)) {
            return;
          }
     }
@@ -168,14 +169,21 @@ export class EditBuslineComponent implements OnInit, OnDestroy {
     if(this.timetable.length > 0) {
       this.timetableActive = true;
     }
+
+    console.log(this.timetable);
   }
 
-  onRemoveTime(time: string): void {
-    let st = new StartTime(moment.utc(time, 'HH:mm'));
+  onRemoveTime(time: string, dayIndex: number): void {
+    console.log(this.timetable);
+    console.log(time);
+    console.log(dayIndex);
+    
+    let st = new StartTime(moment.utc(time, 'HH:mm'), dayIndex);
 
     for(let i = 0; i < this.timetable.length; i++) {
       if((this.timetable[i].time.hours().toString() == st.time.hours().toString()) 
-         &&  (this.timetable[i].time.minutes().toString() == st.time.minutes().toString())) {
+          &&  (this.timetable[i].time.minutes().toString() == st.time.minutes().toString())
+          && (this.timetable[i].dayOfWeek == st.dayOfWeek)) {
             this.timetable.splice(i, 1);
          }
     }  

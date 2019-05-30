@@ -20,6 +20,6 @@ namespace WebApp.Models
         [DataType(DataType.Date)]
         public DateTime Time { get; set; }
 
-        public DayOfWeek DayOfWeek { get; set; }
+        public DaysOfTheWeek DayOfWeek { get; set; }
     }
 }

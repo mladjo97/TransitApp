@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { BusLineService } from 'src/app/_services/busline.service';
 import { NgForm } from '@angular/forms';
 import { NotificationService } from 'src/app/_services/notification.service';
-import { AuthService } from 'src/app/_services/auth.service';
 import { Router } from '@angular/router';
 import { StartTime } from 'src/app/_models/start-time.model';
 import * as moment from 'moment';
@@ -15,7 +14,7 @@ import { Station } from 'src/app/_models/station.model';
   styleUrls: ['./add-busline.component.css']
 })
 export class AddBuslineComponent implements OnInit {
-
+  private days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   private busLineTypes: [] = [];
   private stationSelect: any[] = [];
   private stations: Station[] = [];
@@ -79,7 +78,7 @@ export class AddBuslineComponent implements OnInit {
     }
   }
 
-  onAddTime(time: string): void {
+  onAddTime(time: string, dayIndex: number): void {
 
     if(!this.validateTimeFormat(time)) {
       this.invalidTimeFormat = true;
@@ -87,11 +86,12 @@ export class AddBuslineComponent implements OnInit {
     }
 
     this.invalidTimeFormat = false;;
-    let st = new StartTime(moment.utc(time, 'HH:mm'));
-
+    let st = new StartTime(moment.utc(time, 'HH:mm'), dayIndex, this.days[dayIndex]);
+    
     for(let i = 0; i < this.timetable.length; i++) {
       if((this.timetable[i].time.hours().toString() == st.time.hours().toString()) 
-         &&  (this.timetable[i].time.minutes().toString() == st.time.minutes().toString())) {
+         && (this.timetable[i].time.minutes().toString() == st.time.minutes().toString())
+         && (this.timetable[i].dayOfWeek == st.dayOfWeek)) {
            return;
          }
     }
@@ -103,14 +103,17 @@ export class AddBuslineComponent implements OnInit {
     if(this.timetable.length > 0) {
       this.timetableActive = true;
     }
+
+    console.log(this.timetable);
   }
 
-  onRemoveTime(time: string): void {
-    let st = new StartTime(moment.utc(time, 'HH:mm'));
+  onRemoveTime(time: string, dayIndex: number): void {
+    let st = new StartTime(moment.utc(time, 'HH:mm'), dayIndex);
 
     for(let i = 0; i < this.timetable.length; i++) {
       if((this.timetable[i].time.hours().toString() == st.time.hours().toString()) 
-          &&  (this.timetable[i].time.minutes().toString() == st.time.minutes().toString())) {
+          &&  (this.timetable[i].time.minutes().toString() == st.time.minutes().toString())
+          && (this.timetable[i].dayOfWeek == st.dayOfWeek)) {
             this.timetable.splice(i, 1);
          }
     }  
