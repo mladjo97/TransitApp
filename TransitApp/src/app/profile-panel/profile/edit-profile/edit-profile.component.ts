@@ -8,6 +8,7 @@ import { AuthService } from 'src/app/_services/auth.service';
 
 // import js functions for date
 import * as mainScript from 'src/app/_scripts/main.js';
+import { Router } from '@angular/router';
 declare var getDate: any;
 declare var setDate: any;
 
@@ -103,6 +104,7 @@ export class EditProfileComponent implements OnInit {
       (response) => {
         this.submitted = false;
         this.notificationService.notifyEvent.emit('Successfully changed profile information');
+        this.notificationService.userEditedEvent.emit(true);
       },
 
       (error) => {

@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { Observable, of } from 'rxjs';
-import { PORT } from 'src/environments/app_config';
+import { API_ADDRESS } from 'src/environments/app_config';
 
 
 @Injectable()
 export class UserService {
-    private apiAccountAddress: string = `http://localhost:${PORT}/api/Account`;
+    private apiAccountAddress: string = `${API_ADDRESS}/Account`;
 
     constructor(private http: Http) {}
 
@@ -15,7 +15,7 @@ export class UserService {
     }
 
     getUserTypes(): Observable<any> {
-        return this.http.get(`http://localhost:${PORT}/api/UserTypes`);
+        return this.http.get(`${API_ADDRESS}/UserTypes`);
     }
 
     getUserInfo(): Observable<any> {

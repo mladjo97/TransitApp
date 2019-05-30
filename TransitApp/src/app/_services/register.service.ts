@@ -1,12 +1,12 @@
 import { User } from '../_models/user.model';
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http'
-import { PORT } from 'src/environments/app_config';
+import { API_ADDRESS } from 'src/environments/app_config';
 import { Observable } from 'rxjs';
 
 @Injectable()
 export class RegisterService {
-    private apiAddress: string = `http://localhost:${PORT}/api/Account/Register`;
+    private apiAddress: string = `${API_ADDRESS}/Account/Register`;
 
     constructor(private http: Http) { }
 

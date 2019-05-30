@@ -252,6 +252,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BusLinesController.cs" />
     <Compile Include="Controllers\BusLineTypesController.cs" />
+    <Compile Include="Controllers\DocumentImageController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\StationsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -369,6 +370,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Documents\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

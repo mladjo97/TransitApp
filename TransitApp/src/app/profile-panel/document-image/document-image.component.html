@@ -1,0 +1,29 @@
+<div class="container">
+  <h1 class="display-5">Document Image</h1>
+  <br>
+  <img [src]="imagePath" height="300" width="300" style="margin: 6px">
+
+  <br>
+  <button type="submit" (click)="onDelete()" class="btn btn-danger" [disabled]="!hasImage">
+      <span *ngIf="deleting" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Delete current image
+    </button>
+  <br><br>
+
+  <p class="lead">Choose Document Image (.jpg or .png format)</p>  
+  <div class="form-group">  
+    <input type="file"
+          id="file"
+          (change)="handleFileInput($event.target.files)"
+          accept="image/x-png,image/gif,image/jpeg">
+  </div>
+
+  <button id="registerButton" type="submit" (click)="onSubmit()" class="btn btn-primary" [disabled]="!canUpload">
+    <span *ngIf="submitted" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    Upload document image
+  </button>
+  <br>
+  
+</div>
+  
+

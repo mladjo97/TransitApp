@@ -18,7 +18,6 @@ using System.Web;
 using System.Web.Http;
 using WebApp.Models;
 using WebApp.Persistence;
-using WebApp.Persistence.UnitOfWork;
 using WebApp.Providers;
 using WebApp.Results;
 
@@ -139,13 +138,13 @@ namespace WebApp.Controllers
             var httpRequest = HttpContext.Current.Request;
             model = JsonConvert.DeserializeObject<RegisterBindingModel>(httpRequest.Form[0]);
 
-            UserType type = new UserType();
-            using (var db = new ApplicationDbContext())
-            {
-                type = db.UserTypes.FirstOrDefault(x => x.Id == model.UserTypeId);
-            }
+            //UserType type = new UserType();
+            //using (var db = new ApplicationDbContext())
+            //{
+            //    type = db.UserTypes.FirstOrDefault(x => x.Id == model.UserTypeId);
+            //}
 
-            model.UserTypeId = type.Id;
+            //model.UserTypeId = type.Id;
 
             ModelState.Clear();
             Validate(model);
@@ -154,6 +153,41 @@ namespace WebApp.Controllers
             {
                 return BadRequest(ModelState);
             }
+
+            var user = new ApplicationUser()
+            {
+                UserName = model.Email,
+                Email = model.Email,
+                Address = model.Address,
+                DateOfBirth = model.DateOfBirth,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Gender = (Gender)model.Gender,
+                PasswordHash = ApplicationUser.HashPassword(model.Password),
+                UserTypeId = model.UserTypeId
+            };
+
+            IdentityResult result = await UserManager.CreateAsync(user);
+
+            if (!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
+            else
+            {
+                ApplicationUser addedUser = UserManager.FindByName(user.UserName);
+
+                IdentityResult roleResult = await UserManager.AddToRoleAsync(addedUser.Id, "User");
+
+                if (!roleResult.Succeeded)
+                {
+                    return GetErrorResult(roleResult);
+                }
+
+            }
+
+            // add image if any
+            ApplicationUser currentUser = UserManager.FindByName(user.UserName);
 
             foreach (string file in httpRequest.Files)
             {
@@ -172,45 +206,11 @@ namespace WebApp.Controllers
                     }
                     else
                     {
-                        var filePath = HttpContext.Current.Server.MapPath("~/Content/" + postedFile.FileName);
-                        model.DocumentImageUrl = $"Content/{postedFile.FileName}";
+                        var filePath = HttpContext.Current.Server.MapPath($"~/Content/{currentUser.Id}/{postedFile.FileName}");
+                        model.DocumentImageUrl = $"~/Content/{currentUser.Id}/{postedFile.FileName}";
                         postedFile.SaveAs(filePath);
                     }
                 }
-            }
-
-            var user = new ApplicationUser()
-            {
-                UserName = model.Email,
-                Email = model.Email,
-                Address = model.Address,
-                DateOfBirth = model.DateOfBirth,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                Gender = (Gender)model.Gender,
-                DocumentImageUrl = model.DocumentImageUrl,
-                PasswordHash = ApplicationUser.HashPassword(model.Password),
-                UserTypeId = type.Id,
-                UserType = type
-            };
-
-            IdentityResult result = await UserManager.CreateAsync(user);
-
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
-            else
-            {
-                ApplicationUser currentUser = UserManager.FindByName(user.UserName);
-
-                IdentityResult roleResult = await UserManager.AddToRoleAsync(currentUser.Id, "User");
-
-                if (!roleResult.Succeeded)
-                {
-                    return GetErrorResult(roleResult);
-                }
-
             }
 
             return Ok();

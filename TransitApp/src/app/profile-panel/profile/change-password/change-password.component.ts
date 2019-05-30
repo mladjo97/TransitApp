@@ -30,6 +30,8 @@ export class ChangePasswordComponent implements OnInit {
       (error) => {
         this.submitted = false;
 
+        this.notificationService.notifyEvent.emit('An error ocurred during password change. Please, try again and check every input.');
+
         if(error.status !== 0){
           // Notify the user about errors from WebAPI (validation error reply)
           let regReply = JSON.parse(error._body);
@@ -40,9 +42,7 @@ export class ChangePasswordComponent implements OnInit {
               this.notificationService.notifyEvent.emit(errorMessages[i][0]);
             }
           }
-        } else {
-          this.notificationService.notifyEvent.emit('An error ocurred during password change. The server is probably down.');
-        }
+        } 
         
       }
     );

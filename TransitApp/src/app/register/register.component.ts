@@ -11,6 +11,7 @@ import { UserType } from '../_models/user-type.model';
 // js files for date 
 import * as mainScript from 'src/app/_scripts/main.js';
 declare var getDate: any;
+declare var initDatePicker: any;
 
 @Component({
   selector: 'app-register',
@@ -33,6 +34,8 @@ export class RegisterComponent implements OnInit {
               private userService: UserService) { }
 
   ngOnInit() {
+    initDatePicker();
+
     if(this.authService.isLoggedIn()) {
       if(!this.authService.isAdmin()) {
         this.router.navigate(['/']);  // go back unless it's an admin adding a new ticket inspector
@@ -68,7 +71,6 @@ export class RegisterComponent implements OnInit {
                          f.value.password, f.value.confirmPassword, f.value.address,
                          date, f.value.userTypeId);
 
-    return;
     this.submitted = true;  // animation
 
     // admin adding a new ticket inspector? 

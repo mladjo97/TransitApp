@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebApp.Models;
-using WebApp.Persistence;
 using WebApp.Persistence.UnitOfWork;
 
 namespace WebApp.Controllers

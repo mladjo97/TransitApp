@@ -27,6 +27,9 @@ import { SingleUseTicketComponent } from './tickets/ticket-plans/single-use-tick
 import { DailyTicketComponent } from './tickets/ticket-plans/daily-ticket/daily-ticket.component';
 import { MonthlyTicketComponent } from './tickets/ticket-plans/monthly-ticket/monthly-ticket.component';
 import { AnnualTicketComponent } from './tickets/ticket-plans/annual-ticket/annual-ticket.component';
+import { DocumentImageComponent } from './profile-panel/document-image/document-image.component';
+import { InspectorRoleGuard } from './_guards/inspector-role.guard';
+import { UserRoleGuard } from './_guards/user-role.guard';
 
 const appRoutes: Routes = [
 
@@ -38,7 +41,8 @@ const appRoutes: Routes = [
       children: [
       { path: '', component: ProfileComponent },
       { path: 'edit', component: EditProfileComponent },
-      { path: 'changepassword', component: ChangePasswordComponent }
+      { path: 'changepassword', component: ChangePasswordComponent },
+      { path: 'document', component: DocumentImageComponent, canActivate: [UserRoleGuard] }
     ] },
 
     { path:'admin', component: AdminPanelComponent, canActivate: [AuthGuard, AdminRoleGuard], children: [

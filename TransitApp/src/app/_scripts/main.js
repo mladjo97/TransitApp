@@ -19,9 +19,26 @@ $(document).ready(function() {
          var dt = new Date(Date.parse(start));
          let options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
          let formattedStart = dt.toLocaleString("en-GB", options);
-         console.log(formattedStart);
       });
 });
+
+function initDatePicker() {
+    // init datetime picker
+    $('input[name="birthday"]').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true,
+        minYear: 1901,
+        maxYear: parseInt(moment().format('YYYY'),10),
+        locale: {
+            format: 'DD/MM/YYYY'
+        }
+    }, function(start, end, label) {
+        // da datum bude lepsi
+        var dt = new Date(Date.parse(start));
+        let options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+        let formattedStart = dt.toLocaleString("en-GB", options);
+    });
+}
 
 function getDate() {
     var dt = new Date(Date.parse( $('input[name="birthday"]').data('daterangepicker').startDate));
@@ -46,6 +63,5 @@ function setDate(date){
          var dt = new Date(Date.parse(start));
          let options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
          let formattedStart = dt.toLocaleString("en-GB", options);
-         console.log(formattedStart);
       });
 }

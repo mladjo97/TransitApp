@@ -34,12 +34,11 @@ export class LoginComponent implements OnInit {
 
       (error) => {
         this.submitted = false;  // animation 
-
+        this.notificationService.notifyEvent.emit('An error ocurred while trying to log in. The server is probably down.');
+        console.log(error);
         if(error.status !== 0){
           let errorBody = JSON.parse(error._body);
           this.notificationService.notifyEvent.emit(errorBody.error_description);
-        } else {
-          this.notificationService.notifyEvent.emit('An error ocurred while trying to log in. The server is probably down.');
         }        
       }
     );

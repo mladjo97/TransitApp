@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SnackbarService } from 'ngx-snackbar';
 import { NotificationService } from './_services/notification.service';
-import { AuthService } from './_services/auth.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -10,50 +8,17 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  private loggedIn: boolean;
-  private isAdmin: boolean;
+
 
   constructor(private notificationService: NotificationService, 
-              private snackbarService: SnackbarService,
-              private authService: AuthService,
-              private router: Router) { }
+              private snackbarService: SnackbarService) { }
 
   ngOnInit() {
     // observables
     this.notificationService.notifyEvent.subscribe((message: string) => this.onNotify(message));
-    this.notificationService.sessionEvent.subscribe(
-      (loggedIn: boolean) =>  { 
-        this.loggedIn = loggedIn;
-        this.isAdmin = this.authService.isAdmin();
-    });
-
-    // session
-    this.loggedIn = this.authService.isLoggedIn();
-    this.isAdmin = this.authService.isAdmin();
+    
   }
-
-  onLogout() {
-    if(this.authService.isLoggedIn()) {
-      this.authService.logOut().subscribe(
-        (response) => {
-          console.log(response);
-          this.loggedIn = false;
-          this.onNotify('You have successfully logged out.');
-          this.router.navigate(['/']); 
-        },
-
-        (error) => {
-          console.log(error);
-          this.onNotify('An error ocurred while logging out.');
-          this.router.navigate(['/']); 
-        }
-      );
-      
-    } else {
-      this.onNotify('You are not logged in.'); // ovo se nikad ni nece desiti, but better safe than sure
-    }
-  }
-
+  
   onNotify(message: string) {
     this.snackbarService.clear();
     const _this = this;

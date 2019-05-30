@@ -2,11 +2,11 @@ import { Response, Http, Headers } from '@angular/http'
 import { AuthData } from '../_models/auth-data.model';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { PORT } from 'src/environments/app_config'
+import { API_ADDRESS } from 'src/environments/app_config'
 
 @Injectable()
 export class AuthService{
-    private logOutAddress: string = `http://localhost:${PORT}/api/Account/Logout`;
+    private logOutAddress: string = `${API_ADDRESS}/Account/Logout`;
 
     constructor(private http: Http) { }
 
@@ -52,6 +52,21 @@ export class AuthService{
         let role = JSON.parse(token).role;
 
         if (role=="Admin") {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    isTicketInspector(): boolean {
+        if(!this.isLoggedIn()) {
+            return false;
+        }
+
+        let token = localStorage.getItem('token');
+        let role = JSON.parse(token).role;
+
+        if (role=="Ticket Inspector") {
             return true;
         } else {
             return false;

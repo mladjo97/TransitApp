@@ -43,6 +43,9 @@ import { DailyTicketComponent } from './tickets/ticket-plans/daily-ticket/daily-
 import { MonthlyTicketComponent } from './tickets/ticket-plans/monthly-ticket/monthly-ticket.component';
 import { AnnualTicketComponent } from './tickets/ticket-plans/annual-ticket/annual-ticket.component';
 import { tripleArray } from './_pipes/triple-array.pipe';
+import { DocumentImageComponent } from './profile-panel/document-image/document-image.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { DocumentImageService } from './_services/document-image.service';
 
 
 @NgModule({
@@ -75,7 +78,9 @@ import { tripleArray } from './_pipes/triple-array.pipe';
     DailyTicketComponent,
     MonthlyTicketComponent,
     AnnualTicketComponent,
-    tripleArray
+    tripleArray,
+    DocumentImageComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
@@ -94,7 +99,8 @@ import { tripleArray } from './_pipes/triple-array.pipe';
     UserService,
     NotificationService,
     DrawService,
-    OpenRouteService
+    OpenRouteService,
+    DocumentImageService
   ],
   bootstrap: [AppComponent]
 })
