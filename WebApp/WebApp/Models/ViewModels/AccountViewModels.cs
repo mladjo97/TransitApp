@@ -42,6 +42,10 @@ namespace WebApp.Models.ViewModels
         public int UserTypeId { get; set; }
 
         public string UserType { get; set; }
+
+        public bool VerifiedDocumentImage { get; set; }
+
+        public string DocumentImageUrl { get; set; }
     }
 
     public class UserLoginInfoViewModel

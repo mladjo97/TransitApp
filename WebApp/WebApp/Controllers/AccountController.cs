@@ -81,7 +81,9 @@ namespace WebApp.Controllers
                 Address = currentUser.Address,
                 Gender = currentUser.Gender.ToString(),
                 UserType = type.Name,
-                UserTypeId = type.Id
+                UserTypeId = type.Id,
+                VerifiedDocumentImage = currentUser.VerifiedDocumentImage,
+                DocumentImageUrl = currentUser.DocumentImageUrl
             };
         }
 

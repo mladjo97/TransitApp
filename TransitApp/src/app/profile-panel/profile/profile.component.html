@@ -1,9 +1,5 @@
 <div class="container">
   <div class="row" *ngIf="userLoaded">
-      <!-- <div class="col-sm-2 col-md-2">
-          <img src="http://thetransformedmale.files.wordpress.com/2011/06/bruce-wayne-armani.jpg"
-          alt="" class="img-rounded img-responsive" />
-      </div> -->
       <div class="col-sm-8 col-md-8">
           <blockquote>
               <h3>{{ user?.FirstName }} {{ user?.LastName }} </h3> <p> <i class="fas fa-map-marker-alt"></i> {{ user?.Address }} </p>
@@ -14,6 +10,10 @@
             <i class="fas fa-venus-mars"></i> {{ user?.Gender }}
             <br>
             <i class="fas fa-birthday-cake"></i> {{ user?.DateOfBirth }}
+            <br>
+            <i class="fas fa-images" *ngIf="isUser"></i>   
+            <a [routerLink]="['document']" *ngIf="verified && isUser" class="badge badge-success">Verified</a>
+            <a [routerLink]="['document']" *ngIf="!verified && isUser" class="badge badge-danger">Not Verified</a>
           </p>
       </div>
   </div>
