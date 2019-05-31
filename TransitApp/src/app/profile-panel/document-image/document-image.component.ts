@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DocumentImageService } from 'src/app/_services/document-image.service';
 import { NotificationService } from 'src/app/_services/notification.service';
-import { PORT } from 'src/environments/app_config';
+import { PORT, DEFAULT_IMAGE } from 'src/environments/app_config';
 
 @Component({
   selector: 'app-document-image',
@@ -20,10 +20,14 @@ export class DocumentImageComponent implements OnInit {
               private notificationService: NotificationService) { }
 
   ngOnInit() {
+    this.loadData();
+  }
+
+  loadData(): void {
     this.canUpload = false;
     this.submitted = false;
     this.deleting = false;
-    this.imagePath = 'http://localhost:4200/assets/img/no_document.png'; // u config negde ovo pomeriti
+    this.imagePath = DEFAULT_IMAGE;
 
     this.docImageService.getImage().subscribe(
       (response) => {
@@ -34,7 +38,6 @@ export class DocumentImageComponent implements OnInit {
         this.hasImage = false;
       }
     );
-
   }
 
   handleFileInput(files: FileList) {
@@ -62,7 +65,7 @@ export class DocumentImageComponent implements OnInit {
         (response) => {
           this.notificationService.notifyEvent.emit('Successfully uploaded photo.');
           this.submitted = false;
-          this.ngOnInit();
+          this.loadData();
         },
         (error) => { 
           this.notificationService.notifyEvent.emit('An error occurred while uploading the image. Please, try again.');
@@ -74,7 +77,7 @@ export class DocumentImageComponent implements OnInit {
         (response) => {
           this.notificationService.notifyEvent.emit('Successfully uploaded a new photo.');
           this.submitted = false;
-          this.ngOnInit();
+          this.loadData();
         },
         (error) => { 
           this.notificationService.notifyEvent.emit('An error occurred while uploading the image. Please, try again.');
@@ -90,7 +93,8 @@ export class DocumentImageComponent implements OnInit {
     this.docImageService.deleteImage().subscribe(
       (response) => {
         this.notificationService.notifyEvent.emit('Successfully deleted your document image.');
-        this.ngOnInit();
+        this.loadData();
+        this.deleting = false;
       },
       (error) => {
         this.notificationService.notifyEvent.emit('An error occurred while deleting the image. Please, try again.');

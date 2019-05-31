@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -17,6 +18,8 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using WebApp.Models;
+using WebApp.Models.BindingModels;
+using WebApp.Models.ViewModels;
 using WebApp.Persistence;
 using WebApp.Providers;
 using WebApp.Results;
@@ -138,14 +141,6 @@ namespace WebApp.Controllers
             var httpRequest = HttpContext.Current.Request;
             model = JsonConvert.DeserializeObject<RegisterBindingModel>(httpRequest.Form[0]);
 
-            //UserType type = new UserType();
-            //using (var db = new ApplicationDbContext())
-            //{
-            //    type = db.UserTypes.FirstOrDefault(x => x.Id == model.UserTypeId);
-            //}
-
-            //model.UserTypeId = type.Id;
-
             ModelState.Clear();
             Validate(model);
 
@@ -164,7 +159,8 @@ namespace WebApp.Controllers
                 LastName = model.LastName,
                 Gender = (Gender)model.Gender,
                 PasswordHash = ApplicationUser.HashPassword(model.Password),
-                UserTypeId = model.UserTypeId
+                UserTypeId = model.UserTypeId,
+                VerifiedDocumentImage = false
             };
 
             IdentityResult result = await UserManager.CreateAsync(user);
@@ -186,13 +182,10 @@ namespace WebApp.Controllers
 
             }
 
-            // add image if any
             ApplicationUser currentUser = UserManager.FindByName(user.UserName);
 
             foreach (string file in httpRequest.Files)
             {
-                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created);
-
                 var postedFile = httpRequest.Files[file];
                 if (postedFile != null && postedFile.ContentLength > 0)
                 {
@@ -206,9 +199,33 @@ namespace WebApp.Controllers
                     }
                     else
                     {
-                        var filePath = HttpContext.Current.Server.MapPath($"~/Content/{currentUser.Id}/{postedFile.FileName}");
-                        model.DocumentImageUrl = $"~/Content/{currentUser.Id}/{postedFile.FileName}";
-                        postedFile.SaveAs(filePath);
+                        var filePath = HttpContext.Current.Server.MapPath($"~/Documents/{currentUser.Id}_{postedFile.FileName}");
+
+                        if (File.Exists(filePath))
+                        {
+                            return BadRequest();
+                        }
+
+                        currentUser.DocumentImageUrl = $"/Documents/{currentUser.Id}_{postedFile.FileName}";
+
+                        IdentityResult updateResult = UserManager.Update(currentUser);
+
+                        if (updateResult.Succeeded)
+                        {
+                            try
+                            {
+                                postedFile.SaveAs(filePath);
+                            }
+                            catch (Exception e)
+                            {
+                                return InternalServerError();
+                            }
+
+                        }
+                        else
+                        {
+                            return InternalServerError();
+                        }
                     }
                 }
             }
@@ -246,7 +263,8 @@ namespace WebApp.Controllers
                 Gender = (Gender)model.Gender,
                 PasswordHash = ApplicationUser.HashPassword(model.Password),
                 UserTypeId = type.Id,
-                UserType = type
+                UserType = type,
+                VerifiedDocumentImage = false
             };
 
             IdentityResult result = await UserManager.CreateAsync(user);

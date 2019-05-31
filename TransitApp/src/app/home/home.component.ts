@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
 import { User } from '../_models/user.model';
 import { UserService } from '../_services/user.service';
+import { NotificationService } from '../_services/notification.service';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +14,8 @@ export class HomeComponent implements OnInit {
   private isLoggedIn: boolean = false;
 
   constructor(private authService: AuthService,
-              private userService: UserService) { }
+              private userService: UserService,
+              private notificationService: NotificationService) { }
 
   ngOnInit() {
     this.isLoggedIn = this.authService.isLoggedIn();
@@ -26,6 +28,12 @@ export class HomeComponent implements OnInit {
         (error) => console.log(error)
       );
     }
+
+    // listen to logout
+    this.notificationService.sessionEvent.subscribe(
+      (loggedIn: boolean) =>  { 
+        this.isLoggedIn = loggedIn;
+    });
     
   }
 

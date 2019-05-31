@@ -104,7 +104,8 @@ namespace WebApp.Migrations
                     DateOfBirth = new DateTime(1997, 1, 31),
                     Address = "Bulevar Oslobodjenja",
                     UserTypeId = regularUserType.Id,
-                    UserType = regularUserType
+                    UserType = regularUserType,
+                    VerifiedDocumentImage = false
                 };
                 userManager.Create(user);
                 userManager.AddToRole(user.Id, "Admin");
@@ -124,7 +125,8 @@ namespace WebApp.Migrations
                     DateOfBirth = new DateTime(1995, 3, 16),
                     Address = "Bulevar Evrope",
                     UserTypeId = regularUserType.Id,
-                    UserType = regularUserType
+                    UserType = regularUserType,
+                    VerifiedDocumentImage = false
                 };
 
                 userManager.Create(user);
@@ -145,7 +147,8 @@ namespace WebApp.Migrations
                     DateOfBirth = new DateTime(1995, 3, 16),
                     Address = "Bulevar Cara Dusana",
                     UserTypeId = regularUserType.Id,
-                    UserType = regularUserType
+                    UserType = regularUserType,
+                    VerifiedDocumentImage = false
                 };
 
                 userManager.Create(user);

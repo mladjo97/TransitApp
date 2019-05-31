@@ -252,7 +252,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BusLinesController.cs" />
     <Compile Include="Controllers\BusLineTypesController.cs" />
-    <Compile Include="Controllers\DocumentImageController.cs" />
+    <Compile Include="Controllers\DocumentImagesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\StationsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -274,9 +274,13 @@
     <Compile Include="Migrations\201905282037386_AddedUserTypesAndDocumentImageUrl.Designer.cs">
       <DependentUpon>201905282037386_AddedUserTypesAndDocumentImageUrl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905311114421_AddedVerifiedDocumentImage.cs" />
+    <Compile Include="Migrations\201905311114421_AddedVerifiedDocumentImage.Designer.cs">
+      <DependentUpon>201905311114421_AddedVerifiedDocumentImage.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BindingModels\AccountBindingModels.cs" />
-    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\BindingModels\BusLineBindingModels.cs" />
     <Compile Include="Models\BusLine.cs" />
@@ -286,6 +290,7 @@
     <Compile Include="Models\StartTime.cs" />
     <Compile Include="Models\Station.cs" />
     <Compile Include="Models\UserType.cs" />
+    <Compile Include="Models\ViewModels\DocumentImageViewModels.cs" />
     <Compile Include="Persistence\ApplicationDbContext.cs" />
     <Compile Include="Persistence\Repository\BusLineRepository.cs" />
     <Compile Include="Persistence\Repository\BusLineStationsRepository.cs" />
@@ -413,6 +418,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905282037386_AddedUserTypesAndDocumentImageUrl.resx">
       <DependentUpon>201905282037386_AddedUserTypesAndDocumentImageUrl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905311114421_AddedVerifiedDocumentImage.resx">
+      <DependentUpon>201905311114421_AddedVerifiedDocumentImage.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

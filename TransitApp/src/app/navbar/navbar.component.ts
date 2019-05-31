@@ -11,21 +11,29 @@ import { Router } from '@angular/router';
 export class NavbarComponent implements OnInit {
   private loggedIn: boolean;
   private isAdmin: boolean;
+  private isTicketInspector: boolean;
 
   constructor(private notificationService: NotificationService,
               private authService: AuthService,
               private router: Router) { }
 
   ngOnInit() {
+    this.loadData();
+  }
+
+  loadData(): void {
+    // listen to logout
     this.notificationService.sessionEvent.subscribe(
       (loggedIn: boolean) =>  { 
         this.loggedIn = loggedIn;
         this.isAdmin = this.authService.isAdmin();
+        this.isTicketInspector = this.authService.isTicketInspector();
     });
 
     // session
     this.loggedIn = this.authService.isLoggedIn();
     this.isAdmin = this.authService.isAdmin();
+    this.isTicketInspector = this.authService.isTicketInspector();
   }
 
   onLogout() {
@@ -35,7 +43,7 @@ export class NavbarComponent implements OnInit {
           console.log(response);
           this.loggedIn = false;
           this.notificationService.notifyEvent.emit('You have successfully logged out.');
-          this.ngOnInit();
+          this.loadData();
           this.router.navigate(['/']); 
         },
 

@@ -34,6 +34,9 @@
         <li *ngIf="!loggedIn" class="nav-item">
           <a class="nav-link" id="registerNavButton" [routerLink]="['/register']" routerLinkActive="active"> Register</a>
         </li>
+        <li *ngIf="loggedIn && isTicketInspector" class="nav-item">
+          <a class="nav-link" [routerLink]="['/inspector']" routerLinkActive="active"><i class="fas fa-user-shield"></i> Inspector Panel</a>
+        </li>
         <li *ngIf="loggedIn && isAdmin" class="nav-item">
           <a class="nav-link" [routerLink]="['/admin']" routerLinkActive="active"><i class="fas fa-user-shield"></i> Admin Panel</a>
         </li>

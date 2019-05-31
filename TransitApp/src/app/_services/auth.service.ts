@@ -66,7 +66,7 @@ export class AuthService{
         let token = localStorage.getItem('token');
         let role = JSON.parse(token).role;
 
-        if (role=="Ticket Inspector") {
+        if (role=="TicketInspector") {
             return true;
         } else {
             return false;

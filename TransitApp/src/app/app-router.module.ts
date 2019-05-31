@@ -30,6 +30,9 @@ import { AnnualTicketComponent } from './tickets/ticket-plans/annual-ticket/annu
 import { DocumentImageComponent } from './profile-panel/document-image/document-image.component';
 import { InspectorRoleGuard } from './_guards/inspector-role.guard';
 import { UserRoleGuard } from './_guards/user-role.guard';
+import { InspectorPanelComponent } from './inspector-panel/inspector-panel.component';
+import { DocumentsComponent } from './inspector-panel/documents/documents.component';
+import { DocumentComponent } from './inspector-panel/documents/document/document.component';
 
 const appRoutes: Routes = [
 
@@ -55,6 +58,10 @@ const appRoutes: Routes = [
         { path:':id', component: StationComponent }
       ] },
     ]},
+
+    { path: 'inspector', component: InspectorPanelComponent, canActivate:[AuthGuard, InspectorRoleGuard], children: [
+      { path: 'documents', component: DocumentsComponent }
+    ] },
     
     { path: 'timetables/edit/:id', component: EditBuslineComponent, canActivate: [AuthGuard, AdminRoleGuard] },
     { path: 'timetables', component: TimetablesComponent, children: [

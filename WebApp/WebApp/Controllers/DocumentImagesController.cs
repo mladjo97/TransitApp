@@ -3,17 +3,19 @@ using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using WebApp.Models;
+using WebApp.Models.ViewModels;
 using WebApp.Persistence.UnitOfWork;
 
 namespace WebApp.Controllers
 {
-    [RoutePrefix("api/DocumentImage")]
-    public class DocumentImageController : ApiController
+    [RoutePrefix("api/DocumentImages")]
+    public class DocumentImagesController : ApiController
     {
         private readonly IUnitOfWork _unitOfWork;
         private ApplicationUserManager _userManager;
@@ -30,9 +32,110 @@ namespace WebApp.Controllers
             }
         }
 
-        public DocumentImageController(IUnitOfWork unitOfWork)
+        public DocumentImagesController(IUnitOfWork unitOfWork)
         {
             this._unitOfWork = unitOfWork;
+        }
+
+        [HttpGet]
+        [Route("all")]
+        [Authorize(Roles = "TicketInspector, Admin")]
+        public IEnumerable<DocumentImageViewModel> GetAll()
+        {
+            IList<ApplicationUser> users = UserManager.Users.ToList();
+            IList<DocumentImageViewModel> documentInformation = new List<DocumentImageViewModel>();
+
+            foreach(var user in users)
+            {
+                if(!user.VerifiedDocumentImage && !String.IsNullOrEmpty(user.DocumentImageUrl))
+                {
+                    DocumentImageViewModel document = new DocumentImageViewModel()
+                    {
+                        UserId = user.Id,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        DocumentImageUrl = user.DocumentImageUrl
+                    };
+
+                    documentInformation.Add(document);
+                }
+            }
+
+            return documentInformation;
+        }
+
+        [HttpPost]
+        [Route("Verify")]
+        [Authorize(Roles = "TicketInspector, Admin")]
+        public IHttpActionResult Verify([FromUri]string userId)
+        {
+            ApplicationUser currentUser = UserManager.FindById(userId);
+
+            if (currentUser == null)
+            {
+                return BadRequest();
+            }
+
+            if (String.IsNullOrEmpty(currentUser.DocumentImageUrl))
+            {
+                return NotFound();
+            }
+
+            currentUser.VerifiedDocumentImage = true;
+
+            IdentityResult result = UserManager.Update(currentUser);
+
+            if (!result.Succeeded)
+            {
+                return InternalServerError();
+            }
+
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("Reject")]
+        [Authorize(Roles = "TicketInspector, Admin")]
+        public IHttpActionResult Reject([FromUri]string userId)
+        {
+            ApplicationUser currentUser = UserManager.FindById(userId);
+
+            if (currentUser == null)
+            {
+                return BadRequest();
+            }
+
+            if (String.IsNullOrEmpty(currentUser.DocumentImageUrl))
+            {
+                return NotFound();
+            }
+
+            var userImageFilePath = HttpContext.Current.Server.MapPath($"~/{currentUser.DocumentImageUrl}");
+            if (!File.Exists(userImageFilePath))
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                File.Delete(userImageFilePath);
+
+                currentUser.VerifiedDocumentImage = false;
+                currentUser.DocumentImageUrl = null;
+
+                IdentityResult updateResult = UserManager.Update(currentUser);
+
+                if (!updateResult.Succeeded)
+                {
+                    return InternalServerError();
+                }
+            }
+            catch (Exception e)
+            {
+                return InternalServerError();
+            }
+
+            return Ok();
         }
 
         [HttpGet]

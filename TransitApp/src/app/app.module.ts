@@ -46,6 +46,11 @@ import { tripleArray } from './_pipes/triple-array.pipe';
 import { DocumentImageComponent } from './profile-panel/document-image/document-image.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { DocumentImageService } from './_services/document-image.service';
+import { InspectorPanelComponent } from './inspector-panel/inspector-panel.component';
+import { InspectorSidebarComponent } from './inspector-panel/inspector-sidebar/inspector-sidebar.component';
+import { DocumentsComponent } from './inspector-panel/documents/documents.component';
+import { DocumentComponent } from './inspector-panel/documents/document/document.component';
+import { ProfileSidebarComponent } from './profile-panel/profile-sidebar/profile-sidebar.component';
 
 
 @NgModule({
@@ -80,7 +85,12 @@ import { DocumentImageService } from './_services/document-image.service';
     AnnualTicketComponent,
     tripleArray,
     DocumentImageComponent,
-    NavbarComponent
+    NavbarComponent,
+    InspectorPanelComponent,
+    InspectorSidebarComponent,
+    DocumentsComponent,
+    DocumentComponent,
+    ProfileSidebarComponent
   ],
   imports: [
     BrowserModule,
