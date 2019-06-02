@@ -5,7 +5,9 @@ using System.Web.Http.Dependencies;
 using Unity;
 using Unity.Lifetime;
 using WebApp.Persistence;
-using WebApp.Persistence.Repository;
+using WebApp.Persistence.Repository.BusLineRepository;
+using WebApp.Persistence.Repository.TicketRepository;
+using WebApp.Persistence.Repository.UserRepository;
 using WebApp.Persistence.UnitOfWork;
 
 namespace WebApp.App_Start
@@ -60,12 +62,20 @@ namespace WebApp.App_Start
             // container.LoadConfiguration();
 
             // TODO: Register your type's mappings here.
+            container.RegisterType<IUserRepository, UserRepository>();
             container.RegisterType<IBusLineRepository, BusLineRepository>();
             container.RegisterType<IStationRepository, StationRepository>();
             container.RegisterType<IBusLineStationsRepository, BusLineStationsRepository>();
             container.RegisterType<IBusLineTypeRepository, BusLineTypeRepository>();
             container.RegisterType<IStartTimeRepository, StartTimeRepository>();
             container.RegisterType<IUserTypeRepository, UserTypeRepository>();
+            
+            container.RegisterType<ITicketRepository, TicketRepository>();
+            container.RegisterType<ITicketTypeRepository, TicketTypeRepository>();
+            container.RegisterType<IPriceListRepository, PriceListRepository>();
+            container.RegisterType<IPriceListItemRepository, PriceListItemRepository>();
+            container.RegisterType<IUserTypeDiscountRepository, UserTypeDiscountRepository>();
+
 
             container.RegisterType<DbContext, ApplicationDbContext>(new PerResolveLifetimeManager());
             container.RegisterType<IUnitOfWork, UnitOfWork>();

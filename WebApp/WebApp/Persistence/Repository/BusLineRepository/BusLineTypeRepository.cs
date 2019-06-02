@@ -1,9 +1,9 @@
 ﻿using System.Data.Entity;
 using WebApp.Models;
 
-namespace WebApp.Persistence.Repository
+namespace WebApp.Persistence.Repository.BusLineRepository
 {
-    public class BusLineStationsRepository : Repository<BusLineStations, int>, IBusLineStationsRepository
+    public class BusLineTypeRepository : Repository<BusLineType, int>, IBusLineTypeRepository
     {
         protected ApplicationDbContext AppDBContext
         {
@@ -13,9 +13,10 @@ namespace WebApp.Persistence.Repository
             }
         }
 
-        public BusLineStationsRepository(DbContext context): base(context)
+        public BusLineTypeRepository(DbContext context) : base(context)
         {
 
         }
+
     }
 }

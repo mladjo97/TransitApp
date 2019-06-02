@@ -1,9 +1,9 @@
 ﻿using System.Data.Entity;
 using WebApp.Models;
 
-namespace WebApp.Persistence.Repository
+namespace WebApp.Persistence.Repository.TicketRepository
 {
-    public class StartTimeRepository : Repository<StartTime, int>, IStartTimeRepository
+    public class TicketTypeRepository : Repository<TicketType, int>, ITicketTypeRepository
     {
         protected ApplicationDbContext AppDBContext
         {
@@ -13,7 +13,7 @@ namespace WebApp.Persistence.Repository
             }
         }
 
-        public StartTimeRepository(DbContext context): base(context)
+        public TicketTypeRepository(DbContext context) : base(context)
         {
 
         }

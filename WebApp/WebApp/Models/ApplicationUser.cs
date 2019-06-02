@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Claims;
@@ -43,6 +44,9 @@ namespace WebApp.Models
 
         [Display(Name = "Verified Document Image")]
         public bool VerifiedDocumentImage { get; set; }
+
+        [Display(Name = "Tickets")]
+        public virtual ICollection<Ticket> Tickets { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
         {

@@ -3,10 +3,10 @@ namespace WebApp.Migrations
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
     using System;
-    using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
     using WebApp.Models;
+    using WebApp.Persistence;
 
     internal sealed class Configuration : DbMigrationsConfiguration<WebApp.Persistence.ApplicationDbContext>
     {
@@ -22,6 +22,17 @@ namespace WebApp.Migrations
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data.
 
+            AddUserRoles(context);
+            AddUserTypes(context);
+            AddUsers(context);
+            AddBusLineTypes(context);
+            AddTicketTypes(context);
+            AddUserTypeDiscounts(context);
+
+        }
+
+        private void AddUserRoles(ApplicationDbContext context)
+        {
             // Roles
             if (!context.Roles.Any(r => r.Name == "Admin"))
             {
@@ -49,7 +60,10 @@ namespace WebApp.Migrations
 
                 manager.Create(role);
             }
+        }
 
+        private void AddUserTypes(ApplicationDbContext context)
+        {
             // User Types
             if (!context.UserTypes.Any(b => b.Name == "Scholar"))
             {
@@ -62,11 +76,11 @@ namespace WebApp.Migrations
                 context.SaveChanges();
             }
 
-            if (!context.UserTypes.Any(b => b.Name == "Senior Citizen"))
+            if (!context.UserTypes.Any(b => b.Name == "Pensioner"))
             {
                 var ut = new UserType()
                 {
-                    Name = "Senior Citizen"
+                    Name = "Pensioner"
                 };
 
                 context.UserTypes.Add(ut);
@@ -83,7 +97,10 @@ namespace WebApp.Migrations
                 context.UserTypes.Add(ut);
                 context.SaveChanges();
             }
+        }
 
+        private void AddUsers(ApplicationDbContext context)
+        {
             // Users
             var userStore = new UserStore<ApplicationUser>(context);
             var userManager = new UserManager<ApplicationUser>(userStore);
@@ -154,9 +171,12 @@ namespace WebApp.Migrations
                 userManager.Create(user);
                 userManager.AddToRole(user.Id, "User");
             }
+        }
 
+        private void AddBusLineTypes(ApplicationDbContext context)
+        {
             // BusLine types
-            if(!context.BusLineTypes.Any(b => b.Name == "Urban"))
+            if (!context.BusLineTypes.Any(b => b.Name == "Urban"))
             {
                 var blt = new BusLineType()
                 {
@@ -177,9 +197,92 @@ namespace WebApp.Migrations
                 context.BusLineTypes.Add(blt);
                 context.SaveChanges();
             }
-
-            
-
         }
+
+        private void AddTicketTypes(ApplicationDbContext context)
+        {
+            if (!context.TicketTypes.Any(b => b.Name == "SingleUse"))
+            {
+                var ticketType = new TicketType()
+                {
+                    Name = "SingleUse"
+                };
+
+                context.TicketTypes.Add(ticketType);
+                context.SaveChanges();
+            }
+
+            if (!context.TicketTypes.Any(b => b.Name == "Daily"))
+            {
+                var ticketType = new TicketType()
+                {
+                    Name = "Daily"
+                };
+
+                context.TicketTypes.Add(ticketType);
+                context.SaveChanges();
+            }
+
+            if (!context.TicketTypes.Any(b => b.Name == "Monthly"))
+            {
+                var ticketType = new TicketType()
+                {
+                    Name = "Monthly"
+                };
+
+                context.TicketTypes.Add(ticketType);
+                context.SaveChanges();
+            }
+
+            if (!context.TicketTypes.Any(b => b.Name == "Annual"))
+            {
+                var ticketType = new TicketType()
+                {
+                    Name = "Annual"
+                };
+
+                context.TicketTypes.Add(ticketType);
+                context.SaveChanges();
+            }
+        }
+
+        private void AddUserTypeDiscounts(ApplicationDbContext context)
+        {
+            UserType userType = context.UserTypes.FirstOrDefault(x => x.Name == "Scholar");
+
+            if (userType != null)
+            {
+                if (!context.Discounts.Any(b => b.UserTypeId == userType.Id))
+                {
+                    var discount = new UserTypeDiscount()
+                    {
+                        UserTypeId = userType.Id,
+                        Discount = 0.20f
+                    };
+
+                    context.Discounts.Add(discount);
+                    context.SaveChanges();
+                }
+            }
+
+            userType = context.UserTypes.FirstOrDefault(x => x.Name == "Pensioner");
+
+            if (userType != null)
+            {
+                if (!context.Discounts.Any(b => b.UserTypeId == userType.Id))
+                {
+                    var discount = new UserTypeDiscount()
+                    {
+                        UserTypeId = userType.Id,
+                        Discount = 0.35f
+                    };
+
+                    context.Discounts.Add(discount);
+                    context.SaveChanges();
+                }
+            }
+           
+        } 
+
     }
 }

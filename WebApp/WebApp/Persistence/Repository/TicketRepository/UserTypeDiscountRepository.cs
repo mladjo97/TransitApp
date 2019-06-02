@@ -1,11 +1,10 @@
 ﻿using System.Data.Entity;
 using WebApp.Models;
 
-namespace WebApp.Persistence.Repository
+namespace WebApp.Persistence.Repository.TicketRepository
 {
-    public class BusLineRepository : Repository<BusLine, int>, IBusLineRepository
+    public class UserTypeDiscountRepository : Repository<UserTypeDiscount, int>, IUserTypeDiscountRepository
     {
-
         protected ApplicationDbContext AppDBContext
         {
             get
@@ -14,7 +13,7 @@ namespace WebApp.Persistence.Repository
             }
         }
 
-        public BusLineRepository(DbContext context) : base(context)
+        public UserTypeDiscountRepository(DbContext context) : base(context)
         {
 
         }

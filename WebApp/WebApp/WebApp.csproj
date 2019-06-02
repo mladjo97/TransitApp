@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -25,6 +26,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -278,8 +280,18 @@
     <Compile Include="Migrations\201905311114421_AddedVerifiedDocumentImage.Designer.cs">
       <DependentUpon>201905311114421_AddedVerifiedDocumentImage.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906021434453_AddedTicketModels.cs" />
+    <Compile Include="Migrations\201906021434453_AddedTicketModels.Designer.cs">
+      <DependentUpon>201906021434453_AddedTicketModels.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BindingModels\AccountBindingModels.cs" />
+    <Compile Include="Models\BindingModels\TicketBindingModels.cs" />
+    <Compile Include="Models\PriceList.cs" />
+    <Compile Include="Models\PriceListItem.cs" />
+    <Compile Include="Models\Ticket.cs" />
+    <Compile Include="Models\TicketType.cs" />
+    <Compile Include="Models\UserTypeDiscount.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\BindingModels\BusLineBindingModels.cs" />
@@ -292,20 +304,32 @@
     <Compile Include="Models\UserType.cs" />
     <Compile Include="Models\ViewModels\DocumentImageViewModels.cs" />
     <Compile Include="Persistence\ApplicationDbContext.cs" />
-    <Compile Include="Persistence\Repository\BusLineRepository.cs" />
-    <Compile Include="Persistence\Repository\BusLineStationsRepository.cs" />
-    <Compile Include="Persistence\Repository\BusLineTypeRepository.cs" />
-    <Compile Include="Persistence\Repository\IBusLineRepository.cs" />
-    <Compile Include="Persistence\Repository\IBusLineStationsRepository.cs" />
-    <Compile Include="Persistence\Repository\IBusLineTypeRepository.cs" />
+    <Compile Include="Persistence\Repository\BusLineRepository\BusLineRepository.cs" />
+    <Compile Include="Persistence\Repository\BusLineRepository\BusLineStationsRepository.cs" />
+    <Compile Include="Persistence\Repository\BusLineRepository\BusLineTypeRepository.cs" />
+    <Compile Include="Persistence\Repository\BusLineRepository\IBusLineRepository.cs" />
+    <Compile Include="Persistence\Repository\BusLineRepository\IBusLineStationsRepository.cs" />
+    <Compile Include="Persistence\Repository\BusLineRepository\IBusLineTypeRepository.cs" />
     <Compile Include="Persistence\Repository\IRepository.cs" />
-    <Compile Include="Persistence\Repository\IStartTimeRepository.cs" />
-    <Compile Include="Persistence\Repository\IStationRepository.cs" />
-    <Compile Include="Persistence\Repository\IUserTypeRepository.cs" />
+    <Compile Include="Persistence\Repository\BusLineRepository\IStartTimeRepository.cs" />
+    <Compile Include="Persistence\Repository\BusLineRepository\IStationRepository.cs" />
+    <Compile Include="Persistence\Repository\TicketRepository\IPriceListItemRepository.cs" />
+    <Compile Include="Persistence\Repository\TicketRepository\IPriceListRepository.cs" />
+    <Compile Include="Persistence\Repository\TicketRepository\ITicketRepository.cs" />
+    <Compile Include="Persistence\Repository\TicketRepository\ITicketTypeRepository.cs" />
+    <Compile Include="Persistence\Repository\TicketRepository\IUserTypeDiscountRepository.cs" />
+    <Compile Include="Persistence\Repository\TicketRepository\PriceListItemRepository.cs" />
+    <Compile Include="Persistence\Repository\TicketRepository\PriceListRepository.cs" />
+    <Compile Include="Persistence\Repository\TicketRepository\TicketRepository.cs" />
+    <Compile Include="Persistence\Repository\TicketRepository\TicketTypeRepository.cs" />
+    <Compile Include="Persistence\Repository\TicketRepository\UserTypeDiscountRepository.cs" />
+    <Compile Include="Persistence\Repository\UserRepository\IUserRepository.cs" />
+    <Compile Include="Persistence\Repository\UserRepository\IUserTypeRepository.cs" />
     <Compile Include="Persistence\Repository\Repository.cs" />
-    <Compile Include="Persistence\Repository\StartTimeRepository.cs" />
-    <Compile Include="Persistence\Repository\StationRepository.cs" />
-    <Compile Include="Persistence\Repository\UserTypeRepository.cs" />
+    <Compile Include="Persistence\Repository\BusLineRepository\StartTimeRepository.cs" />
+    <Compile Include="Persistence\Repository\BusLineRepository\StationRepository.cs" />
+    <Compile Include="Persistence\Repository\UserRepository\UserRepository.cs" />
+    <Compile Include="Persistence\Repository\UserRepository\UserTypeRepository.cs" />
     <Compile Include="Persistence\UnitOfWork\IUnitOfWork.cs" />
     <Compile Include="Persistence\UnitOfWork\UnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -422,12 +446,19 @@
     <EmbeddedResource Include="Migrations\201905311114421_AddedVerifiedDocumentImage.resx">
       <DependentUpon>201905311114421_AddedVerifiedDocumentImage.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906021434453_AddedTicketModels.resx">
+      <DependentUpon>201906021434453_AddedTicketModels.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">

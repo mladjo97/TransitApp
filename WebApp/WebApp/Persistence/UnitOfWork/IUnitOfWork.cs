@@ -1,5 +1,7 @@
 ﻿using System;
-using WebApp.Persistence.Repository;
+using WebApp.Persistence.Repository.BusLineRepository;
+using WebApp.Persistence.Repository.UserRepository;
+using WebApp.Persistence.Repository.TicketRepository;
 
 namespace WebApp.Persistence.UnitOfWork
 {
@@ -16,6 +18,18 @@ namespace WebApp.Persistence.UnitOfWork
         IStartTimeRepository StartTimeRepository { get; set; }
 
         IUserTypeRepository UserTypeRepository { get; set; }
+
+        IUserRepository UserRepository { get; set; }
+
+        ITicketRepository TicketRepository { get; set; }
+
+        IPriceListRepository PriceListRepository { get; set; }
+
+        IPriceListItemRepository PriceListItemRepository { get; set; }
+
+        IUserTypeDiscountRepository UserTypeDiscountRepository { get; set; }
+
+        ITicketTypeRepository TicketTypeRepository { get; set; }
 
         int Complete();
     }

@@ -12,7 +12,6 @@ namespace WebApp.Models
 
         [Required]
         [StringLength(256)]
-        [Index(IsUnique = true)]
         public string Name { get; set; }
 
         public ICollection<ApplicationUser> Users { get; set; }
