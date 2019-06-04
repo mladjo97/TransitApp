@@ -50,6 +50,7 @@ import { ProfileSidebarComponent } from './profile-panel/profile-sidebar/profile
 import { PriceListService } from './_services/pricelist.service';
 import { TicketService } from './_services/ticket.service';
 import { TicketComponent } from './tickets/ticket/ticket.component';
+import { TicketValidationComponent } from './inspector-panel/ticket-validation/ticket-validation.component';
 
 
 @NgModule({
@@ -86,7 +87,8 @@ import { TicketComponent } from './tickets/ticket/ticket.component';
     DocumentsComponent,
     DocumentComponent,
     ProfileSidebarComponent,
-    TicketComponent
+    TicketComponent,
+    TicketValidationComponent
   ],
   imports: [
     BrowserModule,

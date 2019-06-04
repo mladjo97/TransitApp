@@ -283,9 +283,9 @@
     <Compile Include="Migrations\201905311114421_AddedVerifiedDocumentImage.Designer.cs">
       <DependentUpon>201905311114421_AddedVerifiedDocumentImage.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201906041239170_AddedTicketModels.cs" />
-    <Compile Include="Migrations\201906041239170_AddedTicketModels.Designer.cs">
-      <DependentUpon>201906041239170_AddedTicketModels.cs</DependentUpon>
+    <Compile Include="Migrations\201906041547474_AddedTicketModels.cs" />
+    <Compile Include="Migrations\201906041547474_AddedTicketModels.Designer.cs">
+      <DependentUpon>201906041547474_AddedTicketModels.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BindingModels\AccountBindingModels.cs" />
@@ -450,8 +450,8 @@
     <EmbeddedResource Include="Migrations\201905311114421_AddedVerifiedDocumentImage.resx">
       <DependentUpon>201905311114421_AddedVerifiedDocumentImage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906041239170_AddedTicketModels.resx">
-      <DependentUpon>201906041239170_AddedTicketModels.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201906041547474_AddedTicketModels.resx">
+      <DependentUpon>201906041547474_AddedTicketModels.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

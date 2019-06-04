@@ -22,10 +22,6 @@ namespace WebApp.Models
         public string UserId { get; set; }
         public virtual ApplicationUser User { get; set; }
 
-        [ForeignKey("TicketInspector")]
-        public string TicketInspectorId { get; set; }
-        public virtual ApplicationUser TicketInspector { get; set; }
-
         [Required]
         [ForeignKey("Item")]
         public int ItemId { get; set; }

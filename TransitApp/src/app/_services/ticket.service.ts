@@ -14,6 +14,16 @@ export class TicketService {
         return this.http.get(`${this.apiTicketTypesAddress}?name=${name}`);
     }
 
+    getUserTickets(): Observable<any> {
+        const headers = new Headers();
+        headers.append('Content-type','application/json');
+        headers.append('Accept', 'application/json');
+        headers.append('Authorization','Bearer ' + JSON.parse(localStorage.getItem("token")).token);
+
+        const options = new RequestOptions({ headers: headers });
+        return this.http.get(`${this.apiAddress}`, options);
+    }
+
     getTicket(ticketId: number): Observable<any> {
         const headers = new Headers();
         headers.append('Content-type','application/json');

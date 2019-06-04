@@ -23,16 +23,13 @@ import { StationComponent } from './admin-panel/stations/station/station.compone
 import { EditStationComponent } from './admin-panel/stations/edit-station/edit-station.component';
 import { AddStationComponent } from './admin-panel/stations/add-station/add-station.component';
 import { TicketsComponent } from './tickets/tickets.component';
-import { SingleUseTicketComponent } from './tickets/ticket-plans/single-use-ticket/single-use-ticket.component';
-import { DailyTicketComponent } from './tickets/ticket-plans/daily-ticket/daily-ticket.component';
-import { MonthlyTicketComponent } from './tickets/ticket-plans/monthly-ticket/monthly-ticket.component';
-import { AnnualTicketComponent } from './tickets/ticket-plans/annual-ticket/annual-ticket.component';
 import { DocumentImageComponent } from './profile-panel/document-image/document-image.component';
 import { InspectorRoleGuard } from './_guards/inspector-role.guard';
 import { UserRoleGuard } from './_guards/user-role.guard';
 import { InspectorPanelComponent } from './inspector-panel/inspector-panel.component';
 import { DocumentsComponent } from './inspector-panel/documents/documents.component';
 import { DocumentComponent } from './inspector-panel/documents/document/document.component';
+import { TicketValidationComponent } from './inspector-panel/ticket-validation/ticket-validation.component';
 
 const appRoutes: Routes = [
 
@@ -60,7 +57,8 @@ const appRoutes: Routes = [
     ]},
 
     { path: 'inspector', component: InspectorPanelComponent, canActivate:[AuthGuard, InspectorRoleGuard], children: [
-      { path: 'documents', component: DocumentsComponent }
+      { path: 'documents', component: DocumentsComponent },
+      { path: 'validate', component: TicketValidationComponent }
     ] },
     
     { path: 'timetables/edit/:id', component: EditBuslineComponent, canActivate: [AuthGuard, AdminRoleGuard] },

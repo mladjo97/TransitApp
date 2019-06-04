@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Web.Http;
 using WebApp.Models;
 using WebApp.Models.BindingModels;
+using WebApp.Models.ViewModels;
 using WebApp.Persistence.UnitOfWork;
 
 namespace WebApp.Controllers
@@ -34,13 +36,55 @@ namespace WebApp.Controllers
 
         [HttpGet]
         [Authorize(Roles = "User, Controller, Admin")]
+        public IHttpActionResult Get()
+        {
+            ApplicationUser currentUser = _unitOfWork.UserRepository.GetUserById(User.Identity.GetUserId());
+            IEnumerable<Ticket> tickets = _unitOfWork.TicketRepository.GetUserTickets(currentUser.Id);
+
+            if (tickets == null)
+            {
+                return BadRequest();
+            }
+
+            List<TicketInfoViewModel> ticketInfos = new List<TicketInfoViewModel>();
+
+            foreach(var ticket in tickets)
+            {
+                var ticketInfo = new TicketInfoViewModel()
+                {
+                    TicketId = ticket.Id,
+                    IsValid = ticket.IsValid,
+                    TicketType = ticket.Item.TicketType.Name,
+                    TimeOfPurchase = ticket.TimeOfPurchase,
+                    UserFirstName = ticket.User.FirstName,
+                    UserLastName = ticket.User.LastName
+                };
+                ticketInfos.Add(ticketInfo);
+            }
+
+            return Ok(ticketInfos);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "User, Controller, Admin")]
         public IHttpActionResult Get([FromUri]int ticketId)
         {
             Ticket ticket = _unitOfWork.TicketRepository.Get(ticketId);
+
             if(ticket == null)
             {
                 return BadRequest();
             }
+
+            var ticketInfo = new TicketInfoViewModel()
+            {
+                TicketId = ticket.Id,
+                IsValid = ticket.IsValid,
+                TicketType = ticket.Item.TicketType.Name,
+                TimeOfPurchase = ticket.TimeOfPurchase,
+                UserFirstName = ticket.User.FirstName,
+                UserLastName = ticket.User.LastName
+            };
 
             return Ok(ticket);
         }
@@ -55,9 +99,10 @@ namespace WebApp.Controllers
                 return BadRequest();
             }
 
-            ApplicationUser currentUser = UserManager.FindById(User.Identity.GetUserId());
+            ApplicationUser currentUser = _unitOfWork.UserRepository.GetUserById(User.Identity.GetUserId());
 
-            foreach(var userTicket in currentUser.Tickets)
+            IEnumerable<Ticket> tickets = _unitOfWork.TicketRepository.GetUserTickets(currentUser.Id);
+            foreach (var userTicket in tickets)
             {
                 if(userTicket.IsValid && userTicket.ItemId.Equals(model.ItemId))
                 {
@@ -75,6 +120,7 @@ namespace WebApp.Controllers
 
             _unitOfWork.TicketRepository.Add(ticket);
             _unitOfWork.Complete();
+
             return Ok(ticket);
         }
 

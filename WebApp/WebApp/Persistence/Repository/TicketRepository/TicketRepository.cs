@@ -23,7 +23,8 @@ namespace WebApp.Persistence.Repository.TicketRepository
         public IEnumerable<Ticket> GetUserTickets(string id)
         {
             return AppDBContext.Tickets.Where(x => x.UserId.Equals(id))
-                                       .Include(x => x.Item)
+                                       .Include(x => x.Item.TicketType)
+                                       .Include(x => x.Item.Discount)
                                        .ToList();
         }
 

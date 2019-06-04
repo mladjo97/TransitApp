@@ -15,7 +15,9 @@ namespace WebApp.Persistence.Repository.UserRepository
 
         public ApplicationUser GetUserById(string userId)
         {
-            return AppDbContext.Users.Where(u => u.Id.Equals(userId)).FirstOrDefault();
+            return AppDbContext.Users.Where(u => u.Id.Equals(userId))
+                                     .Include(x => x.Tickets)
+                                     .FirstOrDefault();
         }
     }
 }

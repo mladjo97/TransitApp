@@ -1,0 +1,13 @@
+<form autocomplete="off" [formGroup]="ticketForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="ticketId">Ticket ID</label>
+      <input type="text" formControlName="ticketId" class="form-control" id="ticketId" autocomplete="off" placeholder="Ticket ID" required>
+    </div>
+
+    <br><hr>
+  
+  <button type="submit" class="btn btn-primary btn-block" [disabled]="!ticketForm.valid">
+    <span *ngIf="submitted" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    Edit
+  </button>
+</form>

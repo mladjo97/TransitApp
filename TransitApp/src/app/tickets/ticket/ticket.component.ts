@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { TicketService } from 'src/app/_services/ticket.service';
 import { PriceListService } from 'src/app/_services/pricelist.service';
 import { Price } from 'src/app/_models/price.model';
+import { NotificationService } from 'src/app/_services/notification.service';
 
 @Component({
   selector: 'app-ticket',
@@ -20,7 +21,8 @@ export class TicketComponent implements OnInit {
   private hasItems: boolean;
 
   constructor(private priceListService: PriceListService,
-              private ticketService: TicketService) { }
+              private ticketService: TicketService,
+              private notificationService: NotificationService) { }
 
   ngOnInit() {    
     this.loadData();
@@ -30,6 +32,7 @@ export class TicketComponent implements OnInit {
     this.loaded = false;
     this.hasItems = false;
 
+    // Load ticket prices for user
     this.ticketService.getTicketTypeId(this.dbName).subscribe(
       (response) => { 
         this.ticketTypeId = response.json();
@@ -53,10 +56,12 @@ export class TicketComponent implements OnInit {
   onBuy() {
     this.ticketService.buyTicket(this.ticketPrice.ItemId).subscribe(
       (response) => {
-        console.log(response.json());
+        this.notificationService.notifyEvent.emit('Successfully bought ticket.');
       },
       (error) => {
-        console.log(error);
+        if(error.status == 409){
+          this.notificationService.notifyEvent.emit('You already have a valid ticket for that ride type.');
+        }
       }
     );
   }
