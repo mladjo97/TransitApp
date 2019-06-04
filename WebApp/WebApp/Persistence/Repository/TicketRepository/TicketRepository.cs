@@ -1,4 +1,6 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
 using WebApp.Models;
 
 namespace WebApp.Persistence.Repository.TicketRepository
@@ -17,5 +19,13 @@ namespace WebApp.Persistence.Repository.TicketRepository
         {
 
         }
+
+        public IEnumerable<Ticket> GetUserTickets(string id)
+        {
+            return AppDBContext.Tickets.Where(x => x.UserId.Equals(id))
+                                       .Include(x => x.Item)
+                                       .ToList();
+        }
+
     }
 }

@@ -71,12 +71,7 @@ const appRoutes: Routes = [
     { path: 'routes/edit/:id', component: EditBuslineComponent, canActivate: [AuthGuard, AdminRoleGuard]},
     { path: 'routes', component: BusRoutesComponent },
 
-    { path: 'tickets', component: TicketsComponent, children: [
-      { path: 'single', component: SingleUseTicketComponent },
-      { path: 'daily', component: DailyTicketComponent },
-      { path: 'monthly', component: MonthlyTicketComponent },
-      { path: 'annual', component: AnnualTicketComponent }
-    ] },
+    { path: 'tickets', component: TicketsComponent },
 
     { path: '**', component: NotFoundComponent }
   ];

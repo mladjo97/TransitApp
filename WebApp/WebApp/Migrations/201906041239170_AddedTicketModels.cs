@@ -21,28 +21,6 @@ namespace WebApp.Migrations
                 .Index(t => t.UserTypeId);
             
             CreateTable(
-                "dbo.Tickets",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        TimeOfPurchase = c.DateTime(nullable: false),
-                        IsValid = c.Boolean(nullable: false),
-                        UserId = c.String(nullable: false, maxLength: 128),
-                        TicketInspectorId = c.String(maxLength: 128),
-                        ItemId = c.Int(nullable: false),
-                        ApplicationUser_Id = c.String(maxLength: 128),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.PriceListItems", t => t.ItemId, cascadeDelete: true)
-                .ForeignKey("dbo.AspNetUsers", t => t.TicketInspectorId)
-                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
-                .ForeignKey("dbo.AspNetUsers", t => t.ApplicationUser_Id)
-                .Index(t => t.UserId)
-                .Index(t => t.TicketInspectorId)
-                .Index(t => t.ItemId)
-                .Index(t => t.ApplicationUser_Id);
-            
-            CreateTable(
                 "dbo.PriceListItems",
                 c => new
                     {
@@ -50,10 +28,10 @@ namespace WebApp.Migrations
                         BasePrice = c.Decimal(nullable: false, precision: 18, scale: 2),
                         TicketTypeId = c.Int(nullable: false),
                         PriceListId = c.Int(nullable: false),
-                        DiscountId = c.Int(nullable: false),
+                        DiscountId = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.UserTypeDiscounts", t => t.DiscountId, cascadeDelete: false)
+                .ForeignKey("dbo.UserTypeDiscounts", t => t.DiscountId)
                 .ForeignKey("dbo.PriceLists", t => t.PriceListId, cascadeDelete: true)
                 .ForeignKey("dbo.TicketTypes", t => t.TicketTypeId, cascadeDelete: true)
                 .Index(t => t.TicketTypeId)
@@ -79,6 +57,28 @@ namespace WebApp.Migrations
                     })
                 .PrimaryKey(t => t.Id);
             
+            CreateTable(
+                "dbo.Tickets",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        TimeOfPurchase = c.DateTime(nullable: false),
+                        IsValid = c.Boolean(nullable: false),
+                        UserId = c.String(nullable: false, maxLength: 128),
+                        TicketInspectorId = c.String(maxLength: 128),
+                        ItemId = c.Int(nullable: false),
+                        ApplicationUser_Id = c.String(maxLength: 128),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.PriceListItems", t => t.ItemId, cascadeDelete: true)
+                .ForeignKey("dbo.AspNetUsers", t => t.TicketInspectorId)
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
+                .ForeignKey("dbo.AspNetUsers", t => t.ApplicationUser_Id)
+                .Index(t => t.UserId)
+                .Index(t => t.TicketInspectorId)
+                .Index(t => t.ItemId)
+                .Index(t => t.ApplicationUser_Id);
+            
         }
         
         public override void Down()
@@ -91,18 +91,18 @@ namespace WebApp.Migrations
             DropForeignKey("dbo.PriceListItems", "TicketTypeId", "dbo.TicketTypes");
             DropForeignKey("dbo.PriceListItems", "PriceListId", "dbo.PriceLists");
             DropForeignKey("dbo.PriceListItems", "DiscountId", "dbo.UserTypeDiscounts");
-            DropIndex("dbo.PriceListItems", new[] { "DiscountId" });
-            DropIndex("dbo.PriceListItems", new[] { "PriceListId" });
-            DropIndex("dbo.PriceListItems", new[] { "TicketTypeId" });
             DropIndex("dbo.Tickets", new[] { "ApplicationUser_Id" });
             DropIndex("dbo.Tickets", new[] { "ItemId" });
             DropIndex("dbo.Tickets", new[] { "TicketInspectorId" });
             DropIndex("dbo.Tickets", new[] { "UserId" });
+            DropIndex("dbo.PriceListItems", new[] { "DiscountId" });
+            DropIndex("dbo.PriceListItems", new[] { "PriceListId" });
+            DropIndex("dbo.PriceListItems", new[] { "TicketTypeId" });
             DropIndex("dbo.UserTypeDiscounts", new[] { "UserTypeId" });
+            DropTable("dbo.Tickets");
             DropTable("dbo.TicketTypes");
             DropTable("dbo.PriceLists");
             DropTable("dbo.PriceListItems");
-            DropTable("dbo.Tickets");
             DropTable("dbo.UserTypeDiscounts");
             CreateIndex("dbo.UserTypes", "Name", unique: true);
         }

@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using System.Linq;
 using WebApp.Models;
 
 namespace WebApp.Persistence.Repository.TicketRepository
@@ -16,6 +17,18 @@ namespace WebApp.Persistence.Repository.TicketRepository
         public TicketTypeRepository(DbContext context) : base(context)
         {
 
+        }
+
+        public TicketType GetTicketTypeByName(string name)
+        {
+            var ticketType = AppDBContext.TicketTypes.Where(x => x.Name.Equals(name)).FirstOrDefault();
+
+            if(ticketType == null)
+            {
+                return null;
+            }
+
+            return ticketType;
         }
     }
 }

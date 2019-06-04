@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace WebApp.Models.BindingModels
 {
-    public class AddTicketBindingModel
+    public class BuyTicketBindingModel
     {
+        [Required]
+        public int ItemId { get; set; }
+    }
 
+    public class TicketPricesBindingModel
+    {
+        [Required]
+        public int TicketTypeId { get; set; }
     }
 }

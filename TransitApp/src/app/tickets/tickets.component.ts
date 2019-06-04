@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PriceListService } from '../_services/pricelist.service';
 
 @Component({
   selector: 'app-tickets',

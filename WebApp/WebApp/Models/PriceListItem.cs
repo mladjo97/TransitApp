@@ -23,7 +23,7 @@ namespace WebApp.Models
         public virtual PriceList PriceList { get; set; }
 
         [ForeignKey("Discount")]
-        public int DiscountId { get; set; }
+        public int? DiscountId { get; set; }
         public virtual UserTypeDiscount Discount { get; set; }
 
 

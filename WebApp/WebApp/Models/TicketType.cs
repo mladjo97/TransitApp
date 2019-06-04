@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebApp.Models
@@ -11,5 +12,12 @@ namespace WebApp.Models
 
         [Required]
         public string Name { get; set; }
+
+        public virtual ICollection<PriceListItem> PriceListItems { get; set; }
+
+        public TicketType()
+        {
+            this.PriceListItems = new HashSet<PriceListItem>();
+        }
     }
 }

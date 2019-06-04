@@ -256,7 +256,10 @@
     <Compile Include="Controllers\BusLineTypesController.cs" />
     <Compile Include="Controllers\DocumentImagesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PriceListsController.cs" />
     <Compile Include="Controllers\StationsController.cs" />
+    <Compile Include="Controllers\TicketsController.cs" />
+    <Compile Include="Controllers\TicketTypesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -280,9 +283,9 @@
     <Compile Include="Migrations\201905311114421_AddedVerifiedDocumentImage.Designer.cs">
       <DependentUpon>201905311114421_AddedVerifiedDocumentImage.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201906021434453_AddedTicketModels.cs" />
-    <Compile Include="Migrations\201906021434453_AddedTicketModels.Designer.cs">
-      <DependentUpon>201906021434453_AddedTicketModels.cs</DependentUpon>
+    <Compile Include="Migrations\201906041239170_AddedTicketModels.cs" />
+    <Compile Include="Migrations\201906041239170_AddedTicketModels.Designer.cs">
+      <DependentUpon>201906041239170_AddedTicketModels.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BindingModels\AccountBindingModels.cs" />
@@ -303,6 +306,7 @@
     <Compile Include="Models\Station.cs" />
     <Compile Include="Models\UserType.cs" />
     <Compile Include="Models\ViewModels\DocumentImageViewModels.cs" />
+    <Compile Include="Models\ViewModels\TicketViewModels.cs" />
     <Compile Include="Persistence\ApplicationDbContext.cs" />
     <Compile Include="Persistence\Repository\BusLineRepository\BusLineRepository.cs" />
     <Compile Include="Persistence\Repository\BusLineRepository\BusLineStationsRepository.cs" />
@@ -446,8 +450,8 @@
     <EmbeddedResource Include="Migrations\201905311114421_AddedVerifiedDocumentImage.resx">
       <DependentUpon>201905311114421_AddedVerifiedDocumentImage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906021434453_AddedTicketModels.resx">
-      <DependentUpon>201906021434453_AddedTicketModels.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201906041239170_AddedTicketModels.resx">
+      <DependentUpon>201906041239170_AddedTicketModels.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

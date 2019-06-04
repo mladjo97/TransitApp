@@ -15,10 +15,12 @@ namespace WebApp.Models
         public string Name { get; set; }
 
         public ICollection<ApplicationUser> Users { get; set; }
+        public ICollection<UserTypeDiscount> Discounts { get; set; }
 
         public UserType()
         {
             this.Users = new HashSet<ApplicationUser>();
+            this.Discounts = new HashSet<UserTypeDiscount>();
         }
 
     }

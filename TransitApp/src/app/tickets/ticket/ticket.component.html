@@ -1,0 +1,23 @@
+<div class="card ticket-plan">
+    <div class="card-header ticket-header">
+      {{ name }}
+    </div>
+    <div class="card-body d-flex flex-column">
+      <h6 class="card-subtitle mb-2 text-muted">{{ description }}</h6>      
+      <hr/>
+      <h6 *ngIf="!hasItems" class="card-subtitle mb-2 text-muted"> No items available</h6>
+      <div *ngIf="loaded">
+        <h6 *ngIf="!ticketPrice.HasDiscount" class="card-subtitle mb-2 text-muted">Price: {{ ticketPrice?.BasePrice }} din</h6>
+        <h6 *ngIf="ticketPrice.HasDiscount" class="card-subtitle mb-2 text-muted">
+          Price: <del> {{ ticketPrice?.BasePrice }} </del>
+          {{ ticketPrice?.DiscountPrice }} din <sup> {{ ticketPrice?.DiscountRate*100 }}% off</sup>
+        </h6>
+      </div>    
+      <button 
+        class="btn btn-outline-primary mt-auto"
+        [disabled]="!hasItems"
+        (click)="onBuy()">
+        Buy ticket
+      </button>
+    </div>
+  </div>

@@ -38,10 +38,6 @@ import { EditStationComponent } from './admin-panel/stations/edit-station/edit-s
 import { StationsService } from './_services/station.service';
 import { TicketsComponent } from './tickets/tickets.component';
 import { TicketPlansComponent } from './tickets/ticket-plans/ticket-plans.component';
-import { SingleUseTicketComponent } from './tickets/ticket-plans/single-use-ticket/single-use-ticket.component';
-import { DailyTicketComponent } from './tickets/ticket-plans/daily-ticket/daily-ticket.component';
-import { MonthlyTicketComponent } from './tickets/ticket-plans/monthly-ticket/monthly-ticket.component';
-import { AnnualTicketComponent } from './tickets/ticket-plans/annual-ticket/annual-ticket.component';
 import { tripleArray } from './_pipes/triple-array.pipe';
 import { DocumentImageComponent } from './profile-panel/document-image/document-image.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -51,6 +47,9 @@ import { InspectorSidebarComponent } from './inspector-panel/inspector-sidebar/i
 import { DocumentsComponent } from './inspector-panel/documents/documents.component';
 import { DocumentComponent } from './inspector-panel/documents/document/document.component';
 import { ProfileSidebarComponent } from './profile-panel/profile-sidebar/profile-sidebar.component';
+import { PriceListService } from './_services/pricelist.service';
+import { TicketService } from './_services/ticket.service';
+import { TicketComponent } from './tickets/ticket/ticket.component';
 
 
 @NgModule({
@@ -79,10 +78,6 @@ import { ProfileSidebarComponent } from './profile-panel/profile-sidebar/profile
     EditStationComponent,
     TicketsComponent,
     TicketPlansComponent,
-    SingleUseTicketComponent,
-    DailyTicketComponent,
-    MonthlyTicketComponent,
-    AnnualTicketComponent,
     tripleArray,
     DocumentImageComponent,
     NavbarComponent,
@@ -90,7 +85,8 @@ import { ProfileSidebarComponent } from './profile-panel/profile-sidebar/profile
     InspectorSidebarComponent,
     DocumentsComponent,
     DocumentComponent,
-    ProfileSidebarComponent
+    ProfileSidebarComponent,
+    TicketComponent
   ],
   imports: [
     BrowserModule,
@@ -110,7 +106,9 @@ import { ProfileSidebarComponent } from './profile-panel/profile-sidebar/profile
     NotificationService,
     DrawService,
     OpenRouteService,
-    DocumentImageService
+    DocumentImageService,
+    PriceListService,
+    TicketService
   ],
   bootstrap: [AppComponent]
 })

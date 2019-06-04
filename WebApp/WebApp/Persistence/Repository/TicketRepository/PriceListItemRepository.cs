@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using System.Linq;
 using WebApp.Models;
 
 namespace WebApp.Persistence.Repository.TicketRepository
@@ -16,6 +17,30 @@ namespace WebApp.Persistence.Repository.TicketRepository
         public PriceListItemRepository(DbContext context) : base(context)
         {
 
+        }
+
+        public decimal GetRegularPrice(int id)
+        {
+            PriceListItem item = this.AppDBContext.PriceListItems.FirstOrDefault(x => x.Id.Equals(id));
+
+            if (item != null)
+            {
+                return item.BasePrice;
+            }
+
+            return -1.0m;
+        }
+
+        public float GetDiscountPrice(int id)
+        {
+            PriceListItem item = this.AppDBContext.PriceListItems.FirstOrDefault(x => x.Id.Equals(id));
+
+            if (item != null)
+            {
+                return (float)item.BasePrice * (1 - item.Discount.Discount);
+            }
+
+            return -1.0f;
         }
     }
 }
