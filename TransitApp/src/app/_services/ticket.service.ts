@@ -44,4 +44,14 @@ export class TicketService {
         return this.http.post(`${this.apiAddress}/Buy`, {itemId: itemId}, options);
     }
 
+    validateTicket(ticketId: number): Observable<any> {
+        const headers = new Headers();
+        headers.append('Content-type','application/json');
+        headers.append('Accept', 'application/json');
+        headers.append('Authorization','Bearer ' + JSON.parse(localStorage.getItem("token")).token);
+
+        const options = new RequestOptions({ headers: headers });
+        return this.http.post(`${this.apiAddress}/Validate?ticketId=${ticketId}`, {}, options);
+    }
+
 }

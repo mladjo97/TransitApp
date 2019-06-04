@@ -20,12 +20,26 @@ namespace WebApp.Persistence.Repository.TicketRepository
 
         }
 
+        public Ticket GetTicket(int id)
+        {
+            return AppDBContext.Tickets.Where(x => x.Id.Equals(id))
+                                       .Include(x => x.Item.Discount)
+                                       .Include(x => x.Item.TicketType)
+                                       .Include(x => x.User)
+                                       .FirstOrDefault();
+        }
+
         public IEnumerable<Ticket> GetUserTickets(string id)
         {
             return AppDBContext.Tickets.Where(x => x.UserId.Equals(id))
                                        .Include(x => x.Item.TicketType)
                                        .Include(x => x.Item.Discount)
                                        .ToList();
+        }
+
+        public bool IsValid(Ticket ticket)
+        {
+            return TicketValidator.Validate(ticket);
         }
 
     }

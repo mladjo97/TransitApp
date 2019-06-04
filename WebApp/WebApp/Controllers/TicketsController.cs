@@ -88,7 +88,51 @@ namespace WebApp.Controllers
 
             return Ok(ticket);
         }
+
+        [HttpPost]
+        [Route("Validate")]
+        [Authorize(Roles = "TicketInspector, Admin")]
+        public IHttpActionResult ValidateTicket([FromUri]int ticketId)
+        {
+            Ticket ticket = _unitOfWork.TicketRepository.GetTicket(ticketId);
+
+            if (ticket == null)
+            {
+                return BadRequest();
+            }
+
+            var ticketInfo = new TicketInfoViewModel()
+            {
+                TicketId = ticket.Id,
+                IsValid = ticket.IsValid,
+                TicketType = ticket.Item.TicketType.Name,
+                TimeOfPurchase = ticket.TimeOfPurchase,
+                UserFirstName = ticket.User.FirstName,
+                UserLastName = ticket.User.LastName
+            };
+
+            bool isValid = _unitOfWork.TicketRepository.IsValid(ticket);
             
+            if (isValid)
+            {
+                return Ok(ticket);
+            }
+
+            ticket.IsValid = ticketInfo.IsValid  = isValid;
+            _unitOfWork.TicketRepository.Update(ticket);
+
+            try
+            {
+                _unitOfWork.Complete();
+            } 
+            catch(Exception e)
+            {
+                return InternalServerError();
+            }
+
+            return Ok(ticketInfo);
+        }
+
         [HttpPost]
         [Route("Buy")]
         [Authorize(Roles = "User")]

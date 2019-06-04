@@ -326,6 +326,7 @@
     <Compile Include="Persistence\Repository\TicketRepository\PriceListRepository.cs" />
     <Compile Include="Persistence\Repository\TicketRepository\TicketRepository.cs" />
     <Compile Include="Persistence\Repository\TicketRepository\TicketTypeRepository.cs" />
+    <Compile Include="Persistence\Repository\TicketRepository\TicketValidator.cs" />
     <Compile Include="Persistence\Repository\TicketRepository\UserTypeDiscountRepository.cs" />
     <Compile Include="Persistence\Repository\UserRepository\IUserRepository.cs" />
     <Compile Include="Persistence\Repository\UserRepository\IUserTypeRepository.cs" />
