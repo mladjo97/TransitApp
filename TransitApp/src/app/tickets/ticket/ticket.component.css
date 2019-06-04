@@ -1,7 +1,15 @@
 .ticket-plan {
-    margin: 5px;
+    margin-left: 2px;
+    margin-right: 2px;
+    margin-bottom: 2px;
     height: 230px;
     width: 215px;
+}
+
+@media only screen and (max-width: 768px) {
+    .ticket-plan {
+      width: 100%;
+    }
 }
 
 .ticket-header {

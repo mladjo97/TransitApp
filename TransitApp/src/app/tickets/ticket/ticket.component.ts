@@ -3,6 +3,7 @@ import { TicketService } from 'src/app/_services/ticket.service';
 import { PriceListService } from 'src/app/_services/pricelist.service';
 import { Price } from 'src/app/_models/price.model';
 import { NotificationService } from 'src/app/_services/notification.service';
+import { AuthService } from 'src/app/_services/auth.service';
 
 @Component({
   selector: 'app-ticket',
@@ -22,16 +23,19 @@ export class TicketComponent implements OnInit {
 
   constructor(private priceListService: PriceListService,
               private ticketService: TicketService,
-              private notificationService: NotificationService) { }
+              private notificationService: NotificationService,
+              private authService: AuthService) { }
 
-  ngOnInit() {    
-    this.loadData();
-  }
-  
-  loadData(): void {
+  ngOnInit() {  
     this.loaded = false;
     this.hasItems = false;
 
+    if(this.authService.isLoggedIn()){
+      this.loadData();
+    }
+  }
+  
+  loadData(): void {
     // Load ticket prices for user
     this.ticketService.getTicketTypeId(this.dbName).subscribe(
       (response) => { 
@@ -59,8 +63,13 @@ export class TicketComponent implements OnInit {
         this.notificationService.notifyEvent.emit('Successfully bought ticket.');
       },
       (error) => {
-        if(error.status == 409){
-          this.notificationService.notifyEvent.emit('You already have a valid ticket for that ride type.');
+        switch(error.status){
+          case 409:
+            this.notificationService.notifyEvent.emit('You already have a valid ticket for that ride type.');
+            break;
+          case 401:
+            this.notificationService.notifyEvent.emit('You cannot buy tickets, your profile is not verified.');
+            break;
         }
       }
     );

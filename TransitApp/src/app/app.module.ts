@@ -51,6 +51,9 @@ import { PriceListService } from './_services/pricelist.service';
 import { TicketService } from './_services/ticket.service';
 import { TicketComponent } from './tickets/ticket/ticket.component';
 import { TicketValidationComponent } from './inspector-panel/ticket-validation/ticket-validation.component';
+import { AddPricelistComponent } from './admin-panel/add-pricelist/add-pricelist.component';
+import { AdminSidebarComponent } from './admin-panel/admin-sidebar/admin-sidebar.component';
+import { PricelistItemComponent } from './admin-panel/add-pricelist/pricelist-item/pricelist-item.component';
 
 
 @NgModule({
@@ -88,7 +91,10 @@ import { TicketValidationComponent } from './inspector-panel/ticket-validation/t
     DocumentComponent,
     ProfileSidebarComponent,
     TicketComponent,
-    TicketValidationComponent
+    TicketValidationComponent,
+    AddPricelistComponent,
+    AdminSidebarComponent,
+    PricelistItemComponent
   ],
   imports: [
     BrowserModule,

@@ -260,6 +260,7 @@
     <Compile Include="Controllers\StationsController.cs" />
     <Compile Include="Controllers\TicketsController.cs" />
     <Compile Include="Controllers\TicketTypesController.cs" />
+    <Compile Include="Controllers\UserTypesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -283,13 +284,15 @@
     <Compile Include="Migrations\201905311114421_AddedVerifiedDocumentImage.Designer.cs">
       <DependentUpon>201905311114421_AddedVerifiedDocumentImage.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201906041547474_AddedTicketModels.cs" />
-    <Compile Include="Migrations\201906041547474_AddedTicketModels.Designer.cs">
-      <DependentUpon>201906041547474_AddedTicketModels.cs</DependentUpon>
+    <Compile Include="Migrations\201906042354471_AddedTicketModels.cs" />
+    <Compile Include="Migrations\201906042354471_AddedTicketModels.Designer.cs">
+      <DependentUpon>201906042354471_AddedTicketModels.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BindingModels\AccountBindingModels.cs" />
+    <Compile Include="Models\BindingModels\PriceListBindingModels.cs" />
     <Compile Include="Models\BindingModels\TicketBindingModels.cs" />
+    <Compile Include="Models\Email\EmailHelper.cs" />
     <Compile Include="Models\PriceList.cs" />
     <Compile Include="Models\PriceListItem.cs" />
     <Compile Include="Models\Ticket.cs" />
@@ -451,8 +454,8 @@
     <EmbeddedResource Include="Migrations\201905311114421_AddedVerifiedDocumentImage.resx">
       <DependentUpon>201905311114421_AddedVerifiedDocumentImage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906041547474_AddedTicketModels.resx">
-      <DependentUpon>201906041547474_AddedTicketModels.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201906042354471_AddedTicketModels.resx">
+      <DependentUpon>201906042354471_AddedTicketModels.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

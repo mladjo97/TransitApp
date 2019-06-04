@@ -23,5 +23,15 @@ export class PriceListService {
         return this.http.get(`${this.apiAddress}?ticketTypeId=${id}`, options);
     }
 
+    postPriceList(priceList: any): Observable<any> {
+        const headers = new Headers();       
+        headers.append('Content-type','application/json');
+        headers.append('Accept', 'application/json');
+        headers.append('Authorization','Bearer ' + JSON.parse(localStorage.getItem("token")).token);
+
+        const options = new RequestOptions({ headers: headers });
+        return this.http.post(`${this.apiAddress}`, priceList,options);
+    }
+
 
 }

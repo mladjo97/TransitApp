@@ -1,11 +1,6 @@
 <div class="row">
   <div class="col-3">
-    <div class="nav flex-column nav-pills text-center" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-      <a class="nav-link" data-toggle="tab" [routerLinkActiveOptions]="{ exact: true }" [routerLink]="['/admin']" routerLinkActive="active" role="tab">Dashboard</a>
-      <a class="nav-link" data-toggle="tab" [routerLink]="['register']" routerLinkActive="active" role="tab" id="registerTicketInspectorNavButton">Add Ticket Inspector</a>
-      <a class="nav-link" data-toggle="tab" [routerLink]="['addbusline']" routerLinkActive="active" role="tab">Add busline</a>
-      <a class="nav-link" data-toggle="tab" [routerLink]="['stations']" routerLinkActive="active" role="tab">Stations</a>
-    </div>
+    <app-admin-sidebar></app-admin-sidebar>
   </div>
   <div class="col-9">
     <div class="tab-content" id="v-pills-tabContent">

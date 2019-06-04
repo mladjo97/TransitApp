@@ -30,6 +30,7 @@ import { InspectorPanelComponent } from './inspector-panel/inspector-panel.compo
 import { DocumentsComponent } from './inspector-panel/documents/documents.component';
 import { DocumentComponent } from './inspector-panel/documents/document/document.component';
 import { TicketValidationComponent } from './inspector-panel/ticket-validation/ticket-validation.component';
+import { AddPricelistComponent } from './admin-panel/add-pricelist/add-pricelist.component';
 
 const appRoutes: Routes = [
 
@@ -45,10 +46,11 @@ const appRoutes: Routes = [
       { path: 'document', component: DocumentImageComponent, canActivate: [UserRoleGuard] }
     ] },
 
-    { path:'admin', component: AdminPanelComponent, canActivate: [AuthGuard, AdminRoleGuard], children: [
+    { path:'admin', component: AdminPanelComponent, children: [
       { path:'', component: DashboardComponent },
       { path:'register', component: RegisterComponent },
       { path:'addbusline', component: AddBuslineComponent},
+      { path:'pricelist', component: AddPricelistComponent },
       { path: 'stations/add', component: AddStationComponent },
       { path:'stations/edit/:id', component: EditStationComponent },
       { path:'stations', component: StationsComponent, children: [

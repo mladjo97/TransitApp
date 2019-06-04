@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using WebApp.Models;
+using WebApp.Models.Email;
 using WebApp.Models.ViewModels;
 using WebApp.Persistence.UnitOfWork;
 
@@ -90,6 +91,8 @@ namespace WebApp.Controllers
                 return InternalServerError();
             }
 
+            //EmailHelper.SendSuccess("mldnmilosevic@gmail.com");
+
             return Ok();
         }
 
@@ -134,6 +137,8 @@ namespace WebApp.Controllers
             {
                 return InternalServerError();
             }
+
+            //EmailHelper.SendReject("mldnmilosevic@gmail.com");
 
             return Ok();
         }

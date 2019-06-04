@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Web.Http;
 using WebApp.Models;
+using WebApp.Models.BindingModels;
 using WebApp.Models.ViewModels;
 using WebApp.Persistence.UnitOfWork;
 
@@ -99,6 +101,74 @@ namespace WebApp.Controllers
             return Ok(ticketPrice);
                                                                          
         }
+
+        [HttpPost]
+        public IHttpActionResult Post(AddPriceListBindingModel model)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // check if there is one pricelist active during this period
+            if(!CheckIfDateValid(model.ValidFrom, model.ValidUntil))
+            {
+                return Conflict();
+            }
+
+            PriceList priceList = new PriceList()
+            {
+                ValidFrom = model.ValidFrom,
+                ValidUntil = model.ValidUntil
+            };
+
+            foreach(var priceListItem in model.PriceListItems)
+            {
+                PriceListItem plItem = new PriceListItem()
+                {
+                    BasePrice = priceListItem.BasePrice,
+                    Discount = new UserTypeDiscount() { Discount = priceListItem.Discount / 100, UserTypeId = priceListItem.UserTypeId },
+                    TicketTypeId = priceListItem.TicketTypeId
+                };
+
+                priceList.PriceListItems.Add(plItem);
+            }
+
+            _unitOfWork.PriceListRepository.Add(priceList);
+
+            try
+            {
+                _unitOfWork.Complete();
+            }
+            catch(Exception e)
+            {
+                return InternalServerError();
+            }
+
+            return Ok();
+        }
+
+        #region Helpers
+
+        private bool CheckIfDateValid(DateTime from, DateTime until)
+        {
+            bool isValid = true;
+            PriceList activePriceList = _unitOfWork.PriceListRepository.GetActivePriceList();
+            
+            if( activePriceList.ValidFrom <= from && from <= activePriceList.ValidUntil)
+            {
+                isValid = false;
+            }
+
+            if (activePriceList.ValidFrom <= until && until <= activePriceList.ValidUntil)
+            {
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        #endregion
 
     }
 }

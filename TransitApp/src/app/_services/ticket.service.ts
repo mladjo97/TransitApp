@@ -7,8 +7,17 @@ import { API_ADDRESS } from 'src/environments/app_config';
 export class TicketService {
     private apiAddress: string = `${API_ADDRESS}/Tickets`;
     private apiTicketTypesAddress: string = `${API_ADDRESS}/TicketTypes`;
+    private apiUserTypesAddress: string = `${API_ADDRESS}/UserTypes`;
 
     constructor(private http: Http) { }
+
+    getTicketTypes(): Observable<any> {
+        return this.http.get(`${this.apiTicketTypesAddress}`);
+    }
+
+    getUserTypes(): Observable<any> {
+        return this.http.get(`${this.apiUserTypesAddress}`);
+    }
 
     getTicketTypeId(name: string): Observable<any> {
         return this.http.get(`${this.apiTicketTypesAddress}?name=${name}`);

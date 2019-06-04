@@ -17,7 +17,7 @@ namespace WebApp.Migrations
                         Discount = c.Single(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.UserTypes", t => t.UserTypeId, cascadeDelete: true)
+                .ForeignKey("dbo.UserTypes", t => t.UserTypeId, cascadeDelete: false)
                 .Index(t => t.UserTypeId);
             
             CreateTable(
@@ -31,7 +31,7 @@ namespace WebApp.Migrations
                         DiscountId = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.UserTypeDiscounts", t => t.DiscountId)
+                .ForeignKey("dbo.UserTypeDiscounts", t => t.DiscountId, cascadeDelete: true)
                 .ForeignKey("dbo.PriceLists", t => t.PriceListId, cascadeDelete: true)
                 .ForeignKey("dbo.TicketTypes", t => t.TicketTypeId, cascadeDelete: true)
                 .Index(t => t.TicketTypeId)

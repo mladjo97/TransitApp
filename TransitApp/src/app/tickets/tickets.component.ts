@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PriceListService } from '../_services/pricelist.service';
 import { Ticket } from '../_models/ticket.model';
 import { TicketService } from '../_services/ticket.service';
+import { AuthService } from '../_services/auth.service';
 
 @Component({
   selector: 'app-tickets',
@@ -12,10 +13,13 @@ export class TicketsComponent implements OnInit {
 
   private tickets: Ticket[];
 
-  constructor(private ticketService: TicketService) { }
+  constructor(private ticketService: TicketService,
+              private authService: AuthService) { }
 
   ngOnInit() {
-    this.loadData();
+    if(this.authService.isLoggedIn()){
+      this.loadData();
+    }
   }
 
   loadData(): void {

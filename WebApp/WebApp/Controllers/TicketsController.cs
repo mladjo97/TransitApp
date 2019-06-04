@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using WebApp.Models;
@@ -115,7 +116,7 @@ namespace WebApp.Controllers
             
             if (isValid)
             {
-                return Ok(ticket);
+                return Ok(ticketInfo);
             }
 
             ticket.IsValid = ticketInfo.IsValid  = isValid;
@@ -144,6 +145,16 @@ namespace WebApp.Controllers
             }
 
             ApplicationUser currentUser = _unitOfWork.UserRepository.GetUserById(User.Identity.GetUserId());
+
+            if (currentUser == null)
+            {
+                return BadRequest();
+            }
+
+            if(!currentUser.VerifiedDocumentImage)
+            {
+                return Unauthorized(); // trebalo bi Forbidden npr.
+            }
 
             IEnumerable<Ticket> tickets = _unitOfWork.TicketRepository.GetUserTickets(currentUser.Id);
             foreach (var userTicket in tickets)

@@ -1,86 +1,93 @@
 <div class="container">
-    <div class="row">
-      <div class="col-sm-1">
-          <button type="button" class="btn btn-primary" [routerLink]="previousPage"><i class="fas fa-arrow-circle-left"></i></button>
-      </div>
-
-      <div class="col-sm-5">          
-          <h3>Edit bus line: {{ busLine?.Name }}</h3>
-          <hr>
-        
-          <form autocomplete="off" [formGroup]="buslineForm" (ngSubmit)="onSubmit()">
-            <div class="form-group row">
-                <label for="name">Name</label>
-                <input type="text" formControlName="name" class="form-control" id="name" aria-describedby="name" autocomplete="off" placeholder="Busline name" required>
-              </div>
-        
-              <div class="form-group row">
-                <label for="description">Description</label>
-                <input type="text" formControlName="description" class="form-control" id="description" autocomplete="off" placeholder="Description" required>
-              </div>   
-        
-              <div class="form-group row">
-                <label for="busLineTypeId">Type</label>
-                <select id="busLineTypeId" class="form-control" formControlName="busLineTypeId" required>
-                  <option *ngFor="let blt of busLineTypes" [value]="blt.Id"> {{ blt.Name }}</option>               
-                </select>
-              </div> 
-
-              <label for="busLineStations">Stations</label>
-              <div class="form-group row">
-                <select id="busLineStations" class="col-8 form-control" formControlName="busLineStations" #busLineStation>
-                  <option *ngFor="let s of stationsSelect" [value]="s.Id"> {{ s.Name }} - {{ s.Address }}</option>               
-                </select>
-                <div class="col-1"></div>
-                <button type="button" class="col-2 btn btn-primary" (click)="onAddStation(busLineStation.value)"><i class="fas fa-plus"></i></button>
-              </div> 
-              
-              <label for="time">Time</label>
-              <div class="form-group row">
-                <input type="text" class="col-3 form-control" placeholder="Time" #time>
-                <div class="col-1"></div>
-                <select id="day" class="col-4 form-control" #day>
-                  <option *ngFor="let d of days; let i = index" [value]="i"> {{ d }} </option>               
-                </select>
-                <div class="col-1"></div>
-                <button type="button" class="col-2 btn btn-primary" (click)="onAddTime(time.value, day.value)"><i class="fas fa-plus"></i></button>
-                <span class="invalid-input" *ngIf="invalidTimeFormat"> Please enter a valid time. </span>
-              </div> 
-            
-            <br><hr>
-            
-            <button type="submit" class="btn btn-primary btn-block" [disabled]="!buslineForm.valid">
-              <span *ngIf="submitted" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-              Edit
-              </button>
-
-          </form>
-      </div>   
-
-      <div class="col-sm-4">      
-        <ul class="list-group" *ngIf="stationsActive">
-            <h3><u>Stations</u> <i>(ordered)</i></h3>
-            <li class="list-group-item timetable-time" *ngFor="let s of stations; let i = index"> 
-              {{ s.Name }} 
-              <button type="button" class="btn btn-danger float-right" (click)="onRemoveStation(i)"><i class="fas fa-trash"></i></button>
-              <button type="button" class="btn btn-primary float-right" (click)="onMoveDownStation(i)"><i class="fas fa-arrow-down"></i></button>
-              <button type="button" class="btn btn-primary float-right" (click)="onMoveUpStation(i)"><i class="fas fa-arrow-up"></i></button>               
-           </li>        
-          </ul>
-      </div>
-
-      <div class="col-sm-2">
-        <ul class="list-group" *ngIf="timetableActive">
-          <h3><u>Timetable</u></h3>
-          <li class="list-group-item timetable-time" *ngFor="let time of timetable"> 
-            <small>{{ time.day }} - {{ time.time._i }}</small>  
-            <button type="button" class="btn btn-danger float-right" (click)="onRemoveTime(time.time._i, time.dayOfWeek)"><i class="fas fa-trash"></i></button> 
-        </li>        
-        </ul>
-      </div>
-        
+  <div class="row">
+    <div class="col-sm-1">
+      <button type="button" class="btn btn-primary" [routerLink]="previousPage"><i
+          class="fas fa-arrow-circle-left"></i></button>
     </div>
+
+    <div class="col-sm-5">
+      <h3>Edit bus line: {{ busLine?.Name }}</h3>
+      <hr>
+
+      <form autocomplete="off" [formGroup]="buslineForm" (ngSubmit)="onSubmit()">
+        <div class="form-group row">
+          <label for="name">Name</label>
+          <input type="text" formControlName="name" class="form-control" id="name" aria-describedby="name"
+            autocomplete="off" placeholder="Busline name" required>
+        </div>
+
+        <div class="form-group row">
+          <label for="description">Description</label>
+          <input type="text" formControlName="description" class="form-control" id="description" autocomplete="off"
+            placeholder="Description" required>
+        </div>
+
+        <div class="form-group row">
+          <label for="busLineTypeId">Type</label>
+          <select id="busLineTypeId" class="form-control" formControlName="busLineTypeId" required>
+            <option *ngFor="let blt of busLineTypes" [value]="blt.Id"> {{ blt.Name }}</option>
+          </select>
+        </div>
+
+        <label for="busLineStations">Stations</label>
+        <div class="form-group row">
+          <select id="busLineStations" class="col-8 form-control" formControlName="busLineStations" #busLineStation>
+            <option *ngFor="let s of stationsSelect" [value]="s.Id"> {{ s.Name }} - {{ s.Address }}</option>
+          </select>
+          <div class="col-1"></div>
+          <button type="button" class="col-2 btn btn-primary" (click)="onAddStation(busLineStation.value)"><i
+              class="fas fa-plus"></i></button>
+        </div>
+
+        <label for="time">Time</label>
+        <div class="form-group row">
+          <input type="text" class="col-3 form-control" placeholder="Time" #time>
+          <div class="col-1"></div>
+          <select id="day" class="col-4 form-control" #day>
+            <option *ngFor="let d of days; let i = index" [value]="i"> {{ d }} </option>
+          </select>
+          <div class="col-1"></div>
+          <button type="button" class="col-2 btn btn-primary" (click)="onAddTime(time.value, day.value)"><i
+              class="fas fa-plus"></i></button>
+          <span class="invalid-input" *ngIf="invalidTimeFormat"> Please enter a valid time. </span>
+        </div>
+
+        <br>
+        <hr>
+
+        <button type="submit" class="btn btn-primary btn-block" [disabled]="!buslineForm.valid">
+          <span *ngIf="submitted" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          Edit
+        </button>
+
+      </form>
+    </div>
+
+    <div class="col-sm-4">
+      <ul class="list-group" *ngIf="stationsActive">
+        <h3><u>Stations</u> <i>(ordered)</i></h3>
+        <li class="list-group-item timetable-time" *ngFor="let s of stations; let i = index">
+          {{ s.Name }}
+          <button type="button" class="btn btn-danger float-right" (click)="onRemoveStation(i)"><i
+              class="fas fa-trash"></i></button>
+          <button type="button" class="btn btn-primary float-right" (click)="onMoveDownStation(i)"><i
+              class="fas fa-arrow-down"></i></button>
+          <button type="button" class="btn btn-primary float-right" (click)="onMoveUpStation(i)"><i
+              class="fas fa-arrow-up"></i></button>
+        </li>
+      </ul>
+    </div>
+
+    <div class="col-sm-2">
+      <ul class="list-group" *ngIf="timetableActive">
+        <h3><u>Timetable</u></h3>
+        <li class="list-group-item timetable-time" *ngFor="let time of timetable">
+          <small>{{ time.day }} - {{ time.time._i }}</small>
+          <button type="button" class="btn btn-danger float-right"
+            (click)="onRemoveTime(time.time._i, time.dayOfWeek)"><i class="fas fa-trash"></i></button>
+        </li>
+      </ul>
+    </div>
+
   </div>
-
- 
-
+</div>

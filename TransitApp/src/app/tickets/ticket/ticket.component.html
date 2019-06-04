@@ -9,7 +9,7 @@
       <div *ngIf="loaded">
         <h6 *ngIf="!ticketPrice.HasDiscount" class="card-subtitle mb-2 text-muted">Price: {{ ticketPrice?.BasePrice }} din</h6>
         <h6 *ngIf="ticketPrice.HasDiscount" class="card-subtitle mb-2 text-muted">
-          Price: <del> {{ ticketPrice?.BasePrice }} </del>
+          Price: <del> ({{ ticketPrice?.BasePrice }}) </del>
           {{ ticketPrice?.DiscountPrice }} din <sup> {{ ticketPrice?.DiscountRate*100 }}% off</sup>
         </h6>
       </div>    
