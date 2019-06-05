@@ -23,4 +23,4 @@ Run the Web API project from the (/WebApp) solution
 - [x] Busline departure times for every day of the week
 - [x] Busline routes (on an OpenLayers map)
 - [x] Ticket plans
-- [] Busline route simulation (SignalR)
+- [ ] Busline route simulation (SignalR)
