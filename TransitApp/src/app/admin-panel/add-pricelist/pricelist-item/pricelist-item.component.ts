@@ -12,15 +12,21 @@ export class PricelistItemComponent implements OnInit {
   @Input() discount: number;
   @Input() ticketTypeName: string;
   @Input() userTypeName: string;
+  @Input() removeEnabled: boolean;
   @Output() removed = new EventEmitter<number>();
 
   constructor() { }
 
   ngOnInit() {
+    if(this.discount < 1){
+      this.discount = this.discount * 100;
+    }
   }
 
-  onRemove(index: number): void {    
-    this.removed.emit(index);
+  onRemove(index: number): void { 
+    if(this.removeEnabled){
+      this.removed.emit(index);
+    }
   }
 
 }

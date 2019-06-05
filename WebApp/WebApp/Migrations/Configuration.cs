@@ -283,7 +283,7 @@ namespace WebApp.Migrations
                     context.SaveChanges();
                 }
             }
-           
+
         } 
 
         private void AddPriceLists(ApplicationDbContext context)
@@ -316,24 +316,6 @@ namespace WebApp.Migrations
                     BasePrice = 70,
                     TicketTypeId = ticketType.Id,
                     DiscountId = discount.Id,
-                    PriceListId = priceList.Id
-                };
-
-                context.PriceListItems.Add(priceListItem);
-                context.SaveChanges();
-            }
-
-            // SingleUse ticket w/out discount for regulars
-            userType = context.UserTypes.FirstOrDefault(x => x.Name == "Regular");
-            
-            priceList = context.PriceLists.FirstOrDefault();
-
-            if (context.PriceListItems.Count() <= 1)
-            {
-                var priceListItem = new PriceListItem()
-                {
-                    BasePrice = 70,
-                    TicketTypeId = ticketType.Id,
                     PriceListId = priceList.Id
                 };
 

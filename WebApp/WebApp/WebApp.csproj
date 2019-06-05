@@ -309,6 +309,7 @@
     <Compile Include="Models\Station.cs" />
     <Compile Include="Models\UserType.cs" />
     <Compile Include="Models\ViewModels\DocumentImageViewModels.cs" />
+    <Compile Include="Models\ViewModels\PriceListViewModels.cs" />
     <Compile Include="Models\ViewModels\TicketViewModels.cs" />
     <Compile Include="Persistence\ApplicationDbContext.cs" />
     <Compile Include="Persistence\Repository\BusLineRepository\BusLineRepository.cs" />

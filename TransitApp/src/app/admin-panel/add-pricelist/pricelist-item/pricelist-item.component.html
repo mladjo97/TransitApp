@@ -1,5 +1,5 @@
 <div class="shadow p-1 mb-2 mt-6 bg-white rounded">
   <p class="lead">{{ ticketTypeName }} : {{ userTypeName }}</p>
   <p class="lead">{{ basePrice }} din with {{ discount }}% discount. </p>
-  <button class="btn btn-danger" (click)="onRemove(index)">Remove</button>
+  <button *ngIf="removeEnabled" class="btn btn-danger" (click)="onRemove(index)">Remove</button>
 </div>

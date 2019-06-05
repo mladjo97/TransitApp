@@ -1,0 +1,48 @@
+<div class="container">
+
+  <div class="row">
+    <div class="col-sm-12">
+      <h3>
+        PriceLists
+      </h3>
+      <hr><br>
+
+      <h5 *ngIf="!priceLists?.length">Sorry, there are no price lists</h5>
+
+      <table class="table table-hover" *ngIf="priceLists?.length">
+        <thead class="thead-dark full-width">
+          <tr>
+            <th class="center-block text-center" scope="col">ID</th>
+            <th class="center-block text-center" scope="col">Valid From</th>
+            <th class="center-block text-center" scope="col">Valid Until</th>
+            <th class="center-block text-center" scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr (click)="onClick(pl.Id)" *ngFor="let pl of priceLists">
+            <th scope="row" class="center-block text-center"> {{ pl.Id }}</th>
+            <td class="center-block text-center">
+              {{ pl.ValidFrom | date:'short' }}
+            </td>
+            <td class="center-block text-center">
+              {{ pl.ValidUntil | date:'short' }}
+            </td>
+            <td class="center-block text-center">
+              <button type="button" class="btn btn-danger left-border" (click)="onDelete(pl.Id)">
+                <i class="fas fa-trash-alt"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <app-pricelist-item *ngFor="let item of priceListItems; let i = index" [index]="i" [basePrice]="item.BasePrice"
+        [discount]="item.Discount" [userTypeName]="item.UserTypeName" [ticketTypeName]="item.TicketTypeName"
+        [removeEnabled]="false"></app-pricelist-item>
+    </div>
+  </div>
+
+</div>

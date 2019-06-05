@@ -10,7 +10,17 @@ export class PriceListService {
     constructor(private http: Http) { }
 
     getActivePriceList(): Observable<any> {
-        return this.http.get(this.apiAddress);
+        return this.http.get(`${this.apiAddress}/Active`);
+    }
+    
+    getAllPriceLists(): Observable<any> {
+        const headers = new Headers();       
+        headers.append('Content-type','application/json');
+        headers.append('Accept', 'application/json');
+        headers.append('Authorization','Bearer ' + JSON.parse(localStorage.getItem("token")).token);
+
+        const options = new RequestOptions({ headers: headers });
+        return this.http.get(`${this.apiAddress}/All`, options);
     }
 
     getPriceForTicketType(id: number): Observable<any> {
@@ -31,6 +41,16 @@ export class PriceListService {
 
         const options = new RequestOptions({ headers: headers });
         return this.http.post(`${this.apiAddress}`, priceList,options);
+    }
+
+    deletePriceList(priceListId: number): Observable<any> {
+        const headers = new Headers();       
+        headers.append('Content-type','application/json');
+        headers.append('Accept', 'application/json');
+        headers.append('Authorization','Bearer ' + JSON.parse(localStorage.getItem("token")).token);
+
+        const options = new RequestOptions({ headers: headers });
+        return this.http.delete(`${this.apiAddress}/${priceListId}`, options);
     }
 
 

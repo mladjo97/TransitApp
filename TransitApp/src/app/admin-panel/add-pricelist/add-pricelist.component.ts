@@ -26,7 +26,6 @@ export class AddPricelistComponent implements OnInit {
   userTypes: UserType[];
   ticketTypes: TicketType[];
 
-
   priceList: PriceList;
   priceListItems: PriceListItem[];
 

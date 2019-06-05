@@ -20,6 +20,12 @@ namespace WebApp.Persistence.Repository.TicketRepository
         {
         }
 
+        public IEnumerable<PriceList> GetAllPriceLists()
+        {
+            return AppDBContext.PriceLists.Include(x => x.PriceListItems.Select(y => y.Discount.UserType))
+                                           .Include(x => x.PriceListItems.Select(y => y.TicketType)).ToList();
+        }
+
         public PriceList GetActivePriceList()
         {
             var currentTime = DateTime.Now;
@@ -27,6 +33,19 @@ namespace WebApp.Persistence.Repository.TicketRepository
                                            .Include(x => x.PriceListItems.Select(y => y.Discount.UserType))
                                            .Include(x => x.PriceListItems.Select(y => y.TicketType)).FirstOrDefault();
         }
+
+        public IEnumerable<UserTypeDiscount> GetDiscounts(int id)
+        {
+            List<UserTypeDiscount> discounts = new List<UserTypeDiscount>();
+
+            List<PriceListItem> priceListItems = AppDBContext.PriceListItems.Where(x => x.PriceListId.Equals(id))
+                                                                            .Include(x => x.Discount).ToList();
+
+            foreach (var pl in priceListItems)
+                discounts.Add(pl.Discount);
+
+            return discounts;
+        } 
 
         public IEnumerable<PriceListItem> GetActivePriceListItems()
         {
@@ -45,7 +64,6 @@ namespace WebApp.Persistence.Repository.TicketRepository
                                               .Include(x => x.TicketType);
         }
 
-        
 
 
     }

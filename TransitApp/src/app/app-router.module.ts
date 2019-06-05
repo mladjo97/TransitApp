@@ -31,6 +31,7 @@ import { DocumentsComponent } from './inspector-panel/documents/documents.compon
 import { DocumentComponent } from './inspector-panel/documents/document/document.component';
 import { TicketValidationComponent } from './inspector-panel/ticket-validation/ticket-validation.component';
 import { AddPricelistComponent } from './admin-panel/add-pricelist/add-pricelist.component';
+import { PricelistsComponent } from './admin-panel/pricelists/pricelists.component';
 
 const appRoutes: Routes = [
 
@@ -50,7 +51,8 @@ const appRoutes: Routes = [
       { path:'', component: DashboardComponent },
       { path:'register', component: RegisterComponent },
       { path:'addbusline', component: AddBuslineComponent},
-      { path:'pricelist', component: AddPricelistComponent },
+      { path:'add-pricelist', component: AddPricelistComponent },
+      { path:'pricelists', component: PricelistsComponent },
       { path: 'stations/add', component: AddStationComponent },
       { path:'stations/edit/:id', component: EditStationComponent },
       { path:'stations', component: StationsComponent, children: [
