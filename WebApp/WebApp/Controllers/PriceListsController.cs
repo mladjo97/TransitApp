@@ -52,6 +52,7 @@ namespace WebApp.Controllers
                     {
                         Id = priceListItem.Id,
                         BasePrice = priceListItem.BasePrice,
+                        DiscountId = priceListItem.DiscountId,
                         Discount = priceListItem.Discount.Discount,
                         HasDiscount = true,
                         TicketTypeId = priceListItem.TicketTypeId,
@@ -90,8 +91,47 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public IHttpActionResult Get(int id)
+        {
+            PriceList priceList = _unitOfWork.PriceListRepository.GetPriceListById(id);
+            List<PriceListItemViewModel> plItemsInfo = new List<PriceListItemViewModel>();
+
+            foreach (var priceListItem in priceList.PriceListItems)
+            {
+                PriceListItemViewModel plItemViewModel = new PriceListItemViewModel()
+                {
+                    Id = priceListItem.Id,
+                    BasePrice = priceListItem.BasePrice,
+                    DiscountId = priceListItem.DiscountId,
+                    Discount = priceListItem.Discount.Discount,
+                    HasDiscount = true,
+                    TicketTypeId = priceListItem.TicketTypeId,
+                    TicketTypeName = priceListItem.TicketType.Name,
+                    UserTypeId = priceListItem.Discount.UserTypeId,
+                    UserTypeName = priceListItem.Discount.UserType.Name
+                };
+
+                plItemViewModel.HasDiscount = priceListItem.Discount.Discount > 0 ? true : false;
+                plItemsInfo.Add(plItemViewModel);
+            }
+
+
+            PriceListViewModel plViewModel = new PriceListViewModel()
+            {
+                Id = priceList.Id,
+                ValidFrom = priceList.ValidFrom,
+                ValidUntil = priceList.ValidUntil,
+                PriceListItems = plItemsInfo
+            };
+            
+
+            return Ok(plViewModel);
+        }
+
+        [HttpGet]
         [Authorize(Roles = "User, TicketInspector, Admin")]
-        public IHttpActionResult Get([FromUri]int ticketTypeId)
+        public IHttpActionResult GetFromTicketType([FromUri]int ticketTypeId)
         {
             TicketType ticketType = _unitOfWork.TicketTypeRepository.Get(ticketTypeId);
             if (ticketType == null)
@@ -199,7 +239,82 @@ namespace WebApp.Controllers
             return Ok();
         }
 
-        // DELETE: api/PriceList/5
+
+        // PUT: api/PriceLists
+        [HttpPut]
+        [Authorize(Roles = "Admin")]
+        public IHttpActionResult Put(EditPriceListBindingModel model)
+        {
+            PriceList contextPriceList = _unitOfWork.PriceListRepository.GetPriceListById(model.Id);
+
+            if(contextPriceList == null)
+            {
+                return BadRequest();
+            }
+
+            // check for date change
+            if(!contextPriceList.ValidFrom.Equals(model.ValidFrom) || !contextPriceList.ValidUntil.Equals(model.ValidUntil))
+            {
+                if(!CheckIfDateValid(model.ValidFrom, model.ValidUntil, contextPriceList.Id))
+                {
+                    return Conflict();
+                }
+            }
+
+            contextPriceList.ValidFrom = model.ValidFrom;
+            contextPriceList.ValidUntil = model.ValidUntil;
+
+            // clear discounts
+            ICollection<UserTypeDiscount> cloneDiscounts = new HashSet<UserTypeDiscount>();
+            foreach (var item in contextPriceList.PriceListItems)
+                cloneDiscounts.Add(item.Discount);
+
+            foreach (var contextDiscount in cloneDiscounts)
+            {
+                _unitOfWork.UserTypeDiscountRepository.Remove(contextDiscount);
+            }
+
+            // clear priceitems
+            ICollection<PriceListItem> cloneItems = new HashSet<PriceListItem>();
+            foreach (var item in contextPriceList.PriceListItems)
+                cloneItems.Add(item);
+
+            foreach(var contextPriceListItem in cloneItems)
+            {
+                _unitOfWork.PriceListItemRepository.Remove(contextPriceListItem);
+            }
+
+
+            // add new values
+            foreach (var priceListItem in model.PriceListItems)
+            {
+                PriceListItem plItem = new PriceListItem()
+                {
+                    BasePrice = priceListItem.BasePrice,
+                    TicketTypeId = priceListItem.TicketTypeId,
+                    Discount = new UserTypeDiscount() { Discount = priceListItem.Discount, UserTypeId = priceListItem.UserTypeId }
+                };
+
+                contextPriceList.PriceListItems.Add(plItem);
+            }
+
+            // update
+            _unitOfWork.PriceListRepository.Update(contextPriceList);
+
+            try
+            {
+                _unitOfWork.Complete();
+            }
+            catch(Exception e)
+            {
+                return InternalServerError();
+            }
+
+            return Ok(); // Modified ?
+        }
+
+
+        // DELETE: api/PriceLists/5
         [HttpDelete]
         public IHttpActionResult Delete(int id)
         {
@@ -229,13 +344,18 @@ namespace WebApp.Controllers
 
         #region Helpers
 
-        private bool CheckIfDateValid(DateTime from, DateTime until)
+        private bool CheckIfDateValid(DateTime from, DateTime until, int id = -1)
         {
             bool isValid = true;
             IEnumerable<PriceList> priceLists = _unitOfWork.PriceListRepository.GetAll();
 
             foreach (var priceList in priceLists)
             {
+                if (priceList.Id.Equals(id))
+                {
+                    continue;
+                }
+
                 if (priceList.ValidFrom <= from && from <= priceList.ValidUntil)
                 {
                     isValid = false;

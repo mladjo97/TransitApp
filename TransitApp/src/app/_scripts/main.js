@@ -106,10 +106,9 @@ function setDate(date){
 function setRangeDates(startDateParam, endDateParam){
     // init datetime picker
     $('input[name="pricelist_range"]').daterangepicker({
-        singleDatePicker: true,
-        showDropdowns: true,
         startDate: startDateParam,
         endDate: endDateParam,
+        opens: 'right',
         minYear: 1901,
         maxYear: parseInt(moment().format('YYYY'), 10),
         locale: {

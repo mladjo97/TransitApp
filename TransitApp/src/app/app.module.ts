@@ -55,6 +55,7 @@ import { AddPricelistComponent } from './admin-panel/add-pricelist/add-pricelist
 import { AdminSidebarComponent } from './admin-panel/admin-sidebar/admin-sidebar.component';
 import { PricelistItemComponent } from './admin-panel/add-pricelist/pricelist-item/pricelist-item.component';
 import { PricelistsComponent } from './admin-panel/pricelists/pricelists.component';
+import { EditPricelistComponent } from './admin-panel/edit-pricelist/edit-pricelist.component';
 
 
 @NgModule({
@@ -96,7 +97,8 @@ import { PricelistsComponent } from './admin-panel/pricelists/pricelists.compone
     AddPricelistComponent,
     AdminSidebarComponent,
     PricelistItemComponent,
-    PricelistsComponent
+    PricelistsComponent,
+    EditPricelistComponent
   ],
   imports: [
     BrowserModule,

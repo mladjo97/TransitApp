@@ -26,12 +26,21 @@ namespace WebApp.Persistence.Repository.TicketRepository
                                            .Include(x => x.PriceListItems.Select(y => y.TicketType)).ToList();
         }
 
+        public PriceList GetPriceListById(int id)
+        {
+            return AppDBContext.PriceLists.Where(x => x.Id.Equals(id))
+                                           .Include(x => x.PriceListItems.Select(y => y.Discount).Select(z => z.UserType))
+                                           .Include(x => x.PriceListItems.Select(y => y.TicketType))
+                                           .FirstOrDefault();
+        }
+
         public PriceList GetActivePriceList()
         {
             var currentTime = DateTime.Now;
             return AppDBContext.PriceLists.Where(x => x.ValidFrom < currentTime && x.ValidUntil > currentTime)
-                                           .Include(x => x.PriceListItems.Select(y => y.Discount.UserType))
-                                           .Include(x => x.PriceListItems.Select(y => y.TicketType)).FirstOrDefault();
+                                           .Include(x => x.PriceListItems.Select(y => y.Discount).Select(z => z.UserType))
+                                           .Include(x => x.PriceListItems.Select(y => y.TicketType))                                           
+                                           .FirstOrDefault();
         }
 
         public IEnumerable<UserTypeDiscount> GetDiscounts(int id)
@@ -39,7 +48,8 @@ namespace WebApp.Persistence.Repository.TicketRepository
             List<UserTypeDiscount> discounts = new List<UserTypeDiscount>();
 
             List<PriceListItem> priceListItems = AppDBContext.PriceListItems.Where(x => x.PriceListId.Equals(id))
-                                                                            .Include(x => x.Discount).ToList();
+                                                                            .Include(x => x.Discount)
+                                                                            .ToList();
 
             foreach (var pl in priceListItems)
                 discounts.Add(pl.Discount);
@@ -50,18 +60,32 @@ namespace WebApp.Persistence.Repository.TicketRepository
         public IEnumerable<PriceListItem> GetActivePriceListItems()
         {
             var activePriceList = GetActivePriceList();
+
+            if (activePriceList == null)
+            {
+                return null;
+            }
+
             return AppDBContext.PriceListItems.Where(x => x.PriceListId.Equals(activePriceList.Id))
                                               .Include(x => x.Discount.UserType)
-                                              .Include(x => x.TicketType);
+                                              .Include(x => x.TicketType)
+                                              .ToList();
         }
 
         public IEnumerable<PriceListItem> GetPriceListItems(int ticketTypeId)
         {
             var activePriceList = GetActivePriceList();
+
+            if(activePriceList == null)
+            {
+                return null;
+            }
+
             return AppDBContext.PriceListItems.Where(x => x.TicketTypeId.Equals(ticketTypeId) 
                                                        && x.PriceListId.Equals(activePriceList.Id))
                                               .Include(x => x.Discount)
-                                              .Include(x => x.TicketType);
+                                              .Include(x => x.TicketType)
+                                              .ToList();
         }
 
 

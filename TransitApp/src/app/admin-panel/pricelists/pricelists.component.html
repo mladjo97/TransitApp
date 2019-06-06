@@ -27,9 +27,13 @@
             <td class="center-block text-center">
               {{ pl.ValidUntil | date:'short' }}
             </td>
-            <td class="center-block text-center">
-              <button type="button" class="btn btn-danger left-border" (click)="onDelete(pl.Id)">
-                <i class="fas fa-trash-alt"></i></button>
+            <td>
+              <div class="btn-group btn-group-sm float-right" role="group">
+                <button type="button" class="btn btn-info left-border" [routerLink]="['edit', pl.Id]">
+                  <i class="fas fa-pen"></i></button>
+                <button type="button" class="btn btn-danger left-border" (click)="onDelete(pl.Id)">
+                  <i class="fas fa-trash-alt"></i></button>
+              </div>
             </td>
           </tr>
         </tbody>

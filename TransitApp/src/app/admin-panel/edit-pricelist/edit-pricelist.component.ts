@@ -1,25 +1,31 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
-import * as mainScript from 'src/app/_scripts/main.js';
-import { PriceList } from 'src/app/_models/pricelist.model';
-import { PriceListItem } from 'src/app/_models/pricelist-item.model';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserType } from 'src/app/_models/user-type.model';
 import { TicketType } from 'src/app/_models/ticket-type.model';
-import { TicketService } from 'src/app/_services/ticket.service';
+import { PriceList } from 'src/app/_models/pricelist.model';
+import { PriceListItem } from 'src/app/_models/pricelist-item.model';
+import { FormControl, FormGroup } from '@angular/forms';
 import { PriceListService } from 'src/app/_services/pricelist.service';
+import { TicketService } from 'src/app/_services/ticket.service';
 import { NotificationService } from 'src/app/_services/notification.service';
+import { Subscription } from 'rxjs';
+import { ActivatedRoute, Params } from '@angular/router';
+
 
 // js files for date 
 declare var getStartRange: any;
 declare var getEndRange: any;
 declare var initDateRange: any;
+declare var setRangeDates: any;
+
 
 @Component({
-  selector: 'app-add-pricelist',
-  templateUrl: './add-pricelist.component.html',
-  styleUrls: ['./add-pricelist.component.css']
+  selector: 'app-edit-pricelist',
+  templateUrl: './edit-pricelist.component.html',
+  styleUrls: ['./edit-pricelist.component.css']
 })
-export class AddPricelistComponent implements OnInit {
+export class EditPricelistComponent implements OnInit, OnDestroy {
+  idSubscription: Subscription;
+  id: number;
 
   submitted: boolean;
   priceListHasItems: boolean;
@@ -38,9 +44,17 @@ export class AddPricelistComponent implements OnInit {
 
   constructor(private ticketService: TicketService,
               private priceListService: PriceListService,
-              private notificationService: NotificationService) { }
+              private notificationService: NotificationService,
+              private route: ActivatedRoute) { }
 
   ngOnInit() {
+
+    this.idSubscription = this.route.params.subscribe( 
+      (params: Params) => {
+          this.id = +params['id'];     
+          this.updateForm();
+      } );
+
     this.priceList = new PriceList();
     this.priceListItems = [];
     this.submitted = false;
@@ -48,6 +62,44 @@ export class AddPricelistComponent implements OnInit {
     initDateRange();
 
     this.loadData();
+  }
+
+  ngOnDestroy() {
+    this.idSubscription.unsubscribe();
+  }
+
+  updateForm(): void {
+
+    this.priceListItems = [];
+
+    // get pricelist by id
+    this.priceListService.getPriceList(this.id).subscribe(
+
+      (response) => {
+        console.log(response.json());
+
+        this.priceList = response.json();
+        this.priceListItems = this.priceList.PriceListItems;
+
+        const startDate = this.formatDate(new Date(this.priceList.ValidFrom));
+        const endDate = this.formatDate(new Date(this.priceList.ValidUntil));        
+        setRangeDates(startDate, endDate);
+
+        if(this.priceListItems.length > 0) {
+          this.priceListHasItems = true;
+        }
+
+      },
+
+      (error) => {
+        console.log(error);
+      }
+
+    );
+  }
+
+  formatDate(date: Date): string {
+    return `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`;
   }
 
   loadData(): void {
@@ -77,6 +129,7 @@ export class AddPricelistComponent implements OnInit {
         console.log(error);
       }
     );
+
   }
 
   onAddPriceListItem(event) {
@@ -86,7 +139,7 @@ export class AddPricelistComponent implements OnInit {
     const priceListItem = new PriceListItem(this.priceListForm.value.basePrice,
                                             this.priceListForm.value.ticketTypeId,
                                             this.priceListForm.value.userTypeId,
-                                            this.priceListForm.value.discount);
+                                            this.priceListForm.value.discount/100);
 
     priceListItem.UserTypeName = this.userTypes.find(item => item.Id == priceListItem.UserTypeId).Name;
     priceListItem.TicketTypeName = this.ticketTypes.find(item => item.Id == priceListItem.TicketTypeId).Name;
@@ -126,7 +179,6 @@ export class AddPricelistComponent implements OnInit {
     }
   }
 
-
   onSubmit(): void {
 
     this.priceList.ValidFrom = getStartRange();
@@ -134,9 +186,9 @@ export class AddPricelistComponent implements OnInit {
     this.priceList.PriceListItems = [...this.priceListItems];
     console.log(this.priceList);
 
-    this.priceListService.postPriceList(this.priceList).subscribe(
+    this.priceListService.putPriceList(this.priceList).subscribe(
       (response) => {
-        this.notificationService.notifyEvent.emit('Successfully added a new pricelist.');
+        this.notificationService.notifyEvent.emit('Successfully edited the pricelist.');
       },
       (error) => {
         switch(error.status) {

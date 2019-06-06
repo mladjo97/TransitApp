@@ -32,6 +32,7 @@ import { DocumentComponent } from './inspector-panel/documents/document/document
 import { TicketValidationComponent } from './inspector-panel/ticket-validation/ticket-validation.component';
 import { AddPricelistComponent } from './admin-panel/add-pricelist/add-pricelist.component';
 import { PricelistsComponent } from './admin-panel/pricelists/pricelists.component';
+import { EditPricelistComponent } from './admin-panel/edit-pricelist/edit-pricelist.component';
 
 const appRoutes: Routes = [
 
@@ -47,6 +48,7 @@ const appRoutes: Routes = [
       { path: 'document', component: DocumentImageComponent, canActivate: [UserRoleGuard] }
     ] },
 
+    { path: 'admin/pricelists/edit/:id', component: EditPricelistComponent, canActivate:[AuthGuard, AdminRoleGuard]},
     { path:'admin', component: AdminPanelComponent, children: [
       { path:'', component: DashboardComponent },
       { path:'register', component: RegisterComponent },

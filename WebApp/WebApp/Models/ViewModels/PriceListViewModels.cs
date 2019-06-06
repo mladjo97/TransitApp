@@ -28,6 +28,9 @@ namespace WebApp.Models.ViewModels
         public decimal BasePrice { get; set; }
 
         public bool HasDiscount { get; set; }
+
+        public int? DiscountId { get; set; }
+
         public float? Discount { get; set; }
     }
 
