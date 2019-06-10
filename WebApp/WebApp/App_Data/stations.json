@@ -1,0 +1,62 @@
+[
+  {
+    "Name": "Zeleznicka",
+    "Address": "Bulevar Jase Tomica",
+    "Lon": 19.829617515206333,
+    "Lat": 45.26404556344096
+  },
+  {
+    "Name": "Simpo",
+    "Address": "Bulevar Oslobodjenja - Bulevar Kralja Petra",
+    "Lon": 19.832058995962143,
+    "Lat": 45.26104758226012
+  },
+  {
+    "Name": "Aleksandar Zgrada",
+    "Address": "Bulevar Oslobodjenja - Bulevar Papa Pavla",
+    "Lon": 19.835076481103897,
+    "Lat": 45.25561947427374
+  },
+  {
+    "Name": "The Pub Stanica",
+    "Address": "Bulevar Oslobodjenja - Brace Ribnikar",
+    "Lon": 19.835076481103897,
+    "Lat": 45.25561947427374
+  },
+  {
+    "Name": "Merkator",
+    "Address": "Bulevar Oslobodjenja - Merkator",
+    "Lon": 19.84163,
+    "Lat": 45.24344
+  },
+  {
+    "Name": "Nis",
+    "Address": "Narodnog fronta - Bulevar Oslobodjenja",
+    "Lon": 19.84187,
+    "Lat": 45.24138
+  },
+  {
+    "Name": "Schneider Electric DMS 1",
+    "Address": "Narodnog fronta - Sekspirova",
+    "Lon": 19.83726,
+    "Lat": 45.2401
+  },
+  {
+    "Name": "Schneider Electric DMS 2",
+    "Address": "Narodnog fronta - Sekspirova",
+    "Lon": 19.83187,
+    "Lat": 45.23862
+  },
+  {
+    "Name": "Okretnica",
+    "Address": "Narodnog fronta - Okretnica",
+    "Lon": 19.82706,
+    "Lat": 45.23726
+  },
+  {
+    "Name": "Kruzni tok",
+    "Address": "Bulevar Patrijarha Pavla - Bulevar Evrope",
+    "Lon": 19.821487,
+    "Lat": 45.239791
+  }
+]

@@ -36,7 +36,8 @@
               "src/app/_scripts/map.js",
               "src/app/_scripts/moment.min.js",
               "src/app/_scripts/daterangepicker.min.js",
-              "src/app/_scripts/main.js"
+              "src/app/_scripts/main.js",
+              "src/assets/js/jquery.signalR-2.4.1.min.js"
              ],
             "es5BrowserSupport": true
           },

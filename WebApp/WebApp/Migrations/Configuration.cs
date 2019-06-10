@@ -2,9 +2,14 @@ namespace WebApp.Migrations
 {
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
+    using Newtonsoft.Json;
     using System;
+    using System.Collections.Generic;
+    using System.Configuration;
     using System.Data.Entity.Migrations;
+    using System.IO;
     using System.Linq;
+    using System.Web.Hosting;
     using WebApp.Models;
     using WebApp.Persistence;
 
@@ -25,6 +30,7 @@ namespace WebApp.Migrations
             AddUserRoles(context);
             AddUserTypes(context);
             AddUsers(context);
+            AddStations(context);
             AddBusLineTypes(context);
             AddTicketTypes(context);
             AddUserTypeDiscounts(context);
@@ -172,6 +178,28 @@ namespace WebApp.Migrations
 
                 userManager.Create(user);
                 userManager.AddToRole(user.Id, "User");
+            }
+        }
+
+        private void AddStations(ApplicationDbContext context)
+        {
+            List<Station> stations = new List<Station>();
+            string stationsPath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), ConfigurationManager.AppSettings["StationsDataPath"]));
+            using (StreamReader r = new StreamReader(stationsPath))
+            {
+                string json = r.ReadToEnd();
+                stations = JsonConvert.DeserializeObject<List<Station>>(json);
+            }
+
+            foreach (var station in stations)
+            {
+                if (!context.Stations.Any(x => x.Name.Equals(station.Name) &&
+                                              x.Lat.Equals(station.Lat) &&
+                                              x.Lon.Equals(station.Lon)))
+                {
+                    context.Stations.Add(station);
+                    context.SaveChanges();
+                }
             }
         }
 
@@ -344,6 +372,8 @@ namespace WebApp.Migrations
 
 
         }
+
+        
 
     }
 }

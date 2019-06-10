@@ -62,6 +62,11 @@ namespace WebApp.Controllers
                 return BadRequest();
             }
 
+            if (!ValidateCoordinates(station.Lon, station.Lat))
+            {
+                return BadRequest("Coordinates are not valid");
+            }
+
             _unitOfWork.StationRepository.Update(station);
 
             try
@@ -91,6 +96,11 @@ namespace WebApp.Controllers
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+
+            if(!ValidateCoordinates(station.Lon, station.Lat))
+            {
+                return BadRequest("Coordinates are not valid");
             }
 
             _unitOfWork.StationRepository.Add(station);
@@ -128,6 +138,16 @@ namespace WebApp.Controllers
         private bool StationExists(int id)
         {
             return _unitOfWork.StationRepository.GetAll().Count(e => e.Id == id) > 0;
+        }
+
+        private bool ValidateCoordinates(decimal lon, decimal lat)
+        {
+            if (-180.0m > lon || lon > 180.0m)
+                return false;
+            if (-85.05112878m > lat || lat > 85.05112878m)
+                return false;
+
+            return true;
         }
     }
 }

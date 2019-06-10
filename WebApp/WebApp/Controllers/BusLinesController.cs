@@ -31,7 +31,7 @@ namespace WebApp.Controllers
         [AllowAnonymous]
         public IEnumerable<BusLine> GetBusLines()
         {
-            return _unitOfWork.BusLineRepository.GetAll();
+            return _unitOfWork.BusLineRepository.GetAllBusLines();
         }
 
         // GET: api/BusLines/5

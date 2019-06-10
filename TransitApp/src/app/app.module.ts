@@ -56,6 +56,8 @@ import { AdminSidebarComponent } from './admin-panel/admin-sidebar/admin-sidebar
 import { PricelistItemComponent } from './admin-panel/add-pricelist/pricelist-item/pricelist-item.component';
 import { PricelistsComponent } from './admin-panel/pricelists/pricelists.component';
 import { EditPricelistComponent } from './admin-panel/edit-pricelist/edit-pricelist.component';
+import { LocationsComponent } from './locations/locations.component';
+import { LocationService } from './_services/location.service';
 
 
 @NgModule({
@@ -98,7 +100,8 @@ import { EditPricelistComponent } from './admin-panel/edit-pricelist/edit-pricel
     AdminSidebarComponent,
     PricelistItemComponent,
     PricelistsComponent,
-    EditPricelistComponent
+    EditPricelistComponent,
+    LocationsComponent
   ],
   imports: [
     BrowserModule,
@@ -120,7 +123,8 @@ import { EditPricelistComponent } from './admin-panel/edit-pricelist/edit-pricel
     OpenRouteService,
     DocumentImageService,
     PriceListService,
-    TicketService
+    TicketService,
+    LocationService
   ],
   bootstrap: [AppComponent]
 })

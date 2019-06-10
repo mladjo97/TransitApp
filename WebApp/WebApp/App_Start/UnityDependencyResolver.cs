@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Web.Http.Dependencies;
 using Unity;
 using Unity.Lifetime;
+using WebApp.Hubs;
 using WebApp.Persistence;
 using WebApp.Persistence.Repository.BusLineRepository;
 using WebApp.Persistence.Repository.TicketRepository;
@@ -76,6 +77,7 @@ namespace WebApp.App_Start
             container.RegisterType<IPriceListItemRepository, PriceListItemRepository>();
             container.RegisterType<IUserTypeDiscountRepository, UserTypeDiscountRepository>();
 
+            container.RegisterType<BusLineHub>();
 
             container.RegisterType<DbContext, ApplicationDbContext>(new PerResolveLifetimeManager());
             container.RegisterType<IUnitOfWork, UnitOfWork>();

@@ -33,6 +33,7 @@ import { TicketValidationComponent } from './inspector-panel/ticket-validation/t
 import { AddPricelistComponent } from './admin-panel/add-pricelist/add-pricelist.component';
 import { PricelistsComponent } from './admin-panel/pricelists/pricelists.component';
 import { EditPricelistComponent } from './admin-panel/edit-pricelist/edit-pricelist.component';
+import { LocationsComponent } from './locations/locations.component';
 
 const appRoutes: Routes = [
 
@@ -76,6 +77,8 @@ const appRoutes: Routes = [
     { path: 'routes', component: BusRoutesComponent },
 
     { path: 'tickets', component: TicketsComponent },
+
+    { path: 'locations', component: LocationsComponent },
 
     { path: '**', component: NotFoundComponent }
   ];
