@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using WebApp.Models;
+using WebApp.Models.HubModels;
 
 namespace LocationServer.Containers
 {

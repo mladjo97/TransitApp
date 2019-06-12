@@ -295,6 +295,7 @@
     <Compile Include="Models\BindingModels\PriceListBindingModels.cs" />
     <Compile Include="Models\BindingModels\TicketBindingModels.cs" />
     <Compile Include="Models\Email\EmailHelper.cs" />
+    <Compile Include="Models\HubModels\GroupMessage.cs" />
     <Compile Include="Models\PriceList.cs" />
     <Compile Include="Models\PriceListItem.cs" />
     <Compile Include="Models\Ticket.cs" />

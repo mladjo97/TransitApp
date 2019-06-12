@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using Microsoft.AspNet.SignalR;
+﻿using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
+using System.Threading.Tasks;
+using WebApp.Models.HubModels;
 
 namespace WebApp.Hubs
 {
@@ -14,15 +11,20 @@ namespace WebApp.Hubs
         private static IHubContext hubContext = GlobalHost.ConnectionManager.GetHubContext<BusLineHub>();
 
 
-        public void Hello()
+        public void Hello(GroupMessage groupMessage)
         {
-            Clients.All.hello("HELLO");
+            Clients.Group(groupName: groupMessage.GroupName).hello($"Hello clients from server: {groupMessage.Coordinates}");
+            Clients.All.hello(groupMessage.Coordinates);
+        }
+
+        public void JoinGroup(string groupName)
+        {
+            this.Groups.Add(this.Context.ConnectionId, groupName);
         }
 
         public override Task OnConnected()
         {
             Groups.Add(Context.ConnectionId, "Users");
-            Hello();
             return base.OnConnected();
         }
     }

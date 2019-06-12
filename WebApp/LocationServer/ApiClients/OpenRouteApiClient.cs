@@ -8,6 +8,7 @@ using Newtonsoft.Json.Linq;
 using System.Linq;
 using System.Collections;
 using System;
+using WebApp.Models.HubModels;
 
 namespace LocationServer.ApiClients
 {

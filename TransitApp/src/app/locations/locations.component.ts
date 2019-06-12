@@ -23,7 +23,6 @@ export class LocationsComponent implements OnInit {
   }
 
   public onNotification(data) {
-    console.log('hmm');
     this.ngZone.run(() => { 
       this.notifications.push(data);  
       console.log(this.notifications);

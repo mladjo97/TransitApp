@@ -13,7 +13,9 @@ namespace LocationServer
             Thread positionDispatcherWork = new Thread(new ThreadStart(dispatcher.DoWork));
             positionDispatcherWork.Start();
 
+            Console.WriteLine("Press ENTER (RETURN) to stop the loop and close the application.");
             Console.ReadLine();
+            dispatcher.ShouldStop = true;
         }
     }
 }

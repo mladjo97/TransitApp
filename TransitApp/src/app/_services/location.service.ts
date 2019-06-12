@@ -28,7 +28,9 @@ export class LocationService {
       
     return Observable.create((observer) => {
        
-        this.connection.start()
+        this.connection.start( () => {
+            this.proxy.invoke("joinGroup", "1");
+        })
         .done((data: any) => {  
             console.log('Now connected ' + data.transport.name + ', connection ID= ' + data.id)
             this.connectionExists = true;
@@ -46,8 +48,7 @@ export class LocationService {
       });
   }
 
-  public registerForHello(): void {  
-      
+  public registerForHello(): void {        
     this.proxy.on('hello', (data: string) => {  
         console.log('received notification: ' + data);  
         this.notificationReceived.emit(data);  
