@@ -24,12 +24,12 @@ export class LocationService {
   }  
  
   // browser console will display whether the connection was successful    
-  public startConnection(): Observable<Boolean> { 
+  public startConnection(groupName: string): Observable<Boolean> { 
       
     return Observable.create((observer) => {
        
         this.connection.start( () => {
-            this.proxy.invoke("joinGroup", "1");
+            this.proxy.invoke("joinGroup", groupName);
         })
         .done((data: any) => {  
             console.log('Now connected ' + data.transport.name + ', connection ID= ' + data.id)
@@ -49,8 +49,7 @@ export class LocationService {
   }
 
   public registerForHello(): void {        
-    this.proxy.on('hello', (data: string) => {  
-        console.log('received notification: ' + data);  
+    this.proxy.on('updateCoordinates', (data) => { 
         this.notificationReceived.emit(data);  
     }); 
 }  

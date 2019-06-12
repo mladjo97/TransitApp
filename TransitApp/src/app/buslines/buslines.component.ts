@@ -20,10 +20,12 @@ export class BuslinesComponent implements OnInit {
   private busLineTypes: {}[] = [];
   
   @Input() isBuyTicket: boolean = false;
+  @Input() isRoute: boolean = false;
+  @Input() isLocations: boolean = false;
+
   private isAdmin: boolean = false;
   private showFilters: boolean = false;
   
-  @Input() isRoute: boolean = false;
   @Output() clickEvent: EventEmitter<BusLine> = new EventEmitter<BusLine>();
 
   constructor(private notificationService: NotificationService,
@@ -70,8 +72,19 @@ export class BuslinesComponent implements OnInit {
   }
 
   onBusLineClick(busLineId: number): void {
-    if(!this.isRoute){
+    console.log('trying');
+    console.log(this.isBuyTicket);
+    console.log(this.isRoute);
+    console.log(this.isLocations);
+    
+    if(!this.isRoute && !this.isLocations){      
       this.router.navigate(['/timetables', busLineId]);
+    }
+
+    if(this.isLocations){
+      
+      console.log('trying')
+      this.drawService.locationEvent.emit(busLineId);
     } else {
       
       // fetch busline data
@@ -79,7 +92,6 @@ export class BuslinesComponent implements OnInit {
         (response) => {
           // notify map to draw elements
           this.drawService.drawEvent.emit(response.json());
-
         },
   
         (error) => {

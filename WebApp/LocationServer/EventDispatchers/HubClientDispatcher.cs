@@ -38,7 +38,7 @@ namespace LocationServer.EventDispatchers
         public void SendMessage(GroupMessage groupMessage)
         {
             Console.WriteLine($"Sending coordinates to hub for group: {groupMessage.GroupName}.");
-            _proxy.Invoke<string>("Hello", groupMessage).Wait();
+            _proxy.Invoke<string>("UpdateCoordinates", groupMessage).Wait();
         }
 
 

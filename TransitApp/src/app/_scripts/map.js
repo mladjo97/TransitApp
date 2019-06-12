@@ -35,8 +35,6 @@ function loadMap() {
     if($('#map').data('loaded'))
         return;
 
-    console.log('Loading map ...');
-
      // setting up the popup
      container = document.getElementById('popup');
      content = document.getElementById('popup-content');
@@ -83,7 +81,6 @@ function loadMap() {
 }
 
 function addStationOnMap(lon, lat, name, address){
-    console.log('Adding station on map');
 
     let position = new ol.Feature({
         geometry: new ol.geom.Point(ol.proj.fromLonLat([lon, lat]))
@@ -110,6 +107,31 @@ function addStationOnMap(lon, lat, name, address){
     map.addLayer(markerLayer);
 }
 
+function addBusOnMap(lon, lat){
+
+    let position = new ol.Feature({
+        geometry: new ol.geom.Point(ol.proj.fromLonLat([lon, lat]))
+    });
+    
+    position.setStyle(new ol.style.Style({
+        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
+            crossOrigin: 'anonymous',
+            src: 'assets/img/bus_map.png'
+        }))
+    }));
+
+    let markerLayer = new ol.layer.Vector({
+        source: new ol.source.Vector({
+            features: [position]
+        })
+    });
+
+    markerLayers.push(markerLayer);
+
+    map.addLayer(markerLayer);
+}
+
+
 function removeLayersFromMap() {
     map.removeLayer(clickedMarkerLayer);
     
@@ -122,7 +144,6 @@ function removeLayersFromMap() {
 
 
 function addRouteOnMap(start_lon, start_lat, end_lon, end_lat) {
-    console.log('Adding route to map ..');
     var start_point = ol.proj.fromLonLat([start_lon, start_lat]);
     var end_point = ol.proj.fromLonLat([end_lon, end_lat]);
 

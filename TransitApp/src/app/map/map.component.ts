@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { DrawService } from '../_services/draw.service';
 import { BusLine } from '../_models/busline.model';
+import { OpenRouteService } from '../_services/open-route.service';
 
 // javascript file to handle map interaction
 import * as mapJS from '../_scripts/map.js';
-import { OpenRouteService } from '../_services/open-route.service';
 declare var addStationOnMap: any;
 declare var addRouteOnMap: any;
 declare var loadMap: any;
@@ -33,37 +33,41 @@ export class MapComponent implements OnInit {
     // foreach busline station get routes and add routes to map
     for(let i = 0; i < busLine.BusLineStations.length - 1; i++) {
 
-      console.log('Adding route: ' + busLine.BusLineStations[i].Station.Name);
+      setTimeout(() => {
 
-      this.routeService.getRoutes(busLine.BusLineStations[i].Station.Lon, busLine.BusLineStations[i].Station.Lat,
-                                  busLine.BusLineStations[i+1].Station.Lon, busLine.BusLineStations[i+1].Station.Lat).subscribe(
+        this.routeService.getRoutes(busLine.BusLineStations[i].Station.Lon, busLine.BusLineStations[i].Station.Lat,
+          busLine.BusLineStations[i+1].Station.Lon, busLine.BusLineStations[i+1].Station.Lat).subscribe(
 
-                                    (response) => {
-                                      const routeCoordinates = response.json().features[0].geometry.coordinates;
-                                      for(let i = 0; i < routeCoordinates.length - 1; i++) {
-                                        let start_lon = routeCoordinates[i][0];
-                                        let start_lat = routeCoordinates[i][1];
+            (response) => {
+              const routeCoordinates = response.json().features[0].geometry.coordinates;
+              
+              for(let i = 0; i < routeCoordinates.length - 1; i++) {
+                let start_lon = routeCoordinates[i][0];
+                let start_lat = routeCoordinates[i][1];
 
-                                        let end_lon = routeCoordinates[i+1][0];
-                                        let end_lat = routeCoordinates[i+1][1];
+                let end_lon = routeCoordinates[i+1][0];
+                let end_lat = routeCoordinates[i+1][1];
 
-                                        addRouteOnMap(start_lon, start_lat, end_lon, end_lat);
-                                      }
+                addRouteOnMap(start_lon, start_lat, end_lon, end_lat);
+              }
 
-                                      // add stations on map
-                                      for(let i = 0; i < busLine.BusLineStations.length; i++) {
-                                        addStationOnMap(busLine.BusLineStations[i].Station.Lon,
-                                                        busLine.BusLineStations[i].Station.Lat, 
-                                                        busLine.BusLineStations[i].Station.Name,
-                                                        busLine.BusLineStations[i].Station.Address);
-                                      }
+              // add stations on map
+              for(let i = 0; i < busLine.BusLineStations.length; i++) {
+                addStationOnMap(busLine.BusLineStations[i].Station.Lon,
+                                busLine.BusLineStations[i].Station.Lat, 
+                                busLine.BusLineStations[i].Station.Name,
+                                busLine.BusLineStations[i].Station.Address);
+              }
 
-                                    },
+            },
 
-                                    (error) => {
-                                      console.log(error);
-                                    }
-                                  );
+            (error) => {
+              console.log("OpenRouteService: Exceeded free rate limit");
+            }
+          );
+
+      }, 1000);
+      
     }
 
     

@@ -70,14 +70,17 @@ namespace LocationServer.EventDispatchers
                     for(int i = 0; i < _busIndexes[pair.Key].Count; i++)
                     {
                         _busIndexes[pair.Key][i] = (_busIndexes[pair.Key][i] + 1) % pair.Value.Count;
-                        coordinates.Add(new Position(lat: pair.Value[_busIndexes[pair.Key][i]].Lat,
-                                                     lon: pair.Value[_busIndexes[pair.Key][i]].Lon));
+                        int index = _busIndexes[pair.Key][i];
+                        Console.WriteLine($"Adding coordinates for index: {index}");
+
+                        coordinates.Add(new Position(lat: pair.Value[index].Lat,
+                                                     lon: pair.Value[index].Lon));
                     }
 
                     _hubClient.SendMessage(new GroupMessage() { GroupName = pair.Key.ToString(), Coordinates = coordinates });
                 }
 
-                Thread.Sleep(5000);
+                Thread.Sleep(1000);
             }
 
             Console.WriteLine("Stopping MainLoop.");
@@ -95,9 +98,11 @@ namespace LocationServer.EventDispatchers
                 int numOfPositions = (int)(Math.Floor((decimal)(pair.Value.Count / _numberOfBuses)));
 
                 List<int> indexes = new List<int>();
-                for(int i = 0; i < _numberOfBuses; i = i + numOfPositions)
+                int index = 0;
+                for(int i = 0; i < _numberOfBuses; i++)
                 {
-                    indexes.Add(i);
+                    indexes.Add(index);
+                    index = index + numOfPositions;
                 }
 
                 _busIndexes.Add(pair.Key, indexes);
@@ -141,15 +146,17 @@ namespace LocationServer.EventDispatchers
 
                     List<Position> positions = new List<Position>();
 
-                    for (int i = 0; i < busLineStation.Value.Capacity - 1; i++)
+                    for (int i = 0; i < busLineStation.Value.Count - 1; i++)
                     {
                         Console.WriteLine($"Getting routes for stations: ({busLineStation.Value[i].Name} - {busLineStation.Value[i+1].Name})");
 
-                        positions.AddRange(_openRouteApiClient.GetRoutePositions(busLineStation.Value[i].Lon,
+                        List<Position> apiPos = _openRouteApiClient.GetRoutePositions(busLineStation.Value[i].Lon,
                                                                                          busLineStation.Value[i].Lat,
                                                                                          busLineStation.Value[i + 1].Lon,
                                                                                          busLineStation.Value[i + 1].Lat)
-                                                                                         .Result);
+                                                                                         .Result;
+
+                        positions.AddRange(apiPos);
                     }
                     
                     LocalContainer.Instance.SetBusLineRoutes(busLineStation.Key, positions);

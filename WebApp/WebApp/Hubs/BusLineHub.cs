@@ -11,10 +11,10 @@ namespace WebApp.Hubs
         private static IHubContext hubContext = GlobalHost.ConnectionManager.GetHubContext<BusLineHub>();
 
 
-        public void Hello(GroupMessage groupMessage)
+        public void UpdateCoordinates(GroupMessage groupMessage)
         {
-            Clients.Group(groupName: groupMessage.GroupName).hello($"Hello clients from server: {groupMessage.Coordinates}");
-            Clients.All.hello(groupMessage.Coordinates);
+            Clients.Group(groupName: groupMessage.GroupName).updateCoordinates(groupMessage.Coordinates);
+            //Clients.All.hello(groupMessage.Coordinates);
         }
 
         public void JoinGroup(string groupName)

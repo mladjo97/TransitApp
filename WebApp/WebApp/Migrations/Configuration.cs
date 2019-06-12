@@ -36,7 +36,7 @@ namespace WebApp.Migrations
             AddUserTypeDiscounts(context);
             AddPriceLists(context);
             AddPriceListItems(context);
-
+            
         }
 
         private void AddUserRoles(ApplicationDbContext context)

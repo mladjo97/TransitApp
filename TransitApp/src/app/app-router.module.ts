@@ -34,6 +34,7 @@ import { AddPricelistComponent } from './admin-panel/add-pricelist/add-pricelist
 import { PricelistsComponent } from './admin-panel/pricelists/pricelists.component';
 import { EditPricelistComponent } from './admin-panel/edit-pricelist/edit-pricelist.component';
 import { LocationsComponent } from './locations/locations.component';
+import { MapComponent } from './map/map.component';
 
 const appRoutes: Routes = [
 

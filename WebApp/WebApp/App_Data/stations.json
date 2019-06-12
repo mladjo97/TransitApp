@@ -1,23 +1,5 @@
 [
   {
-    "Name": "Zeleznicka",
-    "Address": "Bulevar Jase Tomica",
-    "Lon": 19.829617515206333,
-    "Lat": 45.26404556344096
-  },
-  {
-    "Name": "Simpo",
-    "Address": "Bulevar Oslobodjenja - Bulevar Kralja Petra",
-    "Lon": 19.832058995962143,
-    "Lat": 45.26104758226012
-  },
-  {
-    "Name": "Aleksandar Zgrada",
-    "Address": "Bulevar Oslobodjenja - Bulevar Papa Pavla",
-    "Lon": 19.835076481103897,
-    "Lat": 45.25561947427374
-  },
-  {
     "Name": "The Pub Stanica",
     "Address": "Bulevar Oslobodjenja - Brace Ribnikar",
     "Lon": 19.835076481103897,
@@ -58,5 +40,77 @@
     "Address": "Bulevar Patrijarha Pavla - Bulevar Evrope",
     "Lon": 19.821487,
     "Lat": 45.239791
+  },
+  {
+    "Name": "12 stanica",
+    "Address": "Ulaz u Bulevar Patrijarha Pavla",
+    "Lon": 19.810868,
+    "Lat": 45.240832
+  },
+  {
+    "Name": "Piccante stanica",
+    "Address": "Bulevar Patrijarha Pavla",
+    "Lon": 19.806380,
+    "Lat": 45.241235
+  },
+  {
+    "Name": "Drvarska stanica",
+    "Address": "Bulevar Patrijarha Pavla - Drvarska",
+    "Lon": 19.798775,
+    "Lat": 45.241985
+  },
+  {
+    "Name": "Kneza Milosa stanica",
+    "Address": "Bulevar Patrijarha Pavla - Kneza Milosa",
+    "Lon": 19.794723,
+    "Lat": 45.245012
+  },
+  {
+    "Name": "Ugao Vojvode Stepe",
+    "Address": "Bulevar Vojvode Stepe",
+    "Lon": 19.790271,
+    "Lat": 45.253820
+  },
+  {
+    "Name": "Jysk stanica",
+    "Address": "Bulevar Vojvode Stepe",
+    "Lon": 19.802145,
+    "Lat": 45.257927
+  },
+  {
+    "Name": "Kornelija Stankovica stanica",
+    "Address": "Kornelija Stankovica",
+    "Lon": 19.813550,
+    "Lat": 45.261959
+  },
+  {
+    "Name": "Rumenacka stanica",
+    "Address": "Kornelija Stankovica - Rumenacka",
+    "Lon": 19.817375,
+    "Lat": 45.263788
+  },
+  {
+    "Name": "Zeleznicka stanica 2",
+    "Address": "Bulevar Oslobodjenja",
+    "Lon": 19.830317,
+    "Lat": 45.263714
+  },
+  {
+    "Name": "UniCredit stanica",
+    "Address": "Bulevar Oslobodjenja",
+    "Lon": 19.832273,
+    "Lat": 45.260209
+  },
+  {
+    "Name": "Aleksandar Zgrada 1",
+    "Address": "Bulevar Oslobodjenja - Novosadskog Sajma",
+    "Lon": 19.832273,
+    "Lat": 45.260209
+  },
+  {
+    "Name": "Futoska 1",
+    "Address": "Bulevar Oslobodjenja - Futoska",
+    "Lon": 19.837162,
+    "Lat": 45.251413
   }
 ]

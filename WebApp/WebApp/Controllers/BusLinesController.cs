@@ -31,7 +31,14 @@ namespace WebApp.Controllers
         [AllowAnonymous]
         public IEnumerable<BusLine> GetBusLines()
         {
-            return _unitOfWork.BusLineRepository.GetAllBusLines();
+            var buslines = _unitOfWork.BusLineRepository.GetAllBusLines();
+
+            foreach(var busline in buslines)
+            {
+                busline.BusLineStations = busline.BusLineStations.OrderBy(x => x.StopOrder).ToList();
+            }
+
+            return buslines;
         }
 
         // GET: api/BusLines/5

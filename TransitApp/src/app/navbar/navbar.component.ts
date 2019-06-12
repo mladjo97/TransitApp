@@ -40,7 +40,6 @@ export class NavbarComponent implements OnInit {
     if(this.authService.isLoggedIn()) {
       this.authService.logOut().subscribe(
         (response) => {
-          console.log(response);
           this.loggedIn = false;
           this.notificationService.notifyEvent.emit('You have successfully logged out.');
           this.loadData();
@@ -48,7 +47,6 @@ export class NavbarComponent implements OnInit {
         },
 
         (error) => {
-          console.log(error);
           this.notificationService.notifyEvent.emit('An error ocurred while logging out.');
           this.router.navigate(['/']); 
         }
