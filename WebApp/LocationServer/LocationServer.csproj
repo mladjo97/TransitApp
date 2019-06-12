@@ -47,7 +47,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApiClient\TransitApiClient.cs" />
+    <Compile Include="ApiClients\OpenRouteApiClient.cs" />
+    <Compile Include="ApiClients\TransitApiClient.cs" />
+    <Compile Include="Containers\OpenRouteModel.cs" />
+    <Compile Include="Containers\LocalContainer.cs" />
+    <Compile Include="Containers\Position.cs" />
+    <Compile Include="EventDispatchers\PositionEventDispatcher.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

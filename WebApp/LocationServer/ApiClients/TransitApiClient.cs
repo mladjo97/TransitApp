@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using WebApp.Models;
 
-namespace LocationServer.ApiClient
+namespace LocationServer.ApiClients
 {
     public class TransitApiClient
     {
@@ -25,7 +25,8 @@ namespace LocationServer.ApiClient
             {
                 string responseJson = await response.Content.ReadAsStringAsync();
                 buslines = JsonConvert.DeserializeObject<List<BusLine>>(responseJson);
-            }            
+            }
+
             return buslines;
         }
     }

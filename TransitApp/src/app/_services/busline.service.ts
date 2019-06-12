@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { Http, Headers } from '@angular/http';
 import { Injectable } from '@angular/core';
-import { API_ADDRESS } from 'src/environments/app_config';
+import { API_ADDRESS, SERVER_ADDRESS } from 'src/environments/app_config';
 
 @Injectable()
 export class BusLineService {
@@ -22,7 +22,7 @@ export class BusLineService {
     }
 
     getAllBusLineTypes(): Observable<any> {
-        return this.http.get(`${this.apiAddress}/BusLineTypes`);
+        return this.http.get(`${SERVER_ADDRESS}/api/BusLineTypes`);
     }
 
     postBusLine(data: {}): Observable<any> {

@@ -1,9 +1,6 @@
-﻿using LocationServer.ApiClient;
+﻿using LocationServer.EventDispatchers;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace LocationServer
 {
@@ -11,16 +8,12 @@ namespace LocationServer
     {
         static void Main(string[] args)
         {
-            GetBusLines();
+            PositionEventDispatcher dispatcher = new PositionEventDispatcher();
+
+            Thread positionDispatcherWork = new Thread(new ThreadStart(dispatcher.DoWork));
+            positionDispatcherWork.Start();
 
             Console.ReadLine();
-        }
-
-        static void GetBusLines()
-        {
-            TransitApiClient apiClient = new TransitApiClient();
-
-            var buslines = apiClient.GetBusLines();
         }
     }
 }
