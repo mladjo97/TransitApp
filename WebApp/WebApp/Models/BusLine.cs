@@ -21,6 +21,9 @@ namespace WebApp.Models
         public int BusLineTypeId { get; set; }
         public BusLineType Type { get; set; }
 
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
+
         public virtual ICollection<StartTime> Timetable { get; set; }
         public virtual ICollection<BusLineStations> BusLineStations { get; set; }
 

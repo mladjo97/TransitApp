@@ -39,7 +39,8 @@ export class EditPricelistComponent implements OnInit, OnDestroy {
     ticketTypeId: new FormControl(null),
     userTypeId: new FormControl(null),
     basePrice: new FormControl(null),
-    discount: new FormControl(null)
+    discount: new FormControl(null),
+    rowVersion: new FormControl(null)
   });
 
   constructor(private ticketService: TicketService,
@@ -79,7 +80,9 @@ export class EditPricelistComponent implements OnInit, OnDestroy {
         console.log(response.json());
 
         this.priceList = response.json();
+        console.log(this.priceList);
         this.priceListItems = this.priceList.PriceListItems;
+        this.priceListForm.patchValue({ rowVersion: this.priceList.RowVersion });
 
         const startDate = this.formatDate(new Date(this.priceList.ValidFrom));
         const endDate = this.formatDate(new Date(this.priceList.ValidUntil));        
@@ -186,6 +189,11 @@ export class EditPricelistComponent implements OnInit, OnDestroy {
     this.priceList.PriceListItems = [...this.priceListItems];
     console.log(this.priceList);
 
+    if(this.priceList.PriceListItems.length < 12){
+      this.notificationService.notifyEvent.emit('You need to have 12 items on your price list. One for every customer and ticket type.');
+      return;
+    }
+
     this.priceListService.putPriceList(this.priceList).subscribe(
       (response) => {
         this.notificationService.notifyEvent.emit('Successfully edited the pricelist.');
@@ -193,7 +201,7 @@ export class EditPricelistComponent implements OnInit, OnDestroy {
       (error) => {
         switch(error.status) {
           case 409:
-            this.notificationService.notifyEvent.emit('There is already a pricelist with the selected date');
+            this.notificationService.notifyEvent.emit('There is already a pricelist with the selected date or someone edited it before you.');
             break;
           default:
             break;

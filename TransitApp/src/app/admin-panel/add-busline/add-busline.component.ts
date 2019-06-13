@@ -79,7 +79,11 @@ export class AddBuslineComponent implements OnInit {
   }
 
   onAddTime(time: string, dayIndex: number): void {
-
+    if(!dayIndex){
+      this.notificationService.notifyEvent.emit('Please select a date for the time');
+      return;
+    }
+    
     if(!this.validateTimeFormat(time)) {
       this.invalidTimeFormat = true;
       return;

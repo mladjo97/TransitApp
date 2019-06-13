@@ -78,7 +78,7 @@ namespace WebApp.Controllers
                 }
                 else
                 {
-                    throw;
+                    return Conflict();
                 }
             }
 

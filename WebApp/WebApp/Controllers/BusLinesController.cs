@@ -23,7 +23,7 @@ namespace WebApp.Controllers
         [AllowAnonymous]
         public int GetBusLinesCount()
         {
-            int count = _unitOfWork.BusLineTypeRepository.GetAll().Count();
+            int count = _unitOfWork.BusLineRepository.GetAll().Count();
             return count;
         }
 
@@ -178,7 +178,7 @@ namespace WebApp.Controllers
                 }
                 else
                 {
-                    throw;
+                    return Conflict();
                 }
             }
 
@@ -229,7 +229,22 @@ namespace WebApp.Controllers
             }
 
             _unitOfWork.BusLineRepository.Remove(busLine);
-            _unitOfWork.Complete();
+
+            try
+            {
+                _unitOfWork.Complete();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!BusLineExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    return Conflict();
+                }
+            }
 
             return Ok(busLine);
         }

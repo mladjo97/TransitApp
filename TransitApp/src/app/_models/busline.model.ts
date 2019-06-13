@@ -8,6 +8,7 @@ export class BusLine {
     busLineTypeId: number;
     timetable: StartTime[];
     stations: Station[];
+    rowVersion: any;
 
     constructor(id: number, name: string, desc: string, blt: number, timetable: StartTime[], stations: Station[]) {
         this.id = id;

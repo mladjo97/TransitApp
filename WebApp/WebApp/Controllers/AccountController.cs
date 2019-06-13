@@ -108,6 +108,7 @@ namespace WebApp.Controllers
 
             //get the current user
             ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+
             if (user == null)
             {
                 return BadRequest();

@@ -19,6 +19,9 @@ namespace WebApp.Models
         [DataType(DataType.DateTime)]
         public DateTime ValidUntil { get; set; }
 
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
+
         public virtual ICollection<PriceListItem> PriceListItems { get; set; }
 
         public PriceList()

@@ -256,7 +256,6 @@
     <Compile Include="Controllers\BusLineTypesController.cs" />
     <Compile Include="Controllers\DocumentImagesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\PriceListsController.cs" />
     <Compile Include="Controllers\StationsController.cs" />
     <Compile Include="Controllers\TicketsController.cs" />
@@ -289,6 +288,10 @@
     <Compile Include="Migrations\201906042354471_AddedTicketModels.cs" />
     <Compile Include="Migrations\201906042354471_AddedTicketModels.Designer.cs">
       <DependentUpon>201906042354471_AddedTicketModels.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906131616506_AddedRowVersions.cs" />
+    <Compile Include="Migrations\201906131616506_AddedRowVersions.Designer.cs">
+      <DependentUpon>201906131616506_AddedRowVersions.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BindingModels\AccountBindingModels.cs" />
@@ -460,6 +463,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906042354471_AddedTicketModels.resx">
       <DependentUpon>201906042354471_AddedTicketModels.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906131616506_AddedRowVersions.resx">
+      <DependentUpon>201906131616506_AddedRowVersions.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

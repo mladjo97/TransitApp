@@ -11,6 +11,8 @@ namespace WebApp.Models.ViewModels
         public DateTime ValidUntil { get; set; }
 
         public IList<PriceListItemViewModel> PriceListItems { get; set; }
+
+        public byte[] RowVersion { get; set; }
     }
 
     public class PriceListItemViewModel

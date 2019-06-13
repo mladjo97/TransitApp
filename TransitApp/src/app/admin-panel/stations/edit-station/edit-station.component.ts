@@ -28,7 +28,8 @@ export class EditStationComponent implements OnInit, OnDestroy {
     name: new FormControl(null),
     address: new FormControl(null),
     lat: new FormControl(null),
-    lon: new FormControl(null)
+    lon: new FormControl(null),
+    rowVersion: new FormControl(null)
   });
 
   constructor(private notificationService: NotificationService,
@@ -53,14 +54,16 @@ export class EditStationComponent implements OnInit, OnDestroy {
       (response) => {
         // get station information        
         this.station = response.json();
-        
+        console.log(this.station);
+
         // update form values
         this.stationForm.patchValue({
           id: this.station.Id,
           name: this.station.Name,
           address: this.station.Address,
           lon: this.station.Lon,
-          lat: this.station.Lat
+          lat: this.station.Lat,
+          rowVersion: this.station.RowVersion
         });
 
         // update map location

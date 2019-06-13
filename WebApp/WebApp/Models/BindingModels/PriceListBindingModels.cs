@@ -14,6 +14,9 @@ namespace WebApp.Models.BindingModels
 
         [Required]
         public IList<AddPriceListItemsBindingModel> PriceListItems { get; set; } 
+
+        [Required]
+        public byte[] RowVersion { get; set; }
     }
 
     public class AddPriceListItemsBindingModel

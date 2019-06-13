@@ -5,4 +5,5 @@ export class Ticket {
     TicketType: string;
     IsValid: boolean; 
     TimeOfPurchase: Date;
+    //RowVersion: any;
 }

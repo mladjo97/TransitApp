@@ -48,6 +48,9 @@ namespace WebApp.Models
         [Display(Name = "Tickets")]
         public virtual ICollection<Ticket> Tickets { get; set; }
 
+        //[Timestamp]
+        //public byte[] RowVersion { get; set; }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType

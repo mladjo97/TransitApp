@@ -48,8 +48,12 @@ export class LocationsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
-    this.drawSubscription.unsubscribe();
+    if(this.subscription){
+      this.subscription.unsubscribe();
+    }
+    if(this.drawSubscription){
+      this.drawSubscription.unsubscribe();
+    }
   }
   
   private startConnection(groupName: string){

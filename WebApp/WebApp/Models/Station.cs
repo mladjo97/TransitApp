@@ -23,6 +23,9 @@ namespace WebApp.Models
         [Required]
         public decimal Lat { get; set; }
 
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
+
         public virtual ICollection<BusLineStations> BusLineStations { get; set; }
 
         public Station()

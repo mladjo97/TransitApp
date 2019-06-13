@@ -133,7 +133,7 @@ namespace WebApp.Controllers
                     return InternalServerError();
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return InternalServerError();
             }
@@ -212,7 +212,7 @@ namespace WebApp.Controllers
                             {
                                 postedFile.SaveAs(filePath);
                             }
-                            catch (Exception e)
+                            catch (Exception)
                             {
                                 return Request.CreateResponse(HttpStatusCode.InternalServerError);
                             }
@@ -257,7 +257,7 @@ namespace WebApp.Controllers
             {
                 File.Delete(userImageFilePath);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError);
             }
@@ -294,7 +294,7 @@ namespace WebApp.Controllers
                             {
                                 postedFile.SaveAs(filePath);
                             }
-                            catch(Exception e)
+                            catch(Exception)
                             {
                                 return Request.CreateResponse(HttpStatusCode.InternalServerError);
                             }
@@ -346,7 +346,7 @@ namespace WebApp.Controllers
                     return Request.CreateResponse(HttpStatusCode.InternalServerError);
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError);
             }

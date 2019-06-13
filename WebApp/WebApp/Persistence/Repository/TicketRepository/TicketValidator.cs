@@ -24,13 +24,15 @@ namespace WebApp.Persistence.Repository.TicketRepository
                     isValid = DateTime.Now < ticket.TimeOfPurchase.AddHours(1);
                     break;
                 case "Daily":
-                    isValid = DateTime.Now < ticket.TimeOfPurchase.AddDays(1);
+                    isValid = DateTime.Now.Date < ticket.TimeOfPurchase.Date.AddDays(1);
                     break;
                 case "Monthly":
-                    isValid = DateTime.Now < ticket.TimeOfPurchase.AddMonths(1);
+                    DateTime monthlyCheckDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month + 1, day: 1, hour: 0, minute: 0, second: 0);
+                    isValid = DateTime.Now < monthlyCheckDate;
                     break;
                 case "Annual":
-                    isValid = DateTime.Now < ticket.TimeOfPurchase.AddYears(1);
+                    DateTime annualCheckDate = new DateTime(DateTime.Now.Year + 1, month: 1, day: 1, hour: 0, minute: 0, second: 0);
+                    isValid = DateTime.Now < annualCheckDate;
                     break;
                 default:
                     isValid = false;

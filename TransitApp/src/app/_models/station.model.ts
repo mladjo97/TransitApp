@@ -4,6 +4,7 @@ export class Station {
     Address: string;
     Lat: number;
     Lon: number;
+    RowVersion: any;
     
     constructor(id: number, name: string, address: string, lat: number, lon: number){
         this.Id = id;

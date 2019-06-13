@@ -9,7 +9,6 @@ namespace WebApp.Migrations
     using System.Data.Entity.Migrations;
     using System.IO;
     using System.Linq;
-    using System.Web.Hosting;
     using WebApp.Models;
     using WebApp.Persistence;
 
@@ -125,6 +124,27 @@ namespace WebApp.Migrations
                     PasswordHash = ApplicationUser.HashPassword("Demo123#"),
                     FirstName = "Mladen",
                     LastName = "Milosevic",
+                    Gender = Gender.Male,
+                    DateOfBirth = new DateTime(1997, 1, 31),
+                    Address = "Bulevar Oslobodjenja",
+                    UserTypeId = regularUserType.Id,
+                    UserType = regularUserType,
+                    VerifiedDocumentImage = false
+                };
+                userManager.Create(user);
+                userManager.AddToRole(user.Id, "Admin");
+            }
+
+            if (!context.Users.Any(u => u.UserName == "mladjo2@demo.com"))
+            {
+                var user = new ApplicationUser()
+                {
+                    Id = "mladjo2",
+                    UserName = "mladjo2@demo.com",
+                    Email = "mladjo2@demo.com",
+                    PasswordHash = ApplicationUser.HashPassword("Demo123#"),
+                    FirstName = "Mladen",
+                    LastName = "AdminTwo",
                     Gender = Gender.Male,
                     DateOfBirth = new DateTime(1997, 1, 31),
                     Address = "Bulevar Oslobodjenja",

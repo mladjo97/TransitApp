@@ -5,4 +5,5 @@ export class PriceList {
     ValidFrom: Date;
     ValidUntil: Date;
     PriceListItems: PriceListItem[];
+    RowVersion: any;
 }

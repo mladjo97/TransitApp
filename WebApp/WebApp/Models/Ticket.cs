@@ -22,6 +22,9 @@ namespace WebApp.Models
         public string UserId { get; set; }
         public virtual ApplicationUser User { get; set; }
 
+        //[Timestamp]
+        //public byte[] RowVersion { get; set; }
+
         [Required]
         [ForeignKey("Item")]
         public int ItemId { get; set; }

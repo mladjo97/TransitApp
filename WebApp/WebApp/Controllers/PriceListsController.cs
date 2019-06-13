@@ -2,6 +2,8 @@
 using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
+using System.Linq;
 using System.Net.Http;
 using System.Web.Http;
 using WebApp.Models;
@@ -122,7 +124,8 @@ namespace WebApp.Controllers
                 Id = priceList.Id,
                 ValidFrom = priceList.ValidFrom,
                 ValidUntil = priceList.ValidUntil,
-                PriceListItems = plItemsInfo
+                PriceListItems = plItemsInfo,
+                RowVersion = priceList.RowVersion
             };
             
 
@@ -201,6 +204,11 @@ namespace WebApp.Controllers
                 return BadRequest(ModelState);
             }
 
+            if (model.PriceListItems.Count < 12)
+            {
+                return BadRequest();
+            }
+
             // check if there is one pricelist active during this period
             if (!CheckIfDateValid(model.ValidFrom, model.ValidUntil))
             {
@@ -231,7 +239,7 @@ namespace WebApp.Controllers
             {
                 _unitOfWork.Complete();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return InternalServerError();
             }
@@ -245,6 +253,11 @@ namespace WebApp.Controllers
         [Authorize(Roles = "Admin")]
         public IHttpActionResult Put(EditPriceListBindingModel model)
         {
+            if(model.PriceListItems.Count < 12)
+            {
+                return BadRequest();
+            }
+            
             PriceList contextPriceList = _unitOfWork.PriceListRepository.GetPriceListById(model.Id);
 
             if(contextPriceList == null)
@@ -305,9 +318,16 @@ namespace WebApp.Controllers
             {
                 _unitOfWork.Complete();
             }
-            catch(Exception e)
+            catch (DbUpdateConcurrencyException)
             {
-                return InternalServerError();
+                if (!PriceListExists(model.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    return Conflict();
+                }
             }
 
             return Ok(); // Modified ?
@@ -334,9 +354,16 @@ namespace WebApp.Controllers
             {
                 _unitOfWork.Complete();
             }
-            catch (Exception e)
+            catch (DbUpdateConcurrencyException)
             {
-                return InternalServerError();
+                if (!PriceListExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    return Conflict();
+                }
             }
 
             return Ok();
@@ -372,7 +399,14 @@ namespace WebApp.Controllers
             return isValid;
         }
 
+        private bool PriceListExists(int id)
+        {
+            return _unitOfWork.PriceListRepository.GetAll().Count(e => e.Id == id) > 0;
+        }
+
         #endregion
+
+
 
     }
 }

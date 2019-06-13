@@ -73,7 +73,7 @@ namespace WebApp.Controllers
             {
                 _unitOfWork.Complete();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException e)
             {
                 if (!StationExists(id))
                 {
@@ -81,7 +81,7 @@ namespace WebApp.Controllers
                 }
                 else
                 {
-                    throw;
+                    return Conflict();
                 }
             }
 
@@ -121,7 +121,23 @@ namespace WebApp.Controllers
             }
 
             _unitOfWork.StationRepository.Remove(station);
-            _unitOfWork.Complete();
+
+
+            try
+            {
+                _unitOfWork.Complete();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!StationExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    return Conflict();
+                }
+            }
 
             return Ok(station);
         }

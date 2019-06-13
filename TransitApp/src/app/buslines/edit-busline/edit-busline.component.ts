@@ -38,7 +38,8 @@ export class EditBuslineComponent implements OnInit, OnDestroy {
     description: new FormControl(null),
     busLineTypeId: new FormControl(null),
     timetable: new FormControl(null),
-    busLineStations: new FormControl(null)
+    busLineStations: new FormControl(null),
+    rowVersion: new FormControl(null)
   });
 
   constructor(private notificationService: NotificationService,
@@ -91,7 +92,8 @@ export class EditBuslineComponent implements OnInit, OnDestroy {
           name: this.busLine.Name,
           description: this.busLine.Description,
           busLineTypeId: this.busLine.BusLineTypeId,
-          busLineStations: this.stations
+          busLineStations: this.stations,
+          rowVersion: this.busLine.RowVersion
         });
 
         // update side timetable 
@@ -227,8 +229,14 @@ export class EditBuslineComponent implements OnInit, OnDestroy {
 
       (error) => {
         this.submitted = false;
-        console.log(error);
-        this.notificationService.notifyEvent.emit('An error occurred during editing.');
+        switch(error.status) {
+          case 409:
+            this.notificationService.notifyEvent.emit('Someone edited the busline before you. Please refresh the page and try again.');
+            break;
+          default:
+            this.notificationService.notifyEvent.emit('An error occurred during editing.');
+            break;
+        }
       }
     );
      
