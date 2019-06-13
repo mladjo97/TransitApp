@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/_services/auth.service';
 
 @Component({
   selector: 'app-ticket-plans',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TicketPlansComponent implements OnInit {
 
-  constructor() { }
+  isUnregistered: boolean;
+
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
+    this.isUnregistered = !this.authService.isLoggedIn();
+    console.log(this.isUnregistered);
   }
 
 }

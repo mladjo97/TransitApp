@@ -2,10 +2,12 @@
 using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Web.Http;
 using WebApp.Models;
 using WebApp.Models.BindingModels;
+using WebApp.Models.Email;
 using WebApp.Models.ViewModels;
 using WebApp.Persistence.UnitOfWork;
 
@@ -106,10 +108,14 @@ namespace WebApp.Controllers
                 TicketId = ticket.Id,
                 IsValid = ticket.IsValid,
                 TicketType = ticket.Item.TicketType.Name,
-                TimeOfPurchase = ticket.TimeOfPurchase,
-                UserFirstName = ticket.User.FirstName,
-                UserLastName = ticket.User.LastName
+                TimeOfPurchase = ticket.TimeOfPurchase
             };
+
+            if (!String.IsNullOrEmpty(ticket.UserId))
+            {
+                ticketInfo.UserFirstName = ticket.User.FirstName;
+                ticketInfo.UserLastName = ticket.User.LastName;
+            }
 
             bool isValid = _unitOfWork.TicketRepository.IsValid(ticket);
             
@@ -135,7 +141,7 @@ namespace WebApp.Controllers
 
         [HttpPost]
         [Route("Buy")]
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "User, TicketInspector, Admin")]
         public IHttpActionResult BuyTicket(BuyTicketBindingModel model)
         {
             if(!ModelState.IsValid)
@@ -173,8 +179,50 @@ namespace WebApp.Controllers
             };
 
             _unitOfWork.TicketRepository.Add(ticket);
-            _unitOfWork.Complete();
 
+            try
+            {
+                _unitOfWork.Complete();
+            }
+            catch (Exception)
+            {
+                return InternalServerError();
+            }
+
+            return Ok(ticket);
+        }
+
+        [HttpPost]
+        [Route("BuyUnregistered")]
+        [AllowAnonymous]
+        public IHttpActionResult BuyUnregisteredTicket(BuyUnregisteredBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            PriceListItem plItem = _unitOfWork.PriceListItemRepository.GetSingleUse();
+
+            Ticket ticket = new Ticket()
+            {
+                ItemId = plItem.Id,
+                TimeOfPurchase = DateTime.Now,
+                IsValid = true
+            };
+
+            _unitOfWork.TicketRepository.Add(ticket);
+
+            try
+            {
+                _unitOfWork.Complete();
+            }
+            catch (Exception)
+            {
+                return InternalServerError();
+            }
+
+            EmailHelper.SendTicket(model.Email, ticket);
             return Ok(ticket);
         }
 

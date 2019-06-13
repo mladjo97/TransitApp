@@ -17,7 +17,6 @@ namespace WebApp.Models
         [Required]
         public bool IsValid { get; set; }
 
-        [Required]
         [ForeignKey("User")]
         public string UserId { get; set; }
         public virtual ApplicationUser User { get; set; }

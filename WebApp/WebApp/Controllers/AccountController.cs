@@ -360,6 +360,33 @@ namespace WebApp.Controllers
             return Ok();
         }
 
+        // Mozda treba password kao potvrda ?
+        // DELETE api/Account/id
+        [HttpDelete]
+        [Authorize(Roles = "User, Admin")]
+        public async Task<IHttpActionResult> Delete(string id)
+        {
+            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+            if(user == null)
+            {
+                return BadRequest();
+            }
+
+            if(id != user.Id)
+            {
+                return BadRequest();
+            }
+
+            var result = await UserManager.DeleteAsync(user);
+
+            if (!result.Succeeded)
+            {
+                return InternalServerError();
+            }
+
+            return Ok();
+        }
+
         // POST api/Account/SetPassword
         [Route("SetPassword")]
         public async Task<IHttpActionResult> SetPassword(SetPasswordBindingModel model)

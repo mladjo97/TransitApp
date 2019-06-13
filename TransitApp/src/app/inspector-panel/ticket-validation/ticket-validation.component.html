@@ -21,7 +21,7 @@
           <div *ngIf="ticketInfo?.IsValid" class="p-3 mb-2 bg-success text-white">Ticket is valid</div>
           <div *ngIf="!ticketInfo?.IsValid" class="p-3 mb-2 bg-danger text-white">Ticket is invalid</div>
         </div>
-        <div class="col-sm-12 col-md-12">
+        <div class="col-sm-12 col-md-12" *ngIf="hasUser">
           <p class="lead">User: {{ ticketInfo?.UserFirstName }} {{ ticketInfo?.UserLastName }}</p>
         </div>
         <div class="col-sm-12 col-md-12">

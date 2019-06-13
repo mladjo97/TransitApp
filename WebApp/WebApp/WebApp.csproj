@@ -293,6 +293,10 @@
     <Compile Include="Migrations\201906131616506_AddedRowVersions.Designer.cs">
       <DependentUpon>201906131616506_AddedRowVersions.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906132148313_TicketUserIdIsNullable.cs" />
+    <Compile Include="Migrations\201906132148313_TicketUserIdIsNullable.Designer.cs">
+      <DependentUpon>201906132148313_TicketUserIdIsNullable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BindingModels\AccountBindingModels.cs" />
     <Compile Include="Models\BindingModels\PriceListBindingModels.cs" />
@@ -466,6 +470,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906131616506_AddedRowVersions.resx">
       <DependentUpon>201906131616506_AddedRowVersions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906132148313_TicketUserIdIsNullable.resx">
+      <DependentUpon>201906132148313_TicketUserIdIsNullable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

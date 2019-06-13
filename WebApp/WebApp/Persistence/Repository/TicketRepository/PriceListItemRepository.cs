@@ -42,5 +42,10 @@ namespace WebApp.Persistence.Repository.TicketRepository
 
             return -1.0f;
         }
+
+        public PriceListItem GetSingleUse()
+        {
+            return AppDBContext.PriceListItems.Where(x => x.TicketType.Name == "SingleUse").FirstOrDefault();
+        }
     }
 }

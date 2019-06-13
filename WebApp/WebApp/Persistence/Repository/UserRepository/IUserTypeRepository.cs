@@ -4,5 +4,6 @@ namespace WebApp.Persistence.Repository.UserRepository
 {
     public interface IUserTypeRepository : IRepository<UserType, int>
     {
+        int GetRegularUserTypeId();
     }
 }

@@ -45,4 +45,13 @@ export class UserService {
         return this.http.post(`${this.apiAccountAddress}/ChangePassword`, changePasswordBinding, {headers: headers});
     }
 
+    deleteUser(id: string): Observable<any> {
+        const headers = new Headers()
+        headers.append('Content-type','application/json');
+        headers.append('Authorization','Bearer ' + JSON.parse(localStorage.getItem("token")).token);
+        headers.append('Accept', 'application/json');
+
+        return this.http.delete(`${this.apiAccountAddress}/${id}`, {headers: headers});
+    }
+
 }

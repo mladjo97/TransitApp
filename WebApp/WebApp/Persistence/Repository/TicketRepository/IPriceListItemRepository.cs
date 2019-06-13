@@ -6,5 +6,6 @@ namespace WebApp.Persistence.Repository.TicketRepository
     {
         decimal GetRegularPrice(int ticketTypeId);
         float GetDiscountPrice(int id);
+        PriceListItem GetSingleUse();
     }
 }

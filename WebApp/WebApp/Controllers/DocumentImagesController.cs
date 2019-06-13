@@ -91,7 +91,7 @@ namespace WebApp.Controllers
                 return InternalServerError();
             }
 
-            //EmailHelper.SendSuccess("mldnmilosevic@gmail.com");
+            EmailHelper.SendSuccess(currentUser.Email);
 
             return Ok();
         }
@@ -138,7 +138,7 @@ namespace WebApp.Controllers
                 return InternalServerError();
             }
 
-            //EmailHelper.SendReject("mldnmilosevic@gmail.com");
+            EmailHelper.SendReject(currentUser.Email);
 
             return Ok();
         }
@@ -203,6 +203,7 @@ namespace WebApp.Controllers
                         }
 
                         currentUser.DocumentImageUrl = $"/Documents/{currentUser.Id}_{postedFile.FileName}";
+                        currentUser.VerifiedDocumentImage = false;
 
                         IdentityResult result = UserManager.Update(currentUser);
 
@@ -285,6 +286,7 @@ namespace WebApp.Controllers
                         }
 
                         currentUser.DocumentImageUrl = $"/Documents/{currentUser.Id}_{postedFile.FileName}";
+                        currentUser.VerifiedDocumentImage = false;
 
                         IdentityResult result = UserManager.Update(currentUser);
 
@@ -334,6 +336,7 @@ namespace WebApp.Controllers
                 File.Delete(userImageFilePath);
 
                 currentUser.DocumentImageUrl = null;
+                currentUser.VerifiedDocumentImage = false;
 
                 IdentityResult result = UserManager.Update(currentUser);
 

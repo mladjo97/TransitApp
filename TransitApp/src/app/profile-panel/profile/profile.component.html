@@ -11,10 +11,15 @@
             <br>
             <i class="fas fa-birthday-cake"></i> {{ user?.DateOfBirth }}
             <br>
-            <i class="fas fa-images" *ngIf="isUser"></i>   
-            <a [routerLink]="['document']" *ngIf="verified && isUser" class="badge badge-success">Verified</a>
-            <a [routerLink]="['document']" *ngIf="!verified && isUser" class="badge badge-danger">Not Verified</a>
+            <i class="fas fa-images" *ngIf="!isRegularUser"></i>   
+            <a [routerLink]="['document']" *ngIf="verified && !isRegularUser" class="badge badge-success">Verified</a>
+            <a [routerLink]="['document']" *ngIf="!verified && !isRegularUser" class="badge badge-danger">Not Verified</a>
           </p>
+          
+          <br>
+
+          <button class="btn btn-danger" (click)="onDelete()"> Delete account</button>
+
       </div>
   </div>
 </div>

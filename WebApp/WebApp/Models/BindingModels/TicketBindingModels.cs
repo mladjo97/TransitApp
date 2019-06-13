@@ -13,4 +13,11 @@ namespace WebApp.Models.BindingModels
         [Required]
         public int TicketTypeId { get; set; }
     }
+
+    public class BuyUnregisteredBindingModel
+    {
+        [Required]
+        [DataType(DataType.EmailAddress)]
+        public string Email { get; set; }
+    }
 }

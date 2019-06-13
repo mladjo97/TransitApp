@@ -11,28 +11,10 @@ import { AuthService } from '../_services/auth.service';
 })
 export class TicketsComponent implements OnInit {
 
-  private tickets: Ticket[];
-
-  constructor(private ticketService: TicketService,
-              private authService: AuthService) { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
-    if(this.authService.isLoggedIn()){
-      this.loadData();
+    
     }
-  }
-
-  loadData(): void {
-    // Get user tickets
-    this.ticketService.getUserTickets().subscribe(
-      (response) => {
-        this.tickets = response.json();
-        console.log(this.tickets);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
 
 }

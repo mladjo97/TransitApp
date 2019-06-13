@@ -15,6 +15,7 @@ export class TicketComponent implements OnInit {
   @Input() name: string;
   @Input() dbName: string;
   @Input() description: string;
+  @Input() isUnregistered: boolean;
 
   private ticketTypeId: number;
   private ticketPrice: Price;
@@ -30,9 +31,7 @@ export class TicketComponent implements OnInit {
     this.loaded = false;
     this.hasItems = false;
 
-    if(this.authService.isLoggedIn()){
-      this.loadData();
-    }
+    this.loadData();
   }
   
   loadData(): void {
@@ -40,7 +39,11 @@ export class TicketComponent implements OnInit {
     this.ticketService.getTicketTypeId(this.dbName).subscribe(
       (response) => { 
         this.ticketTypeId = response.json();
-        this.loadPrice();
+        if(this.authService.isUser())
+          this.loadPrice();
+        else if (this.isUnregistered) {
+          this.loadRegularPrice();
+        }
       },
       (error) => console.log(error)
     );    
@@ -50,6 +53,8 @@ export class TicketComponent implements OnInit {
     this.priceListService.getPriceForTicketType(this.ticketTypeId).subscribe(
       (response) => {
         this.ticketPrice = response.json();
+        console.log(this.ticketPrice);
+        
         this.loaded = true;
         this.hasItems = true;
       },
@@ -57,22 +62,50 @@ export class TicketComponent implements OnInit {
     );
   }
 
-  onBuy() {
-    this.ticketService.buyTicket(this.ticketPrice.ItemId).subscribe(
+  loadRegularPrice(): void {
+    this.priceListService.getRegularPriceForTicketType(this.ticketTypeId).subscribe(
       (response) => {
-        this.notificationService.notifyEvent.emit('Successfully bought ticket.');
-      },
-      (error) => {
-        switch(error.status){
-          case 409:
-            this.notificationService.notifyEvent.emit('You already have a valid ticket for that ride type.');
-            break;
-          case 401:
-            this.notificationService.notifyEvent.emit('You cannot buy tickets, your profile is not verified.');
-            break;
-        }
+        this.ticketPrice = response.json();
+        console.log(this.ticketPrice);
+        
+        this.loaded = true;
+        this.hasItems = true;
       }
     );
+  }
+  
+
+  onBuy() {
+
+    if(this.authService.isLoggedIn() && this.authService.isUser()) {
+      this.ticketService.buyTicket(this.ticketPrice.ItemId).subscribe(
+        (response) => {
+          this.notificationService.notifyEvent.emit('Successfully bought ticket.');
+        },
+        (error) => {
+          switch(error.status){
+            case 409:
+              this.notificationService.notifyEvent.emit('You already have a valid ticket for that ride type.');
+              break;
+            case 401:
+              this.notificationService.notifyEvent.emit('You cannot buy tickets, your profile is not verified.');
+              break;
+          }
+        }
+      );
+    }
+    else if(this.isUnregistered) {
+      // dodati input za email
+      this.ticketService.buyUnregistered("mldnmilosevic@gmail.com").subscribe(
+        (response) => {
+          this.notificationService.notifyEvent.emit('Successfully bought ticket.');
+        },
+        (error) => {
+          this.notificationService.notifyEvent.emit('An error ocurred. Please try again.');
+        }
+        );
+    }
+
   }
 
 }

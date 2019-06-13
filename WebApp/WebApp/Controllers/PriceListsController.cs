@@ -178,7 +178,7 @@ namespace WebApp.Controllers
                 discountPrice = _unitOfWork.PriceListItemRepository.GetDiscountPrice(userPriceListItem.Id);
             }
 
-            if (discountPrice <= 0)
+            if (discountRate <= 0)
             {
                 hasDiscount = false;
             }
@@ -194,6 +194,70 @@ namespace WebApp.Controllers
 
             return Ok(ticketPrice);
 
+        }
+
+        [HttpGet]
+        [Route("GetRegularPrice")]
+        [AllowAnonymous]
+        public IHttpActionResult GetRegularPrice([FromUri]int ticketTypeId)
+        {
+            TicketType ticketType = _unitOfWork.TicketTypeRepository.Get(ticketTypeId);
+            if (ticketType == null)
+            {
+                return BadRequest();
+            }
+
+            IEnumerable<PriceListItem> priceListItems = _unitOfWork.PriceListRepository.GetPriceListItems(ticketTypeId);
+            if (priceListItems == null)
+            {
+                return BadRequest();
+            }
+
+            int regularId = _unitOfWork.UserTypeRepository.GetRegularUserTypeId();
+
+            PriceListItem userPriceListItem = null;
+            bool hasDiscount = false;
+            float? discountPrice = null;
+            float? discountRate = null;
+            foreach (var priceListItem in priceListItems)
+            {
+                if (priceListItem.Discount != null)
+                {
+                    if (priceListItem.Discount.UserTypeId == regularId)
+                    {
+                        userPriceListItem = priceListItem;
+                        hasDiscount = true;
+                        break;
+                    }
+                }
+            }
+
+            if (userPriceListItem == null)
+            {
+                return NotFound();
+            }
+
+            if (hasDiscount)
+            {
+                discountRate = userPriceListItem.Discount.Discount;
+                discountPrice = _unitOfWork.PriceListItemRepository.GetDiscountPrice(userPriceListItem.Id);
+            }
+
+            if (discountRate <= 0)
+            {
+                hasDiscount = false;
+            }
+
+            TicketPriceViewModel ticketPrice = new TicketPriceViewModel()
+            {
+                ItemId = userPriceListItem.Id,
+                BasePrice = userPriceListItem.BasePrice,
+                DiscountPrice = discountPrice,
+                HasDiscount = hasDiscount,
+                DiscountRate = discountRate
+            };
+
+            return Ok(ticketPrice);
         }
 
         [HttpPost]

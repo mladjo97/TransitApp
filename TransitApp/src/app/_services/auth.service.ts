@@ -36,6 +36,14 @@ export class AuthService{
         }
     }
 
+    getId(): string {
+        if(this.isLoggedIn()){
+            const token = localStorage.getItem('token');
+            const id = JSON.parse(token).id;
+            return id;
+        }
+    }
+
     isLoggedIn(): boolean {
         if(!localStorage.getItem('token'))
             return false;

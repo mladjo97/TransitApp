@@ -12,6 +12,7 @@ export class TicketValidationComponent implements OnInit {
   submitted: boolean;
   validated: boolean;
   error: boolean;
+  hasUser: boolean;
 
   ticketForm = new FormGroup({
     ticketId: new FormControl(null)    
@@ -24,6 +25,7 @@ export class TicketValidationComponent implements OnInit {
   ngOnInit() {
     this.submitted = false;
     this.validated = false;
+    this.hasUser = false;
   }
 
   onSubmit() {
@@ -35,6 +37,10 @@ export class TicketValidationComponent implements OnInit {
         this.validated = true;
         this.submitted = false;
         this.error = false;
+
+        if(this.ticketInfo.UserFirstName)
+          this.hasUser = true;
+          
       },
       (error) => {
         this.validated = true;

@@ -53,6 +53,10 @@ export class TicketService {
         return this.http.post(`${this.apiAddress}/Buy`, {itemId: itemId}, options);
     }
 
+    buyUnregistered(email: string): Observable<any> {
+        return this.http.post(`${this.apiAddress}/BuyUnregistered`, {email: email});
+    }
+
     validateTicket(ticketId: number): Observable<any> {
         const headers = new Headers();
         headers.append('Content-type','application/json');
