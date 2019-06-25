@@ -1,14 +1,16 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using PayPalCheckoutSdk.Orders;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using WebApp.Models;
 using WebApp.Models.BindingModels;
 using WebApp.Models.Email;
 using WebApp.Models.ViewModels;
+using WebApp.PayPal;
 using WebApp.Persistence.UnitOfWork;
 
 namespace WebApp.Controllers
@@ -142,7 +144,7 @@ namespace WebApp.Controllers
         [HttpPost]
         [Route("Buy")]
         [Authorize(Roles = "User, TicketInspector, Admin")]
-        public IHttpActionResult BuyTicket(BuyTicketBindingModel model)
+        public async Task<IHttpActionResult> BuyTicket(BuyTicketBindingModel model)
         {
             if(!ModelState.IsValid)
             {
@@ -170,6 +172,29 @@ namespace WebApp.Controllers
                 }
             }
 
+            OrdersGetRequest request = new OrdersGetRequest(model.OrderId);
+            var response = await PayPalClient.client().Execute(request);
+            var result = response.Result<Order>();
+
+            if (result.Status == "COMPLETED")
+            {
+                PayPalTransaction transaction = new PayPalTransaction()
+                {
+                    OrderId = result.Id,
+                    CreateTime = result.CreateTime,
+                    PayerEmail = result.Payer.Email,
+                    Status = result.Status,
+                    UserId = currentUser.Id
+                };
+
+                _unitOfWork.TransactionsRepository.Add(transaction);
+
+            }
+            else
+            {
+                return BadRequest("Transaction was not validated.");
+            }
+
             Ticket ticket = new Ticket()
             {
                 UserId = currentUser.Id,
@@ -189,13 +214,15 @@ namespace WebApp.Controllers
                 return InternalServerError();
             }
 
+            EmailHelper.SendTicket(currentUser.Email, ticket);
+
             return Ok(ticket);
         }
 
         [HttpPost]
         [Route("BuyUnregistered")]
         [AllowAnonymous]
-        public IHttpActionResult BuyUnregisteredTicket(BuyUnregisteredBindingModel model)
+        public async Task<IHttpActionResult> BuyUnregisteredTicket(BuyUnregisteredBindingModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -203,6 +230,28 @@ namespace WebApp.Controllers
             }
 
             PriceListItem plItem = _unitOfWork.PriceListItemRepository.GetSingleUse();
+
+            OrdersGetRequest request = new OrdersGetRequest(model.OrderId);
+            var response = await PayPalClient.client().Execute(request);
+            var result = response.Result<Order>();
+
+            if(result.Status == "COMPLETED")
+            {
+                PayPalTransaction transaction = new PayPalTransaction()
+                {
+                    OrderId = result.Id,
+                    CreateTime = result.CreateTime,
+                    PayerEmail = result.Payer.Email,
+                    Status = result.Status
+                };
+
+                _unitOfWork.TransactionsRepository.Add(transaction);
+
+            }
+            else
+            {
+                return BadRequest("Transaction was not validated.");
+            }
 
             Ticket ticket = new Ticket()
             {
@@ -223,6 +272,7 @@ namespace WebApp.Controllers
             }
 
             EmailHelper.SendTicket(model.Email, ticket);
+
             return Ok(ticket);
         }
 

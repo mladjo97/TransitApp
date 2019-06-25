@@ -5,6 +5,10 @@ import { Price } from 'src/app/_models/price.model';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { AuthService } from 'src/app/_services/auth.service';
 
+// javascript file to handle paypal interaction
+import * as paypalJS from '../_scripts/paypal.js';
+declare var initPaypalButton: any;
+
 @Component({
   selector: 'app-ticket',
   templateUrl: './ticket.component.html',
@@ -16,6 +20,7 @@ export class TicketComponent implements OnInit {
   @Input() dbName: string;
   @Input() description: string;
   @Input() isUnregistered: boolean;
+  @Input() id: string;
 
   private ticketTypeId: number;
   private ticketPrice: Price;
@@ -52,11 +57,14 @@ export class TicketComponent implements OnInit {
   loadPrice(): void {
     this.priceListService.getPriceForTicketType(this.ticketTypeId).subscribe(
       (response) => {
-        this.ticketPrice = response.json();
-        console.log(this.ticketPrice);
-        
+        this.ticketPrice = response.json();        
         this.loaded = true;
         this.hasItems = true;
+
+        initPaypalButton(false,
+                         this.id,
+                         this.ticketPrice.HasDiscount ? this.ticketPrice.DiscountPrice : this.ticketPrice.BasePrice,
+                         this.ticketPrice.ItemId);
       },
       (error) => console.log(error)
     );
@@ -65,47 +73,51 @@ export class TicketComponent implements OnInit {
   loadRegularPrice(): void {
     this.priceListService.getRegularPriceForTicketType(this.ticketTypeId).subscribe(
       (response) => {
-        this.ticketPrice = response.json();
-        console.log(this.ticketPrice);
-        
+        this.ticketPrice = response.json();        
         this.loaded = true;
         this.hasItems = true;
+
+        initPaypalButton(false,
+                         this.id,
+                         this.ticketPrice.HasDiscount ? this.ticketPrice.DiscountPrice : this.ticketPrice.BasePrice,
+                         this.ticketPrice.ItemId);
       }
     );
   }
   
 
-  onBuy() {
+  // beskorisna metoda sad sa paypal-om
+  // onBuy() {
 
-    if(this.authService.isLoggedIn() && this.authService.isUser()) {
-      this.ticketService.buyTicket(this.ticketPrice.ItemId).subscribe(
-        (response) => {
-          this.notificationService.notifyEvent.emit('Successfully bought ticket.');
-        },
-        (error) => {
-          switch(error.status){
-            case 409:
-              this.notificationService.notifyEvent.emit('You already have a valid ticket for that ride type.');
-              break;
-            case 401:
-              this.notificationService.notifyEvent.emit('You cannot buy tickets, your profile is not verified.');
-              break;
-          }
-        }
-      );
-    }
-    else if(this.isUnregistered) {
-      // dodati input za email
-      this.ticketService.buyUnregistered("mldnmilosevic@gmail.com").subscribe(
-        (response) => {
-          this.notificationService.notifyEvent.emit('Successfully bought ticket.');
-        },
-        (error) => {
-          this.notificationService.notifyEvent.emit('An error ocurred. Please try again.');
-        }
-        );
-    }
+  //   if(this.authService.isLoggedIn() && this.authService.isUser()) {
+  //     this.ticketService.buyTicket(this.ticketPrice.ItemId).subscribe(
+  //       (response) => {
+  //         this.notificationService.notifyEvent.emit('Successfully bought ticket.');
+  //       },
+  //       (error) => {
+  //         switch(error.status){
+  //           case 409:
+  //             this.notificationService.notifyEvent.emit('You already have a valid ticket for that ride type.');
+  //             break;
+  //           case 401:
+  //             this.notificationService.notifyEvent.emit('You cannot buy tickets, your profile is not verified.');
+  //             break;
+  //         }
+  //       }
+  //     );
+  //   }
+  //   else if(this.isUnregistered) {
+  //     // dodati input za email
+  //     this.ticketService.buyUnregistered("mldnmilosevic@gmail.com").subscribe(
+  //       (response) => {
+  //         this.notificationService.notifyEvent.emit('Successfully bought ticket.');
+  //       },
+  //       (error) => {
+  //         this.notificationService.notifyEvent.emit('An error ocurred. Please try again.');
+  //       }
+  //       );
+  //   }
 
-  }
+  // }
 
 }

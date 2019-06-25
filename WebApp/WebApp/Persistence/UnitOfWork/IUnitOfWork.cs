@@ -31,6 +31,8 @@ namespace WebApp.Persistence.UnitOfWork
 
         ITicketTypeRepository TicketTypeRepository { get; set; }
 
+        ITransactionsRepository TransactionsRepository { get; set; }
+
         int Complete();
     }
 }

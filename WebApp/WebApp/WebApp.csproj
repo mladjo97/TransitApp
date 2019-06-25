@@ -47,6 +47,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BraintreeHttp-Dotnet, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\BraintreeHttp-Dotnet.0.3.0\lib\netstandard2.0\BraintreeHttp-Dotnet.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.4.1\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
     </Reference>
@@ -77,6 +80,9 @@
     </Reference>
     <Reference Include="Microsoft.Owin.Security.OAuth, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.Security.OAuth.4.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="PayPalCheckoutSdk, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\PayPalCheckoutSdk.1.0.2\lib\netstandard2.0\PayPalCheckoutSdk.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -109,6 +115,9 @@
     </Reference>
     <Reference Include="System.Web.Http.Cors, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Cors.5.2.7\lib\net45\System.Web.Http.Cors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.Owin, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Owin.5.2.7\lib\net45\System.Web.Http.Owin.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
@@ -207,9 +216,6 @@
     <Reference Include="Microsoft.Owin.Security.MicrosoftAccount">
       <HintPath>..\packages\Microsoft.Owin.Security.MicrosoftAccount.4.0.0\lib\net451\Microsoft.Owin.Security.MicrosoftAccount.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Http.Owin">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Owin.5.2.4\lib\net45\System.Web.Http.Owin.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
@@ -297,12 +303,17 @@
     <Compile Include="Migrations\201906132148313_TicketUserIdIsNullable.Designer.cs">
       <DependentUpon>201906132148313_TicketUserIdIsNullable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906252200490_AddedTransactions.cs" />
+    <Compile Include="Migrations\201906252200490_AddedTransactions.Designer.cs">
+      <DependentUpon>201906252200490_AddedTransactions.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BindingModels\AccountBindingModels.cs" />
     <Compile Include="Models\BindingModels\PriceListBindingModels.cs" />
     <Compile Include="Models\BindingModels\TicketBindingModels.cs" />
     <Compile Include="Models\Email\EmailHelper.cs" />
     <Compile Include="Models\HubModels\GroupMessage.cs" />
+    <Compile Include="Models\PayPalTransaction.cs" />
     <Compile Include="Models\PriceList.cs" />
     <Compile Include="Models\PriceListItem.cs" />
     <Compile Include="Models\Ticket.cs" />
@@ -321,6 +332,7 @@
     <Compile Include="Models\ViewModels\DocumentImageViewModels.cs" />
     <Compile Include="Models\ViewModels\PriceListViewModels.cs" />
     <Compile Include="Models\ViewModels\TicketViewModels.cs" />
+    <Compile Include="PayPal\PayPalClient.cs" />
     <Compile Include="Persistence\ApplicationDbContext.cs" />
     <Compile Include="Persistence\Repository\BusLineRepository\BusLineRepository.cs" />
     <Compile Include="Persistence\Repository\BusLineRepository\BusLineStationsRepository.cs" />
@@ -335,12 +347,14 @@
     <Compile Include="Persistence\Repository\TicketRepository\IPriceListRepository.cs" />
     <Compile Include="Persistence\Repository\TicketRepository\ITicketRepository.cs" />
     <Compile Include="Persistence\Repository\TicketRepository\ITicketTypeRepository.cs" />
+    <Compile Include="Persistence\Repository\TicketRepository\ITransactionsRepository.cs" />
     <Compile Include="Persistence\Repository\TicketRepository\IUserTypeDiscountRepository.cs" />
     <Compile Include="Persistence\Repository\TicketRepository\PriceListItemRepository.cs" />
     <Compile Include="Persistence\Repository\TicketRepository\PriceListRepository.cs" />
     <Compile Include="Persistence\Repository\TicketRepository\TicketRepository.cs" />
     <Compile Include="Persistence\Repository\TicketRepository\TicketTypeRepository.cs" />
     <Compile Include="Persistence\Repository\TicketRepository\TicketValidator.cs" />
+    <Compile Include="Persistence\Repository\TicketRepository\TransactionsRepository.cs" />
     <Compile Include="Persistence\Repository\TicketRepository\UserTypeDiscountRepository.cs" />
     <Compile Include="Persistence\Repository\UserRepository\IUserRepository.cs" />
     <Compile Include="Persistence\Repository\UserRepository\IUserTypeRepository.cs" />
@@ -473,6 +487,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906132148313_TicketUserIdIsNullable.resx">
       <DependentUpon>201906132148313_TicketUserIdIsNullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906252200490_AddedTransactions.resx">
+      <DependentUpon>201906252200490_AddedTransactions.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

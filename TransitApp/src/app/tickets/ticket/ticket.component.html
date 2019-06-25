@@ -12,12 +12,13 @@
           Price: <del> ({{ ticketPrice?.BasePrice }}) </del>
           {{ ticketPrice?.DiscountPrice }} din <sup> {{ ticketPrice?.DiscountRate*100 }}% off</sup>
         </h6>
-      </div>    
-      <button 
+      </div>   
+      <div id="paypal-button-container-{{ id }}"></div> 
+      <!-- <button 
         class="btn btn-outline-primary mt-auto"
         [disabled]="!hasItems"
         (click)="onBuy()">
         Buy ticket
-      </button>
+      </button> -->
     </div>
   </div>

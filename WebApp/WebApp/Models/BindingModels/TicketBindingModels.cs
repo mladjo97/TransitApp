@@ -6,6 +6,9 @@ namespace WebApp.Models.BindingModels
     {
         [Required]
         public int ItemId { get; set; }
+
+        [Required]
+        public string OrderId { get; set; }
     }
 
     public class TicketPricesBindingModel
@@ -19,5 +22,8 @@ namespace WebApp.Models.BindingModels
         [Required]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
+
+        [Required]
+        public string OrderId { get; set; }
     }
 }

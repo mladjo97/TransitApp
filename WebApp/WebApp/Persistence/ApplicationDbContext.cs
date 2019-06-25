@@ -17,6 +17,7 @@ namespace WebApp.Persistence
         public virtual DbSet<UserTypeDiscount> Discounts { get; set; }
         public virtual DbSet<PriceList> PriceLists { get; set; }
         public virtual DbSet<PriceListItem> PriceListItems { get; set; }
+        public virtual DbSet<PayPalTransaction> Transactions { get; set; }
 
         public ApplicationDbContext()
             : base("name=TransitAppDbConnection", throwIfV1Schema: false)

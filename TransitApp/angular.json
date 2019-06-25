@@ -37,7 +37,8 @@
               "src/app/_scripts/moment.min.js",
               "src/app/_scripts/daterangepicker.min.js",
               "src/app/_scripts/main.js",
-              "src/assets/js/jquery.signalR-2.4.1.min.js"
+              "src/assets/js/jquery.signalR-2.4.1.min.js",
+              "src/app/_scripts/paypal.js"
              ],
             "es5BrowserSupport": true
           },

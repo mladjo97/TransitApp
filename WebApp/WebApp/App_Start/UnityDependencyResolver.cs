@@ -76,6 +76,7 @@ namespace WebApp.App_Start
             container.RegisterType<IPriceListRepository, PriceListRepository>();
             container.RegisterType<IPriceListItemRepository, PriceListItemRepository>();
             container.RegisterType<IUserTypeDiscountRepository, UserTypeDiscountRepository>();
+            container.RegisterType<ITransactionsRepository, TransactionsRepository>();
 
             container.RegisterType<BusLineHub>();
 

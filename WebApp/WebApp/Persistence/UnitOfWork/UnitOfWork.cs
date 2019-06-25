@@ -47,6 +47,9 @@ namespace WebApp.Persistence.UnitOfWork
         [Dependency]
         public ITicketTypeRepository TicketTypeRepository { get; set; }
 
+        [Dependency]
+        public ITransactionsRepository TransactionsRepository { get; set; }
+
         public UnitOfWork(DbContext context)
         {
             _context = context;
