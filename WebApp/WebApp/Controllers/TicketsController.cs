@@ -224,7 +224,7 @@ namespace WebApp.Controllers
         [AllowAnonymous]
         public async Task<IHttpActionResult> BuyUnregisteredTicket(BuyUnregisteredBindingModel model)
         {
-            if (!ModelState.IsValid)
+         if (!ModelState.IsValid)
             {
                 return BadRequest();
             }

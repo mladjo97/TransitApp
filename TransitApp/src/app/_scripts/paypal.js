@@ -23,8 +23,6 @@ function initPaypalButton(isLoggedIn, divId, price, itemId) {
                 },
                 onApprove: function (data, actions) {
                     return actions.order.capture().then(function (details) {
-                        alert('Transaction completed by ' + details.payer.name.given_name);
-                        // Call your server to save the transaction
                         return fetch('http://localhost:52295/api/Tickets/BuyUnregistered', {
                             method: 'post',
                             headers: {
@@ -42,6 +40,8 @@ function initPaypalButton(isLoggedIn, divId, price, itemId) {
             $(`#paypal-button-container-${divId}`).data("created", true);
 
         } else {
+            let token = localStorage.getItem("token");
+
             paypal.Buttons({
                 style: {
                     layout: 'horizontal',
@@ -61,15 +61,13 @@ function initPaypalButton(isLoggedIn, divId, price, itemId) {
                 },
                 onApprove: function (data, actions) {
                     return actions.order.capture().then(function (details) {
-                        alert('Transaction completed by ' + details.payer.name.given_name);
-                        // Call your server to save the transaction
                         return fetch('http://localhost:52295/api/Tickets/Buy', {
                             method: 'post',
                             headers: {
-                                'content-type': 'application/json'
+                                'content-type': 'application/json',
+                                'Authorization': 'Bearer ' + JSON.parse(token).token
                             },
                             body: JSON.stringify({
-                                email: "mldnmilosevic@gmail.com",
                                 itemId: itemId,
                                 orderId: data.orderID
                             })

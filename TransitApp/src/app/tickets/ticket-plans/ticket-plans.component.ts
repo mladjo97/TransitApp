@@ -14,7 +14,6 @@ export class TicketPlansComponent implements OnInit {
 
   ngOnInit() {
     this.isUnregistered = !this.authService.isLoggedIn();
-    console.log(this.isUnregistered);
   }
 
 }

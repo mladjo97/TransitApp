@@ -2,11 +2,12 @@ import { Component, OnInit, Input } from '@angular/core';
 import { TicketService } from 'src/app/_services/ticket.service';
 import { PriceListService } from 'src/app/_services/pricelist.service';
 import { Price } from 'src/app/_models/price.model';
-import { NotificationService } from 'src/app/_services/notification.service';
 import { AuthService } from 'src/app/_services/auth.service';
+import { UserService } from 'src/app/_services/user.service';
+import { NotificationService } from 'src/app/_services/notification.service';
 
 // javascript file to handle paypal interaction
-import * as paypalJS from '../_scripts/paypal.js';
+import * as paypalJS from '../../_scripts/paypal.js';
 declare var initPaypalButton: any;
 
 @Component({
@@ -28,8 +29,9 @@ export class TicketComponent implements OnInit {
   private hasItems: boolean;
 
   constructor(private priceListService: PriceListService,
-              private ticketService: TicketService,
               private notificationService: NotificationService,
+              private ticketService: TicketService,
+              private usersService: UserService,
               private authService: AuthService) { }
 
   ngOnInit() {  
@@ -55,19 +57,31 @@ export class TicketComponent implements OnInit {
   }
 
   loadPrice(): void {
-    this.priceListService.getPriceForTicketType(this.ticketTypeId).subscribe(
+    this.usersService.getUserInfo().subscribe(
       (response) => {
-        this.ticketPrice = response.json();        
-        this.loaded = true;
-        this.hasItems = true;
-
-        initPaypalButton(false,
-                         this.id,
-                         this.ticketPrice.HasDiscount ? this.ticketPrice.DiscountPrice : this.ticketPrice.BasePrice,
-                         this.ticketPrice.ItemId);
+        if(response.json().VerifiedDocumentImage) {
+          this.priceListService.getPriceForTicketType(this.ticketTypeId).subscribe(
+            (response) => {
+              this.ticketPrice = response.json();        
+              this.loaded = true;
+              this.hasItems = true;
+      
+              initPaypalButton(true,
+                                this.id,
+                                this.ticketPrice.HasDiscount ? this.ticketPrice.DiscountPrice : this.ticketPrice.BasePrice,
+                                this.ticketPrice.ItemId);
+            },
+            (error) => console.log(error)
+          );
+        } else {
+          this.notificationService.notifyEvent.emit('Your account must be verified to buy tickets.');
+        }
       },
-      (error) => console.log(error)
+      (error) => {
+        return false;
+      }
     );
+
   }
 
   loadRegularPrice(): void {
@@ -78,13 +92,27 @@ export class TicketComponent implements OnInit {
         this.hasItems = true;
 
         initPaypalButton(false,
-                         this.id,
-                         this.ticketPrice.HasDiscount ? this.ticketPrice.DiscountPrice : this.ticketPrice.BasePrice,
-                         this.ticketPrice.ItemId);
+                          this.id,
+                          this.ticketPrice.HasDiscount ? this.ticketPrice.DiscountPrice : this.ticketPrice.BasePrice,
+                          this.ticketPrice.ItemId);
       }
     );
   }
   
+  shouldInitButton(): any {
+    this.usersService.getUserInfo().subscribe(
+      (response) => {
+        console.log(response.json().VerifiedDocumentImage);
+        if(response.json().VerifiedDocumentImage)
+          return true;
+        else
+          return false;
+      },
+      (error) => {
+        return false;
+      }
+    );
+  }
 
   // beskorisna metoda sad sa paypal-om
   // onBuy() {
@@ -92,7 +120,7 @@ export class TicketComponent implements OnInit {
   //   if(this.authService.isLoggedIn() && this.authService.isUser()) {
   //     this.ticketService.buyTicket(this.ticketPrice.ItemId).subscribe(
   //       (response) => {
-  //         this.notificationService.notifyEvent.emit('Successfully bought ticket.');
+  //         this.notificationService.notifyEvent.emit('Successfully bought a ticket.');
   //       },
   //       (error) => {
   //         switch(error.status){
@@ -110,7 +138,7 @@ export class TicketComponent implements OnInit {
   //     // dodati input za email
   //     this.ticketService.buyUnregistered("mldnmilosevic@gmail.com").subscribe(
   //       (response) => {
-  //         this.notificationService.notifyEvent.emit('Successfully bought ticket.');
+  //         this.notificationService.notifyEvent.emit('Successfully bought a ticket.');
   //       },
   //       (error) => {
   //         this.notificationService.notifyEvent.emit('An error ocurred. Please try again.');
