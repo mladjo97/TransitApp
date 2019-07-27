@@ -13,7 +13,7 @@ Once they are installed run the application (available on *localhost:4200*):
 
 Run the Web API project from the (/WebApp) solution
 
-## Features
+## Roadmap
 
 - [x] Home Page
 - [x] Login / Register
@@ -24,3 +24,12 @@ Run the Web API project from the (/WebApp) solution
 - [x] Busline routes (on an OpenLayers map)
 - [x] Ticket plans
 - [x] Busline route simulation (SignalR)
+
+## Example photos
+![](./TransitApp/photos/homepage.png)
+![](./TransitApp/photos/locations.gif)
+![](./TransitApp/photos/routes.png)
+![](./TransitApp/photos/tickets.png)
+![](./TransitApp/photos/add_busline.png)
+![](./TransitApp/photos/pricelist.png)
+![](./TransitApp/photos/stations.png)
