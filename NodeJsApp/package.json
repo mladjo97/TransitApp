@@ -1,0 +1,26 @@
+{
+  "name": "nodejsapp",
+  "version": "1.0.0",
+  "description": "Node.js back-end application",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1",
+    "mongodb": "^3.3.0-beta2",
+    "mongoose": "^5.6.7"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "nodemon": "^1.19.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --exec babel-node src/app.js"
+  },
+  "author": "Mladen Milosevic",
+  "license": "ISC"
+}

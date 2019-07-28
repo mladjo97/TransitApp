@@ -9,6 +9,19 @@
 *.userosscache
 *.sln.docstates
 Documents/
+/node_modules
+
+# misc
+.DS_Store
+.env*
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# nodejs related configurations
+.env
+build
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
