@@ -1,5 +1,5 @@
+import config from '@config';
 import mongoose from 'mongoose';
-import config from '../config';
 
 const loadMongoose = async () => {
   const connection = await mongoose.connect(config.databaseURL, { useNewUrlParser: true, useCreateIndex: true });

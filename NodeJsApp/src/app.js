@@ -1,6 +1,6 @@
 import express from 'express';
-import loader from './loaders';
-import config from './config';
+import loader from '@loaders';
+import config from '@config';
 
 const startServer = () => {
     const app = express();

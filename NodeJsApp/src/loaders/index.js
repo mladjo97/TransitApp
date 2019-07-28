@@ -1,5 +1,5 @@
-import expressLoader from './express';
-import mongooseLoader from './mongoose';
+import expressLoader from '@loaders/express';
+import mongooseLoader from '@loaders/mongoose';
 
 const loader = ({ expressApp }) => {
 

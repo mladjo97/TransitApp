@@ -1,7 +1,8 @@
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
-// import config from '../config';
+import config from '@config';
+import routes from '@api';
 
 const loadExpressApp =  (app) => {
   
@@ -14,10 +15,10 @@ const loadExpressApp =  (app) => {
     app.use(cors());
 
     // Middleware that transforms the raw string of req.body into json
-    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded());
 
     // Load API routes
-    //app.use(config.api.prefix, routes());
+    app.use(config.api.prefix, routes());
 
     /// catch 404 and forward to error handler
     app.use((req, res, next) => {
