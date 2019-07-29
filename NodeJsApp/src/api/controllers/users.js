@@ -13,7 +13,6 @@ export const postUser = async (req, res, next) => {
 
     try {
         const dbUser = await createUser(newUser);
-        console.log('dbUser');
         return res.status(200).json(dbUser);
     } catch (e) {
         return next(e);

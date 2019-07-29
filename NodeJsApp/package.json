@@ -8,6 +8,7 @@
     "cors": "^2.8.5",
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
+    "joi": "^14.3.1",
     "link-module-alias": "^1.2.0",
     "mongodb": "^3.3.0-beta2",
     "mongoose": "^5.6.7"
@@ -15,12 +16,14 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.7.0",
+    "chai": "^4.2.0",
     "mocha": "^6.2.0",
     "nodemon": "^1.19.1"
   },
   "scripts": {
-    "test": "mocha",
+    "test": "mocha --require babel-core/register",
     "postinstall": "link-module-alias",
     "start": "nodemon --exec babel-node src/app.js"
   },
@@ -29,6 +32,7 @@
     "@api": "src/api",
     "@routes": "src/api/routes",
     "@controllers": "src/api/controllers",
+    "@middlewares": "src/api/middlewares",
     "@loaders": "src/loaders",
     "@models": "src/models",
     "@services": "src/services"
