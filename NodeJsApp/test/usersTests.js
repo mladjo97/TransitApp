@@ -156,7 +156,7 @@ describe('# Users tests', () => {
   /*
     * Test the /PUT/:id route
     */
-  describe('/PUT/:id user', () => {
+  describe('PUT /users', () => {
     it('it should UPDATE a user given the id', (done) => {
       const user = new User({
         firstName: 'Mladen',
@@ -187,6 +187,39 @@ describe('# Users tests', () => {
           });
       });
     });
+  });
+
+  /*
+    * Test the PUT route
+    */
+   describe('DELETE /users', () => {
+    it('it should DELETE a user given the id', (done) => {
+      const user = new User({
+        firstName: 'Mladen',
+        lastName: 'Milosevic',
+        email: 'mladjo@demo.com',
+        username: 'mladjo'
+      });
+
+      user.save((err, newUser) => {
+        chai.request(app)
+          .delete('/api/users/' + newUser._id)          
+          .end((err, res) => {
+            assert.equal(res.status, 200, 'status is not 200 OK');
+            done();
+          });
+      });
+    });
+
+    it('it should not DELETE a user', (done) => {
+      chai.request(app)
+        .delete('/api/users/2ef15efa13dasd')          
+        .end((err, res) => {
+          assert.equal(res.status, 400, 'status is not 400 Bad Request');
+          done();
+        });
+    });
+
   });
 
 });

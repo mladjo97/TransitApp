@@ -19,6 +19,15 @@ const errorsRoute = (app) => {
                 .send({ message: err.message })
                 .end();
         }
+        /**
+         * Handle CastError thrown by service layer
+         */
+        if (err.name === 'CastError') {
+            return res
+                .status(400)
+                .send({ message: err.message })
+                .end();
+        }
         return next(err);
     });
     app.use((err, req, res, next) => {
