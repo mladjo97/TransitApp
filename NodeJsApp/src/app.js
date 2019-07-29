@@ -3,15 +3,19 @@ import loader from '@loaders';
 import config from '@config';
 
 const startServer = () => {
-    const app = express();
-    loader({ expressApp: app});
+  const app = express();
+  loader({ expressApp: app });
 
-    app.listen(config.port, err => {
-        if (err) {
-          process.exit(1);
-          return;
-        }        
-      });
-}
+  app.listen(config.port, err => {
+    if (err) {
+      process.exit(1);
+      return;
+    }
+  });
 
-startServer();
+  return app;
+};
+
+const app = startServer();
+
+export default app;

@@ -1,14 +1,18 @@
 import { Router } from 'express';
-import { postUser } from '@controllers/users';
 import validation from '@middlewares/validation';
 import { userSchemas } from '@middlewares/validationSchemas';
-
 const route = Router();
+
+import * as userControllers from '@controllers/users';
 
 const usersRoute = (app) => {
     app.use('/users', route);
 
-    route.post('/', validation(userSchemas.userPOST, 'body'), postUser);
+    route.get('/:id', validation(userSchemas.userIdBindingModel, 'params'), userControllers.getUserById);
+    route.get('/', userControllers.getAllUsers);
+    route.post('/', validation(userSchemas.postUserBindingModel, 'body'), userControllers.postUser);
+    route.put('/:id', validation(userSchemas.userIdBindingModel, 'params'), validation(userSchemas.putUserBindingModel, 'body'), userControllers.putUser);
+    route.delete('/:id', validation(userSchemas.userIdBindingModel, 'params'), userControllers.deleteUser);
 };
 
 export default usersRoute;

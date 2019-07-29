@@ -19,13 +19,14 @@
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.7.0",
     "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "mocha": "^6.2.0",
     "nodemon": "^1.19.1"
   },
   "scripts": {
-    "test": "mocha --require babel-core/register",
+    "test": "SET NODE_ENV=test && mocha --require babel-core/register --timeout 10000 --exit",
     "postinstall": "link-module-alias",
-    "start": "nodemon --exec babel-node src/app.js"
+    "start": "SET NODE_ENV=development && nodemon --exec babel-node src/app.js"
   },
   "_moduleAliases": {
     "@config": "src/config",

@@ -10,7 +10,6 @@ const validationMiddleware = (schema, property) => {
         } else {
             const { details } = error;
             const message = details.map(i => i.message).join(',');
-            console.log("validation error: " + message);
             return res.status(400).json({ error: message });
         }
     }
