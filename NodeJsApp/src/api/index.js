@@ -3,13 +3,13 @@ import users from '@routes/users';
 import errors from '@routes/errors';
 
 const routes = () => {
-	const app = Router();
+    const app = Router();
 
-	// register routes
-	users(app);
-	errors(app);
+    // register routes
+    users(app);
+    errors(app);
 
-	return app;
+    return app;
 };
 
 export default routes;
