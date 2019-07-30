@@ -4,7 +4,7 @@ import mongooseLoader from '@loaders/mongoose';
 const loader = ({ expressApp }) => {
 
     // returns an MongoDb.Db object if needed later
-    const mongoConnection = mongooseLoader();
+    mongooseLoader();
     console.log('Database successfully loaded.');
 
     expressLoader(expressApp);

@@ -10,6 +10,6 @@ const routes = () => {
 	errors(app);
 
 	return app;
-}
+};
 
 export default routes;

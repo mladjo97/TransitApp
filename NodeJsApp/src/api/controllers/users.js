@@ -2,7 +2,7 @@ import User from '@models/user';
 import * as usersService from '@services/users';
 
 export const getAllUsers = async (req, res, next) => {
-     try {
+    try {
         const users = await usersService.getAllUsers();
         return res.status(200).json(users);
     } catch (error) {
