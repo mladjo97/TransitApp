@@ -1,6 +1,4 @@
-import mongoose from 'mongoose';
-
-const Schema = mongoose.Schema;
+import { Schema, model } from 'mongoose';
 
 const userTypeSchema = new Schema(
     {
@@ -15,8 +13,15 @@ const userTypeSchema = new Schema(
                 type: Schema.Types.ObjectId,
                 ref: 'User'
             }
+        ],
+
+        discounts: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'UserTypeDiscount'
+            }
         ]
     }
 );
 
-export default mongoose.model('UserType', userTypeSchema);
+export default model('UserType', userTypeSchema);

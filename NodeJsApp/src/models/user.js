@@ -1,10 +1,8 @@
-import mongoose from 'mongoose';
+import { Schema, model } from 'mongoose';
 import { Gender } from './enums';
 
-const Schema = mongoose.Schema;
 
-const userSchema = new Schema(
-    {
+const userSchema = new Schema({
         firstName: {
             type: String,
             required: true
@@ -28,11 +26,11 @@ const userSchema = new Schema(
             required: true
         },
         dateOfBirth: {
-            type: String,
+            type: Date,
             required: true
         },
         gender: {
-            type: String,
+            type: Number,
             enum: Object.values(Gender),
             required: true
         },
@@ -50,11 +48,17 @@ const userSchema = new Schema(
             type: Boolean,
             required: false,
             default: false
-        }
+        },
+        tickets: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Ticket'
+            }
+        ]
     },
     {
         timestamps: true
     }
 );
 
-export default mongoose.model('User', userSchema);
+export default model('User', userSchema);
