@@ -25,4 +25,9 @@ export default {
     api: {
         prefix: '/api',
     },
+
+    /**
+     * Default date format
+     */
+    dateFormat: 'DD/MM/YYYY'
 };

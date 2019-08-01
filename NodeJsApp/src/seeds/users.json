@@ -1,0 +1,43 @@
+[
+    {
+        "firstName": "Mladen",
+        "lastName": "Milosevic",
+        "username": "mladjo",
+        "email": "mladjo@demo.com",
+        "password": "demo123#",
+        "address": "Novi Sad",
+        "dateOfBirth": "31/01/1997",
+        "gender": 0,
+        "documentImageUrl": null,
+        "verifiedDocumentImage": false,
+        "tickets": []
+    },
+
+    {
+        "firstName": "Ticket",
+        "lastName": "Inspector",
+        "username": "ticketInspector",
+        "email": "ticket@demo.com",
+        "password": "demo123#",
+        "address": "Novi Sad",
+        "dateOfBirth": "05/11/1995",
+        "gender": 0,
+        "documentImageUrl": null,
+        "verifiedDocumentImage": false,
+        "tickets": []
+    },
+
+    {
+        "firstName": "Demo",
+        "lastName": "User",
+        "username": "demo",
+        "email": "demo@demo.com",
+        "password": "demo123#",
+        "address": "Novi Sad",
+        "dateOfBirth": "01/06/1990",
+        "gender": 1,
+        "documentImageUrl": null,
+        "verifiedDocumentImage": false,
+        "tickets": []
+    }
+]

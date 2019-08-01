@@ -10,6 +10,7 @@
     "express": "^4.17.1",
     "joi": "^14.3.1",
     "link-module-alias": "^1.2.0",
+    "moment": "^2.24.0",
     "mongodb": "^3.3.0-beta2",
     "mongoose": "^5.6.7"
   },
@@ -37,7 +38,8 @@
     "@middlewares": "src/api/middlewares",
     "@loaders": "src/loaders",
     "@models": "src/models",
-    "@services": "src/services"
+    "@services": "src/services",
+    "@seeds": "src/seeds"
   },
   "author": "Mladen Milosevic",
   "license": "ISC"

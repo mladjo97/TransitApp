@@ -1,5 +1,6 @@
 import expressLoader from '@loaders/express';
 import mongooseLoader from '@loaders/mongoose';
+import seedLoader from '@loaders/seed';
 
 const loader = ({ expressApp }) => {
 
@@ -9,6 +10,8 @@ const loader = ({ expressApp }) => {
 
     expressLoader(expressApp);
     console.log('Express app successfully loaded.');
+
+    seedLoader();
 };
 
 export default loader;
