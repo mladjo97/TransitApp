@@ -9,33 +9,16 @@ import usersJSON from './users.json';
 
 
 const seedUsers = async () => {
-    const users = [];
-
     /*
     *   User needs foreign key (ObjectId) relations
     */
-    const regularUserType = await UserType.findOne({ name: 'Regular' }, (err, doc) => {
-        if (err) return;
-        return doc;
-    });
-
-    const adminRole = await Role.findOne({ name: 'Admin' }, (err, doc) => {
-        if (err) return;
-        return doc;
-    });
-
-    const ticketInspectorRole = await Role.findOne({ name: 'TicketInspector' }, (err, doc) => {
-        if (err) return;
-        return doc;
-    });
-
-    const userRole = await Role.findOne({ name: 'User' }, (err, doc) => {
-        if (err) return;
-        return doc;
-    });
+   const userRole = await Role.findOne({ name: 'User' });
+   const adminRole = await Role.findOne({ name: 'Admin' });
+   const regularUserType = await UserType.findOne({ name: 'Regular' });
+   const ticketInspectorRole = await Role.findOne({ name: 'TicketInspector' });
 
     /*
-     *  Loading users 
+     *  Insert users 
     */
     usersJSON.map((user) => {
         // NOTE: roles must be inserted first
@@ -45,7 +28,7 @@ const seedUsers = async () => {
 
         roleId = user.username === 'ticketInspector' ?
             ticketInspectorRole._id :
-            userRole._id;
+            roleId;
 
         const seedUser = {
             firstName: user.firstName,
@@ -57,21 +40,15 @@ const seedUsers = async () => {
             address: user.address,
             dateOfBirth: moment.utc(user.dateOfBirth, config.dateFormat),
             gender: user.gender,
-            // NOTE: user types must be inserted first
             userType: regularUserType._id,
             documentImageUrl: user.documentImageUrl,
             verifiedDocumentImage: user.verifiedDocumentImage,
             tickets: user.tickets
         };
 
-        return users.push(seedUser);
-    });
-
-    /**
-     *  Inserting users
-     */
-    return await User.insertMany(users, err => {
-        if (err) return;
+        User.create(seedUser, (err) => {
+            if (err) return;
+        });
     });
 };
 

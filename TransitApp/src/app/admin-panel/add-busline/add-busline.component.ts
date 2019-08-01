@@ -107,8 +107,6 @@ export class AddBuslineComponent implements OnInit {
     if(this.timetable.length > 0) {
       this.timetableActive = true;
     }
-
-    console.log(this.timetable);
   }
 
   onRemoveTime(time: string, dayIndex: number): void {
@@ -165,7 +163,7 @@ export class AddBuslineComponent implements OnInit {
          if(error.status !== 0){
           // Notify the user about errors from WebAPI (authorization error reply)
           let regReply = JSON.parse(error._body);          
-          this.notificationService.notifyEvent.emit(regReply.Message); 
+          this.notificationService.notifyEvent.emit('An error occured.'); 
 
         } else {
           this.notificationService.notifyEvent.emit('An error ocurred during registration. The server is probably down.');

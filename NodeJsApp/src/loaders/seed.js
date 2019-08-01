@@ -1,11 +1,7 @@
-import seeds from '@seeds';
+import seed from '@seeds';
 
 const seedLoader = async () => {
-    
-    await seeds.seedRoles();
-    await seeds.seedUserTypes();
-    await seeds.seedUsers();
-
+    await seed();
     console.log('Successfully inserted initial seed data.');
 };
 

@@ -11,7 +11,11 @@ const usersRoute = (app) => {
     route.get('/:id', validation(userSchemas.userIdBindingModel, 'params'), userControllers.getUserById);
     route.get('/', userControllers.getAllUsers);
     route.post('/', validation(userSchemas.postUserBindingModel, 'body'), userControllers.postUser);
-    route.put('/:id', validation(userSchemas.userIdBindingModel, 'params'), validation(userSchemas.putUserBindingModel, 'body'), userControllers.putUser);
+
+    route.put('/:id', validation(userSchemas.userIdBindingModel, 'params'),
+                      validation(userSchemas.putUserBindingModel, 'body'), 
+                      userControllers.putUser);
+                      
     route.delete('/:id', validation(userSchemas.userIdBindingModel, 'params'), userControllers.deleteUser);
 };
 

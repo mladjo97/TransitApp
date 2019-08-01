@@ -14,7 +14,7 @@ export const getUserById = async (id) => {
 export const createUser = async (user) => {
     const newUser = await User.create(user);
     if (!newUser) throw new Error('User cannot be created.');
-    return user;
+    return newUser;
 };
 
 export const updateUser = async (id, user) => {

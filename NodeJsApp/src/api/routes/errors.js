@@ -6,9 +6,8 @@ const errorsRoute = (app) => {
         next(err);
     });
 
-    /// error handlers
-    app.use((err, req, res, next) => {  
-        console.log(err);     
+    /// custom error handlers
+    app.use((err, req, res, next) => {     
         /**
          * Handle CastError thrown by service layer
          */

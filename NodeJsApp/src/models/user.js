@@ -1,5 +1,8 @@
-import { Schema, model } from 'mongoose';
 import { Gender } from './enums';
+import { Schema, model } from 'mongoose';
+
+import Role from '@models/role';
+import UserType from '@models/userType';
 
 
 const userSchema = new Schema({
@@ -69,5 +72,23 @@ const userSchema = new Schema({
         timestamps: true
     }
 );
+
+/**
+ *  Post hook for adding foreign keys 
+ */
+userSchema.post('save', async (doc, next) => {
+
+    await UserType.findOne({ _id: doc.userType }, (err, res) => {        
+        res.users.push(doc._id);
+        res.save();
+    });
+
+    await Role.findOne({ _id: doc.role }, (err, res) => {       
+        res.users.push(doc._id);
+        res.save();
+    });
+
+    next();
+});
 
 export default model('User', userSchema);

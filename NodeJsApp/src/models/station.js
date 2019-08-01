@@ -6,17 +6,17 @@ const stationSchema = new Schema({
         required: true,
         unique: true
     },
-    description: {
+    address: {
         type: String,
         required: false,
         default: null
     },
     lat: {
-        type: Schema.Types.Decimal128,
+        type: Number,
         required: true
     },
-    long: {
-        type: Schema.Types.Decimal128,
+    lon: {
+        type: Number,
         required: true
     },
     busLineStations: [

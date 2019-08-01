@@ -1,0 +1,116 @@
+[
+  {
+    "name": "The Pub Stanica",
+    "address": "Bulevar Oslobodjenja - Brace Ribnikar",
+    "lon": 19.835076481103897,
+    "lat": 45.25561947427374
+  },
+  {
+    "name": "Merkator",
+    "address": "Bulevar Oslobodjenja - Merkator",
+    "lon": 19.84163,
+    "lat": 45.24344
+  },
+  {
+    "name": "Nis",
+    "address": "Narodnog fronta - Bulevar Oslobodjenja",
+    "lon": 19.84187,
+    "lat": 45.24138
+  },
+  {
+    "name": "Schneider Electric DMS 1",
+    "address": "Narodnog fronta - Sekspirova",
+    "lon": 19.83726,
+    "lat": 45.2401
+  },
+  {
+    "name": "Schneider Electric DMS 2",
+    "address": "Narodnog fronta - Sekspirova",
+    "lon": 19.83187,
+    "lat": 45.23862
+  },
+  {
+    "name": "Okretnica",
+    "address": "Narodnog fronta - Okretnica",
+    "lon": 19.82706,
+    "lat": 45.23726
+  },
+  {
+    "name": "Kruzni tok",
+    "address": "Bulevar Patrijarha Pavla - Bulevar Evrope",
+    "lon": 19.821487,
+    "lat": 45.239791
+  },
+  {
+    "name": "12 stanica",
+    "address": "Ulaz u Bulevar Patrijarha Pavla",
+    "lon": 19.810868,
+    "lat": 45.240832
+  },
+  {
+    "name": "Piccante stanica",
+    "address": "Bulevar Patrijarha Pavla",
+    "lon": 19.806380,
+    "lat": 45.241235
+  },
+  {
+    "name": "Drvarska stanica",
+    "address": "Bulevar Patrijarha Pavla - Drvarska",
+    "lon": 19.798775,
+    "lat": 45.241985
+  },
+  {
+    "name": "Kneza Milosa stanica",
+    "address": "Bulevar Patrijarha Pavla - Kneza Milosa",
+    "lon": 19.794723,
+    "lat": 45.245012
+  },
+  {
+    "name": "Ugao Vojvode Stepe",
+    "address": "Bulevar Vojvode Stepe",
+    "lon": 19.790271,
+    "lat": 45.253820
+  },
+  {
+    "name": "Jysk stanica",
+    "address": "Bulevar Vojvode Stepe",
+    "lon": 19.802145,
+    "lat": 45.257927
+  },
+  {
+    "name": "Kornelija Stankovica stanica",
+    "address": "Kornelija Stankovica",
+    "lon": 19.813550,
+    "lat": 45.261959
+  },
+  {
+    "name": "Rumenacka stanica",
+    "address": "Kornelija Stankovica - Rumenacka",
+    "lon": 19.817375,
+    "lat": 45.263788
+  },
+  {
+    "name": "Zeleznicka stanica 2",
+    "address": "Bulevar Oslobodjenja",
+    "lon": 19.830317,
+    "lat": 45.263714
+  },
+  {
+    "name": "UniCredit stanica",
+    "address": "Bulevar Oslobodjenja",
+    "lon": 19.832273,
+    "lat": 45.260209
+  },
+  {
+    "name": "Aleksandar Zgrada 1",
+    "address": "Bulevar Oslobodjenja - Novosadskog Sajma",
+    "lon": 19.832273,
+    "lat": 45.260209
+  },
+  {
+    "name": "Futoska 1",
+    "address": "Bulevar Oslobodjenja - Futoska",
+    "lon": 19.837162,
+    "lat": 45.251413
+  }
+]

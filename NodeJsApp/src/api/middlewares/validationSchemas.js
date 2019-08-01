@@ -1,5 +1,8 @@
 import Joi from 'joi';
 
+/**
+ *  User validation models
+ */
 export const userSchemas = {
     postUserBindingModel: Joi.object().keys({
         firstName: Joi.string().max(256).required(),
@@ -32,4 +35,80 @@ export const userSchemas = {
         id: Joi.string().max(256).required()
     })
 
+};
+
+/**
+ *  UserType validation models
+ */
+export const userTypeSchemas = {
+    userTypeBindingModel: Joi.object().keys({
+        name: Joi.string().max(256).required()
+    }),
+
+    userTypeIdBindingModel: Joi.object().keys({
+        id: Joi.string().max(256).required()
+    })
+};
+
+/**
+ *  BusLine validation models
+ */
+export const busLineSchemas = {
+    postBusLineBindingModel: Joi.object().keys({
+        name: Joi.string().max(256).required(),
+        description: Joi.string().max(256).required(),
+        busLineTypeId: Joi.string().max(256).required(),
+        timetable: Joi.array(),
+        busLineStations: Joi.array(),
+    }),
+
+    putBusLineBindingModel: Joi.object().keys({
+        _id: Joi.string().max(256).required(),
+        name: Joi.string().max(256).required(),
+        description: Joi.string().max(256).required(),
+        busLineTypeId: Joi.string().max(256).required(),
+        timetable: Joi.array(),
+        busLineStations: Joi.array(),
+    }),
+
+    busLineIdBindingModel: Joi.object().keys({
+        id: Joi.string().max(256).required()
+    })
+};
+
+/**
+ *  BusLineType validation models
+ */
+export const busLineTypeSchemas = {
+    busLineTypeBindingModel: Joi.object().keys({
+        name: Joi.string().max(256).required()
+    }),
+
+    busLineTypeIdBindingModel: Joi.object().keys({
+        id: Joi.string().max(256).required()
+    })
+};
+
+/**
+ *  Station validation models
+ */
+export const stationSchemas = {
+    postStationBindingModel: Joi.object().keys({
+        name: Joi.string().max(256).required(),
+        description: Joi.string().max(256).required(),
+        lat: Joi.number().required(),
+        lon: Joi.number().required()
+    }),
+
+    putStationBindingModel: Joi.object().keys({
+        _id: Joi.string().max(256).required(),
+        name: Joi.string().max(256).required(),
+        description: Joi.string().max(256).required(),
+        lat: Joi.number().required(),
+        lon: Joi.number().required()
+    }),
+
+    stationIdBindingModel: Joi.object().keys({
+        id: Joi.string().max(256).required()
+    })
 };

@@ -6,7 +6,7 @@ const busLineStationSchema = new Schema({
         ref: 'BusLine',
         required: true
     },
-    stations: {
+    station: {
         type: Schema.Types.ObjectId,
         ref: 'Station',
         required: true
