@@ -38,6 +38,11 @@ const userSchema = new Schema({
             enum: Object.values(Gender),
             required: true
         },
+        role: {
+            type: Schema.Types.ObjectId,
+            ref: 'Role',
+            required: true
+        },
         userType: {
             type: Schema.Types.ObjectId,
             ref: 'UserType',

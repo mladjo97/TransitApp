@@ -7,16 +7,8 @@ const errorsRoute = (app) => {
     });
 
     /// error handlers
-    app.use((err, req, res, next) => {
-        /**
-         * Handle 401 thrown by express-jwt library
-         */
-        if (err.name === 'UnauthorizedError') {
-            return res
-                .status(err.status)
-                .send({ message: err.message })
-                .end();
-        }
+    app.use((err, req, res, next) => {  
+        console.log(err);     
         /**
          * Handle CastError thrown by service layer
          */
@@ -26,6 +18,16 @@ const errorsRoute = (app) => {
                 .send({ message: err.message })
                 .end();
         }
+        /**
+         * Handle MongoError thrown by db layer
+         */
+        if (err.name === 'MongoError') {
+            return res
+                .status(400)
+                .send({ message: err.message })
+                .end();
+        }
+        
         return next(err);
     });
     app.use((err, req, res) => {

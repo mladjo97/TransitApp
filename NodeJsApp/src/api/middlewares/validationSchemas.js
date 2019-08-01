@@ -5,6 +5,12 @@ export const userSchemas = {
         firstName: Joi.string().max(256).required(),
         lastName: Joi.string().max(256).required(),
         username: Joi.string().max(256).required(),
+        password: Joi.string().max(256).required(),
+        address: Joi.string().max(256).required(),
+        dateOfBirth: Joi.string().max(256).required(),
+        gender: Joi.number().min(0).max(1).required(),
+        userTypeId: Joi.string().max(256).required(),
+        documentImageUrl: Joi.string().max(256),
         email: Joi.string().max(256).email({ minDomainAtoms: 2 }).required()
     }),
 
@@ -13,6 +19,12 @@ export const userSchemas = {
         firstName: Joi.string().max(256).required(),
         lastName: Joi.string().max(256).required(),
         username: Joi.string().max(256).required(),
+        password: Joi.string().max(256).required(),
+        address: Joi.string().max(256).required(),
+        dateOfBirth: Joi.string().max(256).required(),
+        gender: Joi.number().min(0).max(1).required(),
+        userTypeId: Joi.string().max(256).required(),
+        documentImageUrl: Joi.string().max(256),
         email: Joi.string().max(256).email({ minDomainAtoms: 2 }).required()
     }),
 

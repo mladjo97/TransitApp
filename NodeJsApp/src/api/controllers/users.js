@@ -1,5 +1,9 @@
+import moment from 'moment';
+import config from '@config';
 import User from '@models/user';
+import Role from '@models/role';
 import * as usersService from '@services/users';
+
 
 export const getAllUsers = async (req, res, next) => {
     try {
@@ -22,13 +26,37 @@ export const getUserById = async (req, res, next) => {
 };
 
 export const postUser = async (req, res, next) => {
-    const { firstName, lastName, username, email } = req.body;
+    const {
+        firstName,
+        lastName,
+        username,
+        email,
+        password,
+        address,
+        gender,
+        dateOfBirth,        
+        userTypeId,
+        documentImageUrl,
+        
+    } = req.body;
+
+    const userRole = await Role.findOne({ name: 'User' }, (err, doc) => {
+        if (err) return;
+        return doc;
+    });
 
     const newUser = new User({
         firstName: firstName,
         lastName: lastName,
         username: username,
-        email: email
+        email: email,
+        passwordHash: password,
+        address: address,
+        gender: gender,
+        role: userRole._id,
+        dateOfBirth: moment.utc(dateOfBirth, config.dateFormat),
+        userType: userTypeId,
+        documentImageUrl: documentImageUrl || null
     });
 
     try {
@@ -40,15 +68,40 @@ export const postUser = async (req, res, next) => {
 };
 
 export const putUser = async (req, res, next) => {
-    const { _id, firstName, lastName, username, email } = req.body;
     const { id } = req.params;
 
+    const {
+        firstName,
+        lastName,
+        username,
+        email,
+        password,
+        address,
+        gender,
+        dateOfBirth,        
+        userTypeId,
+        documentImageUrl,
+        
+    } = req.body;
+    
+    const userRole = await Role.findOne({ name: 'User' }, (err, doc) => {
+        if (err) return;
+        return doc;
+    });
+
     const updatedUser = new User({
-        _id: _id,
+        _id: id,
         firstName: firstName,
         lastName: lastName,
         username: username,
-        email: email
+        email: email,
+        passwordHash: password,
+        address: address,
+        gender: gender,
+        role: userRole._id,
+        dateOfBirth: moment.utc(dateOfBirth, config.dateFormat),
+        userType: userTypeId,
+        documentImageUrl: documentImageUrl || null
     });
 
     try {
