@@ -26,18 +26,30 @@ export const postBusLine = async (req, res, next) => {
     const {
         name,
         description,
+        busLineTypeId,
         timetable,
-        busLineTypeId
+        busLineStations
     } = req.body;
 
-    const newBusLine = new BusLine({
+    // todo: automapper za js ?
+    const newBusLine = {
         name: name,
         description: description || '',
-        timetable: timetable,
-        busLineType: busLineTypeId
-        // todo: busline stations ?
-    });
-
+        busLineType: busLineTypeId,
+        timetable: timetable.map(startTime => {
+            return {
+                time: startTime.time,
+                dayOfWeek: +startTime.dayOfWeek
+            };
+        }),
+        stations: busLineStations.map(station => {
+            return {
+                station: station.stationId,
+                stopOrder: station.stopOrder
+            };
+        })
+    };
+    
     try {
         const dbBusLine = await busLinesService.createBusLine(newBusLine);
         return res.status(200).json(dbBusLine);

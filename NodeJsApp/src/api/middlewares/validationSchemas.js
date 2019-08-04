@@ -51,6 +51,17 @@ export const userTypeSchemas = {
 };
 
 /**
+ *  StartTime validation models
+ */
+export const startTimeSchemas = {
+    startTimeBindingModel: Joi.object().keys({
+        time: Joi.date().required(),
+        dayOfWeek: Joi.number().min(0).max(6).required(),
+        day: Joi.string().max(20)
+    })
+};
+
+/**
  *  BusLine validation models
  */
 export const busLineSchemas = {
@@ -58,7 +69,7 @@ export const busLineSchemas = {
         name: Joi.string().max(256).required(),
         description: Joi.string().max(256).required(),
         busLineTypeId: Joi.string().max(256).required(),
-        timetable: Joi.array(),
+        timetable: Joi.array().items(startTimeSchemas.startTimeBindingModel),
         busLineStations: Joi.array(),
     }),
 

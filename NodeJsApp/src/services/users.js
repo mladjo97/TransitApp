@@ -2,12 +2,13 @@ import User from '@models/user';
 
 export const getAllUsers = async () => {
     const users = await User.find()
-                    .populate('role userType', '_id name');
+        .populate('role userType', '_id name').execPopulate();
     return users;
 };
 
 export const getUserById = async (id) => {
-    const user = await User.findById(id);
+    const user = await User.findById(id)
+        .populate('role userType', '_id name').execPopulate();
     return user;
 };
 
