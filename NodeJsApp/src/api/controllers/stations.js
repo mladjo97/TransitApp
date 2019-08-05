@@ -50,17 +50,19 @@ export const putStation = async (req, res, next) => {
 
     const {
         name,
-        description,
+        address,
         lat,
-        lon
+        lon,
+        rowVersion
     } = req.body;
 
     const updatedStation = new Station({
         _id: id,
         name: name,
-        description: description || '',
+        address: address || '',
         lat: lat,
-        lon: lon
+        lon: lon,
+        rowVersion: rowVersion
     });
 
     try {

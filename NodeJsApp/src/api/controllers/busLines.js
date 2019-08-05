@@ -1,4 +1,3 @@
-import BusLine from '@models/busLine';
 import * as busLinesService from '@services/busLines';
 
 

@@ -1,5 +1,4 @@
 import Joi from 'joi';
-import { join } from 'path';
 
 /**
  *  User validation models
@@ -108,7 +107,7 @@ export const busLineTypeSchemas = {
 export const stationSchemas = {
     postStationBindingModel: Joi.object().keys({
         name: Joi.string().max(256).required(),
-        description: Joi.string().max(256).required(),
+        address: Joi.string().max(256).required(),
         lat: Joi.number().required(),
         lon: Joi.number().required()
     }),
@@ -116,9 +115,10 @@ export const stationSchemas = {
     putStationBindingModel: Joi.object().keys({
         _id: Joi.string().max(256).required(),
         name: Joi.string().max(256).required(),
-        description: Joi.string().max(256).required(),
+        address: Joi.string().max(256).required(),
         lat: Joi.number().required(),
-        lon: Joi.number().required()
+        lon: Joi.number().required(),
+        rowVersion: Joi.number().min(0).required()
     }),
 
     stationIdBindingModel: Joi.object().keys({

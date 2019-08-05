@@ -1,5 +1,4 @@
 import { Schema, model } from 'mongoose';
-import BusLineType from '@models/busLineType';
 
 const busLineSchema = new Schema(
     {

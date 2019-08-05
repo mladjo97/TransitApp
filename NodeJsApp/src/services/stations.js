@@ -17,8 +17,27 @@ export const createStation = async (station) => {
 };
 
 export const updateStation = async (id, station) => {
-    const updatedStation = await Station.findByIdAndUpdate(id, station, { useFindAndModify: false, new: true });
-    if (!updatedStation) return null;
+    const updatedStation = await Station.findOne({ _id: id }).then(
+        async (stationDoc) => {
+            if(stationDoc.rowVersion !== +station.rowVersion)
+                throw new Error('DbConcurrencyError');
+
+            stationDoc.name = station.name || stationDoc.name;
+            stationDoc.address = station.address || stationDoc.address;
+            stationDoc.lon = station.lon || stationDoc.lon;
+            stationDoc.lat = station.lat || stationDoc.lat;
+            stationDoc.rowVersion += 1; // fix: nece auto increment ovde?
+
+            await stationDoc.save((err) => {
+                if(err) throw err;
+                console.log('[UPDATE_STATION] Successfully updated station.');
+            });
+            
+            return stationDoc;
+        },
+        err => { throw err; }
+    );
+
     return updatedStation;
 };
 

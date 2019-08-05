@@ -47,6 +47,16 @@ const errorsRoute = (app) => {
                 .end();
         }
         
+        /**
+         * Handle custom BadRequest
+         */
+        if (err.name === 'BadRequest') {
+            return res
+                .status(400)
+                .send({ message: err.message })
+                .end();
+        }
+
         return next(err);
     });
     app.use((err, req, res) => {
