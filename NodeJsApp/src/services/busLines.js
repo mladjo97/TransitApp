@@ -20,6 +20,10 @@ export const getBusLineById = async (id) => {
     return busLine;
 };
 
+/**
+ *  Service method for inserting new BusLine document
+ * @param {*} busLine BusLine object/model
+ */
 export const createBusLine = async (busLine) => {
     const { timetable, stations } = busLine;
 
@@ -133,6 +137,11 @@ export const createBusLine = async (busLine) => {
     }
 };
 
+/**
+ * Service method for updating existing BusLine document
+ * @param {ObjectId} id BusLine ObjectId
+ * @param {*} busLine BusLine object/model
+ */
 export const updateBusLine = async (id, busLine) => {
     /**
      *  Create a session for multi-document transaction
@@ -248,6 +257,16 @@ export const updateBusLine = async (id, busLine) => {
 };
 
 export const deleteBusLine = async (id) => {
-    const deleteBusLine = await BusLine.findByIdAndDelete(id);
-    return deleteBusLine;
+    await BusLine.findOne({ _id: id }).then(
+        async (busLineDoc) => {
+            console.log('[DELETE_BUSLINE] Found BusLine with ObjectId: ' + busLineDoc._id);
+            await StartTime.deleteMany({ _id: busLineDoc.timetable });
+            await BusLineStation.deleteMany({ _id: busLineDoc.busLineStations });
+            await BusLine.deleteOne({ _id: busLineDoc._id });
+            console.log('[DELETE_BUSLINE] Deleted BusLine with ObjectId: ' + busLineDoc._id);
+        },
+        err => { throw err; }
+    );
+
+    return id;
 };
