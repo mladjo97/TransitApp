@@ -39,6 +39,7 @@ export const createBusLine = async (busLine) => {
         /**
          *  Save the initial BusLine
          */
+        await BusLine.createCollection();
         const dbBusLine = await newBusLine.save({ session: session }).then(
             busLineDoc => {
                 return busLineDoc;
@@ -103,7 +104,9 @@ export const createBusLine = async (busLine) => {
                 await busLine.save({ session: session }, async (err) => {
                     if (err) throw err;
                     // commit the transaction to the database
+                    console.log('[CREATE_BUSLINE] Committing database changes.');
                     await session.commitTransaction();
+                    console.log('[CREATE_BUSLINE] Successfully committed database changes.');
                 });
 
                 return busLine;
@@ -116,7 +119,7 @@ export const createBusLine = async (busLine) => {
          */
         await createdBusLine.populate('timetable', '_id time dayOfWeek').execPopulate();
         await createdBusLine.populate('busLineStations', '_id station stopOrder').execPopulate();
-        
+
         return createdBusLine;
 
     } catch (error) {
@@ -131,9 +134,117 @@ export const createBusLine = async (busLine) => {
 };
 
 export const updateBusLine = async (id, busLine) => {
-    const updatedBusLine = await BusLine.findByIdAndUpdate(id, busLine, { useFindAndModify: false, new: true });
-    if (!updatedBusLine) return null;
-    return updatedBusLine;
+    /**
+     *  Create a session for multi-document transaction
+     */
+    const session = await mongoose.startSession();
+    session.startTransaction();
+
+    try {
+        /**
+         *  Check if the BusLine exists
+         */
+        const dbBusLine = await BusLine.findOne({ _id: busLine.id }).session(session).then(
+            busLineDoc => {
+                if (busLineDoc.rowVersion !== +busLine.rowVersion)
+                    throw new Error('DbConcurrencyError');
+
+                return busLineDoc;
+            },
+            err => { throw err; }
+        );
+
+        /**
+         *  Delete any old references to the BusLine
+         *  and create new reference collections
+         */
+        await BusLineStation.deleteMany({ _id: dbBusLine.busLineStations }, { session: session }, (err) => { if (err) throw err; });
+        await StartTime.deleteMany({ _id: dbBusLine.timetable }, { session: session }, (err) => { if (err) throw err; });
+
+        const busLineStations = busLine.stations.map(station => {
+            return {
+                ...station,
+                busLine: dbBusLine._id
+            };
+        });
+
+        const busLineTimetable = busLine.timetable.map(time => {
+            return {
+                ...time,
+                busLine: dbBusLine._id
+            };
+        });
+
+        const dbTimetableIds = await StartTime.create(busLineTimetable, { session: session }).then(
+            (startTimeDocs) => {
+                return startTimeDocs.map(time => time._id);
+            },
+            err => { throw err; }
+        );
+
+        const dbBusLineStationIds = await BusLineStation.create(busLineStations, { session: session }).then(
+            (busLineStationDocs) => {
+                return busLineStationDocs.map(station => station._id);
+            },
+            err => { throw err; }
+        );
+
+        /**
+         *  In the end, update the new BusLine so it has 
+         *  ObjectId references to StartTime and BusLineStations
+         */
+        const createdBusLine = await BusLine.findOne({ _id: dbBusLine._id }).session(session).then(
+            async (busLineDoc) => {
+                /**
+                 *  Update data and references
+                 */
+                busLineDoc.name = busLine.name || busLineDoc.name;
+                busLineDoc.description = busLine.description || busLineDoc.description;
+                busLineDoc.busLineType = busLine.busLineType || busLineDoc.busLineType;
+                
+                while (busLineDoc.timetable.length)
+                    busLineDoc.timetable.pop();
+
+                while (busLineDoc.busLineStations.length)
+                    busLineDoc.busLineStations.pop();
+
+                dbTimetableIds.map(id => busLineDoc.timetable.push(id));
+                dbBusLineStationIds.map(id => busLineDoc.busLineStations.push(id));
+
+                /**
+                 *  Save the changes
+                 */
+                await busLineDoc.save({ session: session }, async (err) => {
+                    if (err) throw err;
+                    // commit the transaction to the database
+                    console.log('[UPDATE_BUSLINE] Committing database changes.');
+                    await session.commitTransaction();
+                    session.endSession();
+                    console.log('[UPDATE_BUSLINE] Successfully committed database changes.');
+                });
+
+                return busLineDoc;
+            },
+            err => { throw err; }
+        );
+
+        /**
+         *  Populate the newly created BusLine and return it
+         */
+        await createdBusLine.populate('timetable', '_id time dayOfWeek').execPopulate();
+        await createdBusLine.populate('busLineStations', '_id station stopOrder').execPopulate();
+
+        return createdBusLine;
+
+    } catch (error) {
+        /**
+         *  Rollback the transaction if anything fails
+         *  and throw an error for further processing
+         */
+        await session.abortTransaction();
+        session.endSession();
+        throw error;
+    }
 };
 
 export const deleteBusLine = async (id) => {

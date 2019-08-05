@@ -26,6 +26,26 @@ const errorsRoute = (app) => {
                 .send({ message: err.message })
                 .end();
         }
+
+        /**
+         * Handle WriteConflict thrown by db layer
+         */
+        if (err.name === 'WriteConflict') {
+            return res
+                .status(400)
+                .send({ message: err.message })
+                .end();
+        }
+
+        /**
+         * Handle DbConcurrencyError thrown by db layer
+         */
+        if (err.message === 'DbConcurrencyError') {
+            return res
+                .status(409)
+                .send({ message: err.message })
+                .end();
+        }
         
         return next(err);
     });

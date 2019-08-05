@@ -64,18 +64,31 @@ export const putBusLine = async (req, res, next) => {
     const {
         name,
         description,
+        busLineTypeId,
         timetable,
-        busLineTypeId
+        busLineStations,
+        rowVersion
     } = req.body;
 
-    const updatedBusLine = new BusLine({
-        _id: id,
+    const updatedBusLine = {
+        id: id,
+        rowVersion: rowVersion,
         name: name,
         description: description || '',
-        timetable: timetable,
-        busLineType: busLineTypeId
-        // todo: busline stations ?
-    });
+        busLineType: busLineTypeId,
+        timetable: timetable.map(startTime => {
+            return {
+                time: startTime.time,
+                dayOfWeek: +startTime.dayOfWeek
+            };
+        }),
+        stations: busLineStations.map(station => {
+            return {
+                station: station.stationId,
+                stopOrder: station.stopOrder
+            };
+        })
+    };
 
     try {
         const dbBusLine = await busLinesService.updateBusLine(id, updatedBusLine);

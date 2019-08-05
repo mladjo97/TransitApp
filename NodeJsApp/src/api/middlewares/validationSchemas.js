@@ -1,4 +1,5 @@
 import Joi from 'joi';
+import { join } from 'path';
 
 /**
  *  User validation models
@@ -80,6 +81,7 @@ export const busLineSchemas = {
         busLineTypeId: Joi.string().max(256).required(),
         timetable: Joi.array(),
         busLineStations: Joi.array(),
+        rowVersion: Joi.number().min(0).required()
     }),
 
     busLineIdBindingModel: Joi.object().keys({
