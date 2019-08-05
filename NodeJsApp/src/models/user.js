@@ -74,7 +74,7 @@ const userSchema = new Schema({
 );
 
 /**
- *  Post hook for adding foreign keys 
+ *  Post hook for adding references 
  */
 userSchema.post('save', async (doc, next) => {
 

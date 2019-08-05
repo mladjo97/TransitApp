@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+import BusLineType from '@models/busLineType';
 
 const busLineSchema = new Schema({
     name: {
@@ -32,17 +33,18 @@ const busLineSchema = new Schema({
 /**
  *  Post hook for adding references 
  */
-// busLineSchema.post('save', async (doc, next) => {
-//     await BusLineType.findOne({ _id: doc.busLineType }, (err, res) => {
-//         if(err) return;
-//         if(!res.busLines.includes(doc._id)) {
-//             res.busLines.push(doc._id);
-//             res.save();
-//         }
-//     });
+busLineSchema.post('save', async (doc, next) => {
+    await BusLineType.findOne({ _id: doc.busLineType }, (err, res) => {
+        if(err) return;
+        
+        if(!res.busLines.includes(doc._id)) {
+            res.busLines.push(doc._id);
+            res.save();
+        }
+    });
 
-//     next();
-// });
+    next();
+});
 
 
 export default model('BusLine', busLineSchema);
