@@ -11,7 +11,7 @@ const usersRoute = (app) => {
     app.use('/users', route);
 
     route.get('/:id', validation(userSchemas.userIdBindingModel, 'params'), userControllers.getUserById);
-    route.get('/', auth, attachCurrentUser, userControllers.getAllUsers);
+    route.get('/', auth.authentication, attachCurrentUser, auth.authorization('Admin'), userControllers.getAllUsers);
     route.post('/login', validation(userSchemas.loginUserBindingModel, 'body'), userControllers.loginUser);
     route.post('/', validation(userSchemas.postUserBindingModel, 'body'), userControllers.postUser);
 
