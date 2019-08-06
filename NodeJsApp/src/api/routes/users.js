@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import auth from '@middlewares/auth';
 import validation from '@middlewares/validation';
 import { userSchemas } from '@middlewares/validationSchemas';
 const route = Router();
@@ -9,7 +10,7 @@ const usersRoute = (app) => {
     app.use('/users', route);
 
     route.get('/:id', validation(userSchemas.userIdBindingModel, 'params'), userControllers.getUserById);
-    route.get('/', userControllers.getAllUsers);
+    route.get('/', auth, userControllers.getAllUsers);
     route.post('/login', validation(userSchemas.loginUserBindingModel, 'body'), userControllers.loginUser);
     route.post('/', validation(userSchemas.postUserBindingModel, 'body'), userControllers.postUser);
 

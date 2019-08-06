@@ -9,6 +9,16 @@ const errorsRoute = (app) => {
     /// custom error handlers
     app.use((err, req, res, next) => {     
         /**
+         * Handle UnauthorizedError thrown by middleware
+         */
+        if (err.name === 'UnauthorizedError') {
+            return res
+                .status(403)
+                .send({ message: err.message })
+                .end();
+        }
+
+        /**
          * Handle CastError thrown by service layer
          */
         if (err.name === 'CastError') {
