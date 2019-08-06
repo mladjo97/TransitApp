@@ -31,6 +31,11 @@ export const userSchemas = {
         email: Joi.string().max(256).email({ minDomainAtoms: 2 }).required()
     }),
 
+    loginUserBindingModel: Joi.object().keys({
+        email: Joi.string().max(256).email({ minDomainAtoms: 2 }).required(),
+        password: Joi.string().max(256).required()
+    }),
+
     userIdBindingModel: Joi.object().keys({
         id: Joi.string().max(256).required()
     })

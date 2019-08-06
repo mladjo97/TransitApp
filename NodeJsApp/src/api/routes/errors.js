@@ -1,6 +1,6 @@
 const errorsRoute = (app) => {
     /// catch 404 and forward to error handler
-    app.use((req, res, next) => {
+    app.use((req, res, next) => {        
         const err = new Error('Not Found');
         err.status = 404;
         next(err);
@@ -50,7 +50,27 @@ const errorsRoute = (app) => {
         /**
          * Handle custom BadRequest
          */
-        if (err.name === 'BadRequest') {
+        if (err.message === 'BadRequest') {
+            return res
+                .status(400)
+                .send({ message: err.message })
+                .end();
+        }
+
+        /**
+         * Handle custom NotFound
+         */
+        if (err.message === 'NotFound') {
+            return res
+                .status(404)
+                .send({ message: err.message })
+                .end();
+        }
+
+        /**
+         * Handle custom login errors
+         */
+        if (err.message === 'InvalidEmail' || err.message === 'InvalidPassword') {
             return res
                 .status(400)
                 .send({ message: err.message })
@@ -59,6 +79,7 @@ const errorsRoute = (app) => {
 
         return next(err);
     });
+
     app.use((err, req, res) => {
         res.status(err.status || 500);
         res.json({

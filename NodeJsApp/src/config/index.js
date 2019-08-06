@@ -29,5 +29,10 @@ export default {
     /**
      * Default date format
      */
-    dateFormat: 'DD/MM/YYYY'
+    dateFormat: 'DD/MM/YYYY',
+
+    /**
+     *  JSON Web Token (JWT) secret
+     */
+    jwtSecret: process.env.JWT_SECRET
 };

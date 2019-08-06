@@ -7,20 +7,24 @@ import UserType from '@models/userType';
 
 import usersJSON from './users.json';
 
+import { randomBytes } from 'crypto';
+import argon2 from 'argon2';
+
 
 const seedUsers = async () => {
     /*
     *   User needs foreign key (ObjectId) relations
     */
-   const userRole = await Role.findOne({ name: 'User' });
-   const adminRole = await Role.findOne({ name: 'Admin' });
-   const regularUserType = await UserType.findOne({ name: 'Regular' });
-   const ticketInspectorRole = await Role.findOne({ name: 'TicketInspector' });
+    const salt = randomBytes(32);
+    const userRole = await Role.findOne({ name: 'User' });
+    const adminRole = await Role.findOne({ name: 'Admin' });
+    const regularUserType = await UserType.findOne({ name: 'Regular' });
+    const ticketInspectorRole = await Role.findOne({ name: 'TicketInspector' });
 
     /*
      *  Insert users 
     */
-    usersJSON.map((user) => {
+    usersJSON.map(async (user) => {
         // NOTE: roles must be inserted first
         let roleId = user.username === 'mladjo' ?
             adminRole._id :
@@ -30,12 +34,13 @@ const seedUsers = async () => {
             ticketInspectorRole._id :
             roleId;
 
+        const hashedPassword = await argon2.hash(user.password, { salt });
         const seedUser = {
             firstName: user.firstName,
             lastName: user.lastName,
             username: user.username,
             email: user.email,
-            passwordHash: user.password,
+            passwordHash: hashedPassword,
             role: roleId,
             address: user.address,
             dateOfBirth: moment.utc(user.dateOfBirth, config.dateFormat),

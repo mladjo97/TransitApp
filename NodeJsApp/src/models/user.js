@@ -78,12 +78,14 @@ const userSchema = new Schema({
  */
 userSchema.post('save', async (doc, next) => {
 
-    await UserType.findOne({ _id: doc.userType }, (err, res) => {        
+    await UserType.findOne({ _id: doc.userType }, (err, res) => {  
+        if(err) next();      
         res.users.push(doc._id);
         res.save();
     });
 
-    await Role.findOne({ _id: doc.role }, (err, res) => {       
+    await Role.findOne({ _id: doc.role }, (err, res) => {   
+        if(err) next();     
         res.users.push(doc._id);
         res.save();
     });

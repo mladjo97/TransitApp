@@ -1,9 +1,7 @@
 import moment from 'moment';
 import config from '@config';
-import User from '@models/user';
-import Role from '@models/role';
 import * as usersService from '@services/users';
-
+import * as authService from '@services/auth';
 
 export const getAllUsers = async (req, res, next) => {
     try {
@@ -34,30 +32,23 @@ export const postUser = async (req, res, next) => {
         password,
         address,
         gender,
-        dateOfBirth,        
+        dateOfBirth,
         userTypeId,
-        documentImageUrl,
-        
+        documentImageUrl
     } = req.body;
 
-    const userRole = await Role.findOne({ name: 'User' }, (err, doc) => {
-        if (err) return;
-        return doc;
-    });
-
-    const newUser = new User({
+    const newUser = {
         firstName: firstName,
         lastName: lastName,
         username: username,
         email: email,
-        passwordHash: password,
+        password: password,
         address: address,
         gender: gender,
-        role: userRole._id,
         dateOfBirth: moment.utc(dateOfBirth, config.dateFormat),
         userType: userTypeId,
         documentImageUrl: documentImageUrl || null
-    });
+    };
 
     try {
         const dbUser = await usersService.createUser(newUser);
@@ -78,18 +69,13 @@ export const putUser = async (req, res, next) => {
         password,
         address,
         gender,
-        dateOfBirth,        
+        dateOfBirth,
         userTypeId,
         documentImageUrl,
-        
-    } = req.body;
-    
-    const userRole = await Role.findOne({ name: 'User' }, (err, doc) => {
-        if (err) return;
-        return doc;
-    });
 
-    const updatedUser = new User({
+    } = req.body;
+
+    const updatedUser = {
         _id: id,
         firstName: firstName,
         lastName: lastName,
@@ -98,11 +84,10 @@ export const putUser = async (req, res, next) => {
         passwordHash: password,
         address: address,
         gender: gender,
-        role: userRole._id,
         dateOfBirth: moment.utc(dateOfBirth, config.dateFormat),
         userType: userTypeId,
         documentImageUrl: documentImageUrl || null
-    });
+    };
 
     try {
         const dbUser = await usersService.updateUser(id, updatedUser);
@@ -119,6 +104,17 @@ export const deleteUser = async (req, res, next) => {
         await usersService.deleteUserById(id);
         return res.status(200).json({ id: id });
     } catch (error) {
+        return next(error);
+    }
+};
+
+export const loginUser = async (req, res, next) => {
+    const { email, password } = req.body;
+
+    try {
+        const userData = await authService.login(email, password);
+        return res.status(200).json(userData);
+    } catch(error) {
         return next(error);
     }
 };

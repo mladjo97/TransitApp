@@ -10,6 +10,7 @@ const usersRoute = (app) => {
 
     route.get('/:id', validation(userSchemas.userIdBindingModel, 'params'), userControllers.getUserById);
     route.get('/', userControllers.getAllUsers);
+    route.post('/login', validation(userSchemas.loginUserBindingModel, 'body'), userControllers.loginUser);
     route.post('/', validation(userSchemas.postUserBindingModel, 'body'), userControllers.postUser);
 
     route.put('/:id', validation(userSchemas.userIdBindingModel, 'params'),
