@@ -8,6 +8,8 @@ import * as busLineController from '@controllers/busLines';
 const usersRoute = (app) => {
     app.use('/busLines', route);
 
+    route.get('/count', busLineController.getCount);
+    route.get('/filter', validation(busLineSchemas.filterBusLinesBindingModel, 'query') , busLineController.filterBusLines);
     route.get('/:id', validation(busLineSchemas.busLineIdBindingModel, 'params'), busLineController.getBusLineById);
     route.get('/', busLineController.getAllBusLines);
     route.post('/', validation(busLineSchemas.postBusLineBindingModel, 'body'), busLineController.postBusLine);

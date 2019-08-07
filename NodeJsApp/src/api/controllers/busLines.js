@@ -106,3 +106,23 @@ export const deleteBusLine = async (req, res, next) => {
         return next(error);
     }
 };
+
+export const getCount = async (req, res, next) => {
+    try {
+        const count = await busLinesService.getCount();
+        return res.status(200).json(count);
+    } catch (error) {
+        return next(error);
+    }
+};
+
+export const filterBusLines = async (req, res, next) => {
+    const { busLineTypeId } = req.query;
+
+    try {
+        const filteredBusLines = await busLinesService.filterByBusLineId(busLineTypeId);
+        return res.status(200).json(filteredBusLines);
+    } catch (error) {
+        return next(error);
+    }
+}

@@ -13,9 +13,13 @@ export const getAllBusLines = async () => {
 };
 
 export const getBusLineById = async (id) => {
-    const busLine = await BusLine.findById(id)
-        .populate('timetable', '_id time dayOfWeek')
-        .populate('busLineStations', '_id station stopOrder');
+    const busLine = await BusLine.findOne({ _id: id }).then(
+        busLineDoc => {
+            if (!busLineDoc) throw new Error('NotFound');
+            return busLineDoc;
+        },
+        err => { throw err; }
+    );
 
     return busLine;
 };
@@ -110,19 +114,20 @@ export const createBusLine = async (busLine) => {
                     // commit the transaction to the database
                     console.log('[CREATE_BUSLINE] Committing database changes.');
                     await session.commitTransaction();
+                    session.endSession();
                     console.log('[CREATE_BUSLINE] Successfully committed database changes.');
                 });
+
+                /**
+                 *  Populate the newly created BusLine and return it
+                 */
+                await busLine.populate('timetable', '_id time dayOfWeek').execPopulate();
+                await busLine.populate('busLineStations', '_id station stopOrder').execPopulate();
 
                 return busLine;
             },
             err => { throw err; }
         );
-
-        /**
-         *  Populate the newly created BusLine and return it
-         */
-        await createdBusLine.populate('timetable', '_id time dayOfWeek').execPopulate();
-        await createdBusLine.populate('busLineStations', '_id station stopOrder').execPopulate();
 
         return createdBusLine;
 
@@ -167,8 +172,15 @@ export const updateBusLine = async (id, busLine) => {
          *  Delete any old references to the BusLine
          *  and create new reference collections
          */
-        await BusLineStation.deleteMany({ _id: dbBusLine.busLineStations }, { session: session }, (err) => { if (err) throw err; });
-        await StartTime.deleteMany({ _id: dbBusLine.timetable }, { session: session }, (err) => { if (err) throw err; });
+        await BusLineStation.deleteMany(
+            { _id: dbBusLine.busLineStations },
+            { session: session },
+            (err) => { if (err) throw err; });
+
+        await StartTime.deleteMany(
+            { _id: dbBusLine.timetable },
+            { session: session },
+            (err) => { if (err) throw err; });
 
         const busLineStations = busLine.stations.map(station => {
             return {
@@ -202,7 +214,7 @@ export const updateBusLine = async (id, busLine) => {
          *  In the end, update the new BusLine so it has 
          *  ObjectId references to StartTime and BusLineStations
          */
-        const createdBusLine = await BusLine.findOne({ _id: dbBusLine._id }).session(session).then(
+        const updatedBusLine = await BusLine.findOne({ _id: dbBusLine._id }).session(session).then(
             async (busLineDoc) => {
                 /**
                  *  Update data and references
@@ -210,7 +222,7 @@ export const updateBusLine = async (id, busLine) => {
                 busLineDoc.name = busLine.name || busLineDoc.name;
                 busLineDoc.description = busLine.description || busLineDoc.description;
                 busLineDoc.busLineType = busLine.busLineType || busLineDoc.busLineType;
-                
+
                 while (busLineDoc.timetable.length)
                     busLineDoc.timetable.pop();
 
@@ -232,18 +244,18 @@ export const updateBusLine = async (id, busLine) => {
                     console.log('[UPDATE_BUSLINE] Successfully committed database changes.');
                 });
 
+                /**
+                 *  Populate the newly created BusLine and return it
+                 */
+                await busLineDoc.populate('timetable', '_id time dayOfWeek').execPopulate();
+                await busLineDoc.populate('busLineStations', '_id station stopOrder').execPopulate();
+
                 return busLineDoc;
             },
             err => { throw err; }
         );
 
-        /**
-         *  Populate the newly created BusLine and return it
-         */
-        await createdBusLine.populate('timetable', '_id time dayOfWeek').execPopulate();
-        await createdBusLine.populate('busLineStations', '_id station stopOrder').execPopulate();
-
-        return createdBusLine;
+        return updatedBusLine;
 
     } catch (error) {
         /**
@@ -269,4 +281,19 @@ export const deleteBusLine = async (id) => {
     );
 
     return id;
+};
+
+export const getCount = () => {
+    return BusLine.countDocuments((err, count) => {
+        if (err) throw err;
+        return count;
+    });
+};
+
+export const filterByBusLineId = async (busLineTypeId) => {
+    const busLines = await BusLine.find({ busLineType: busLineTypeId })
+        .populate('timetable', '_id time dayOfWeek')
+        .populate('busLineStations', '_id station stopOrder');
+
+    return busLines;
 };

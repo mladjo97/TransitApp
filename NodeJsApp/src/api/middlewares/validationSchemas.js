@@ -96,6 +96,10 @@ export const busLineSchemas = {
 
     busLineIdBindingModel: Joi.object().keys({
         id: Joi.string().max(256).required()
+    }),
+
+    filterBusLinesBindingModel: Joi.object().keys({
+        busLineTypeId: Joi.string().max(256).required()
     })
 };
 
