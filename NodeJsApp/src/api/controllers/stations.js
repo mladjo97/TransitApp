@@ -1,7 +1,6 @@
 import Station from '@models/station';
 import * as stationsService from '@services/stations';
 
-
 export const getAllStations = async (req, res, next) => {
     try {
         const stations = await stationsService.getAllStations();

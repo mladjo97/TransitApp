@@ -118,3 +118,23 @@ export const loginUser = async (req, res, next) => {
         return next(error);
     }
 };
+
+export const getCount = async (req, res, next) => {
+    try {
+        const count = await usersService.getCount();
+        return res.status(200).json(count);
+    } catch (error) {
+        return next(error);
+    }
+};
+
+export const changePassword = async (req, res, next) => {
+    const { id, oldPassword, newPassword } = req.body;
+
+    try {
+        await usersService.changePassword(id, oldPassword, newPassword);
+        return res.status(200).json({ message: 'Changed password'});
+    } catch (error) {
+        return next(error);
+    }
+};

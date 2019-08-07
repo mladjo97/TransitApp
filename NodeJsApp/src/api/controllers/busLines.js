@@ -1,6 +1,5 @@
 import * as busLinesService from '@services/busLines';
 
-
 export const getAllBusLines = async (req, res, next) => {
     try {
         const busLines = await busLinesService.getAllBusLines();

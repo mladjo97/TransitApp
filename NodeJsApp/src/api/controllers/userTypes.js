@@ -1,7 +1,6 @@
 import UserType from '@models/userType';
 import * as usersTypeService from '@services/userTypes';
 
-
 export const getAllUserTypes= async (req, res, next) => {
     try {
         const users = await usersTypeService.getAllUserTypes();

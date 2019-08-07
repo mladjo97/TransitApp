@@ -36,6 +36,12 @@ export const userSchemas = {
         password: Joi.string().max(256).required()
     }),
 
+    changePasswordBindingModel: Joi.object().keys({
+        id: Joi.string().max(256).required(),
+        oldPassword: Joi.string().max(256).required(),
+        newPassword: Joi.string().max(256).required()
+    }),
+
     userIdBindingModel: Joi.object().keys({
         id: Joi.string().max(256).required()
     })
