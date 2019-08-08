@@ -7,13 +7,13 @@ export const userSchemas = {
     postUserBindingModel: Joi.object().keys({
         firstName: Joi.string().max(256).required(),
         lastName: Joi.string().max(256).required(),
-        username: Joi.string().max(256).required(),
         password: Joi.string().max(256).required(),
         address: Joi.string().max(256).required(),
         dateOfBirth: Joi.string().max(256).required(),
         gender: Joi.number().min(0).max(1).required(),
         userTypeId: Joi.string().max(256).required(),
         documentImageUrl: Joi.string().max(256),
+        image: Joi.binary(),
         email: Joi.string().max(256).email({ minDomainAtoms: 2 }).required()
     }),
 
@@ -21,8 +21,7 @@ export const userSchemas = {
         _id: Joi.string().required(),
         firstName: Joi.string().max(256).required(),
         lastName: Joi.string().max(256).required(),
-        username: Joi.string().max(256).required(),
-        password: Joi.string().max(256).required(),
+        password: Joi.any(),
         address: Joi.string().max(256).required(),
         dateOfBirth: Joi.string().max(256).required(),
         gender: Joi.number().min(0).max(1).required(),
@@ -37,7 +36,6 @@ export const userSchemas = {
     }),
 
     changePasswordBindingModel: Joi.object().keys({
-        id: Joi.string().max(256).required(),
         oldPassword: Joi.string().max(256).required(),
         newPassword: Joi.string().max(256).required()
     }),

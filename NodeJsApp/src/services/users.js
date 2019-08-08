@@ -34,13 +34,6 @@ export const createUser = async (user) => {
 };
 
 export const updateUser = async (id, user) => {
-    const userRole = await Role.findOne({ name: 'User' }, (err, doc) => {
-        if (err) return;
-        return doc;
-    });
-
-    user.role = userRole._id;
-
     const updatedUser = await User.findByIdAndUpdate(id, user, { useFindAndModify: false, new: true });
     if (!updatedUser) throw new Error('User cannot be updated.');
     return updatedUser;

@@ -7,11 +7,11 @@ export class User {
     password: string;
     confirmPassword: string;
     address: string;
-    dateOfBirth: Date;
+    dateOfBirth: any;   // i hate this stuff ..
     userTypeId: number;
 
     constructor(firstName?: string, lastName?: string, email?: string, gender?: number, 
-                password?: string, confirmPassword?: string, address?: string, dob?: Date, userTypeId?: number) {
+                password?: string, confirmPassword?: string, address?: string, dob?: any, userTypeId?: number) {
 
         this.firstName = firstName;
         this.lastName = lastName;

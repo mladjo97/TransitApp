@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class RegisterService {
-    private apiAddress: string = `${API_ADDRESS}/Account/Register`;
+    private apiAddress: string = `${API_ADDRESS}/users`;
 
     constructor(private http: Http) { }
 
@@ -14,7 +14,7 @@ export class RegisterService {
         const formData: FormData = new FormData();
         formData.append('user', JSON.stringify(user));
         if(documentImage !== null)
-            formData.append('uploadFile', documentImage, documentImage.name);
+            formData.append('image', documentImage, documentImage.name);
 
         const headers = new Headers();
         headers.append('enctype', 'multipart/form-data');       
@@ -31,7 +31,7 @@ export class RegisterService {
         headers.append('Authorization','Bearer ' + JSON.parse(localStorage.getItem("token")).token);
         headers.append('Accept', 'application/json');
         
-        return this.http.post(`${this.apiAddress}TicketInspector`, user, {headers: headers});
+        return this.http.post(`${this.apiAddress}/ticketInspector`, user, {headers: headers});
     }
 
 }

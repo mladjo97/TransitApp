@@ -2,14 +2,14 @@
   <div class="row" *ngIf="userLoaded">
       <div class="col-sm-8 col-md-8">
           <blockquote>
-              <h3>{{ user?.FirstName }} {{ user?.LastName }} </h3> <p> <i class="fas fa-map-marker-alt"></i> {{ user?.Address }} </p>
+              <h3>{{ user?.firstName }} {{ user?.lastName }} </h3> <p> <i class="fas fa-map-marker-alt"></i> {{ user?.address }} </p>
           </blockquote>
           <p> 
-            <i class="fas fa-envelope"></i> {{ user?.Email }}
+            <i class="fas fa-envelope"></i> {{ user?.email }}
             <br>
-            <i class="fas fa-venus-mars"></i> {{ user?.Gender }}
+            <i class="fas fa-venus-mars"></i> {{ user?.gender }}
             <br>
-            <i class="fas fa-birthday-cake"></i> {{ user?.DateOfBirth }}
+            <i class="fas fa-birthday-cake"></i> {{ user?.dateOfBirth }}
             <br>
             <i class="fas fa-images" *ngIf="!isRegularUser"></i>   
             <a [routerLink]="['document']" *ngIf="verified && !isRegularUser" class="badge badge-success">Verified</a>

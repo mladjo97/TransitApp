@@ -28,22 +28,19 @@ export class EditProfileComponent implements OnInit {
     firstName: new FormControl(null),
     lastName: new FormControl(null),
     email: new FormControl(null),
-    password: new FormControl(null),
-    confirmPassword: new FormControl(null),
     gender: new FormControl(null),
     address: new FormControl(null),
     userTypeId: new FormControl(null),
     dateOfBirth: new FormControl(null)
   });
 
-
   constructor(private authService: AuthService,
-              private userService: UserService,
-              private notificationService: NotificationService) { }
+    private userService: UserService,
+    private notificationService: NotificationService) { }
 
   ngOnInit() {
     // check if user can change usertype
-    if(!this.authService.isUser())
+    if (!this.authService.isUser())
       this.canChangeUserType = false;
     // get all user types
     this.getUserTypes();
@@ -52,7 +49,9 @@ export class EditProfileComponent implements OnInit {
 
   getUserTypes(): void {
     this.userService.getUserTypes().subscribe(
-      (response) => this.userTypes = response.json(),
+      (response) => {
+        this.userTypes = response.json();
+      },
       (error) => console.log(error)
     );
   }
@@ -61,28 +60,28 @@ export class EditProfileComponent implements OnInit {
     this.userService.getUserInfo().subscribe(
       (response) => {
         let resJSON = response.json();
-        const date = new Date(resJSON.DateOfBirth);
+        const date = new Date(resJSON.dateOfBirth);
         setDate(date);
 
-        this.user = new User(resJSON.FirstName, resJSON.LastName, resJSON.Email, 
-                             this.genders.indexOf(resJSON.Gender), null, null, resJSON.Address,
-                             date, resJSON.UserTypeId);
+        this.user = new User(resJSON.firstName, resJSON.lastName, resJSON.email,
+          resJSON.gender, null, null, resJSON.address,
+          date, resJSON.userType._id);
 
-        this.updateForm();        
+        this.updateForm();
       },
 
       (error) => {
         console.log(error);
-        
+
       }
     );
   }
 
   formatDate(date: Date): string {
-    return `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`;
+    return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
   }
 
-  updateForm(): void {    
+  updateForm(): void {
     this.profileForm.patchValue({
       firstName: this.user.firstName,
       lastName: this.user.lastName,
@@ -96,10 +95,14 @@ export class EditProfileComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    
-    // update date from datetimepicker
-    this.profileForm.patchValue({dateOfBirth: getDate()});
 
+    // update date from datetimepicker
+    const date = this.formatDate(new Date(getDate()));
+    this.profileForm.patchValue({ dateOfBirth: date });
+
+    console.log(this.profileForm.value);
+    
+    
     this.userService.changeUserInfo(this.profileForm.value).subscribe(
       (response) => {
         this.submitted = false;
@@ -109,20 +112,8 @@ export class EditProfileComponent implements OnInit {
 
       (error) => {
         this.submitted = false;
-
-        if(error.status !== 0){
-          // Notify the user about errors from WebAPI (validation error reply)
-          let regReply = JSON.parse(error._body);
-          let errorMessages = Object.values(regReply.ModelState);
-          
-          if(errorMessages.length > 0) {
-            for(let i = 1; i < errorMessages.length; i++){
-              this.notificationService.notifyEvent.emit(errorMessages[i][0]);
-            }
-          }
-        } else {
-          this.notificationService.notifyEvent.emit('An error ocurred during password change. The server is probably down.');
-        }       
+        console.log(error);      
+        this.notificationService.notifyEvent.emit('An error ocurred during password change. Please try again.');
       }
     );
   }

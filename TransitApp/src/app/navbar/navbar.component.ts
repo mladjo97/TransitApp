@@ -38,19 +38,11 @@ export class NavbarComponent implements OnInit {
 
   onLogout() {
     if(this.authService.isLoggedIn()) {
-      this.authService.logOut().subscribe(
-        (response) => {
-          this.loggedIn = false;
-          this.notificationService.notifyEvent.emit('You have successfully logged out.');
-          this.loadData();
-          this.router.navigate(['/']); 
-        },
-
-        (error) => {
-          this.notificationService.notifyEvent.emit('An error ocurred while logging out.');
-          this.router.navigate(['/']); 
-        }
-      );
+      if(this.authService.logOut()) {
+        this.notificationService.notifyEvent.emit('You have successfully logged out.');
+        this.loadData();
+        this.router.navigate(['/login']);
+      }
       
     } else {
       this.notificationService.notifyEvent.emit('You are not logged in.'); // ovo se nikad ni nece desiti, but better safe than sure

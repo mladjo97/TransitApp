@@ -6,7 +6,7 @@ import { API_ADDRESS } from 'src/environments/app_config';
 
 @Injectable()
 export class UserService {
-    private apiAccountAddress: string = `${API_ADDRESS}/Account`;
+    private apiAccountAddress: string = `${API_ADDRESS}/users`;
 
     constructor(private http: Http) {}
 
@@ -24,7 +24,7 @@ export class UserService {
         headers.append('Authorization','Bearer ' + JSON.parse(localStorage.getItem("token")).token);
         headers.append('Accept', 'application/json');
 
-        return this.http.get(`${this.apiAccountAddress}/UserInfo`, {headers: headers});
+        return this.http.get(`${this.apiAccountAddress}/me`, {headers: headers});
     }
 
     changeUserInfo(user: {}): Observable<any> {
@@ -33,7 +33,9 @@ export class UserService {
         headers.append('Authorization','Bearer ' + JSON.parse(localStorage.getItem("token")).token);
         headers.append('Accept', 'application/json');
 
-        return this.http.put(`${this.apiAccountAddress}`, user, {headers: headers});
+        const id = JSON.parse(localStorage.getItem("token")).id;
+        
+        return this.http.put(`${this.apiAccountAddress}/${id}`, { ...user, _id: id }, {headers: headers});
     }
 
     changeUserPassword(changePasswordBinding: {}): Observable<any> {
@@ -42,7 +44,7 @@ export class UserService {
         headers.append('Authorization','Bearer ' + JSON.parse(localStorage.getItem("token")).token);
         headers.append('Accept', 'application/json');
 
-        return this.http.post(`${this.apiAccountAddress}/ChangePassword`, changePasswordBinding, {headers: headers});
+        return this.http.post(`${this.apiAccountAddress}/changePassword`, changePasswordBinding, {headers: headers});
     }
 
     deleteUser(id: string): Observable<any> {

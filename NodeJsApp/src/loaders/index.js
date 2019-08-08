@@ -1,6 +1,6 @@
+import seedLoader from '@loaders/seed';
 import expressLoader from '@loaders/express';
 import mongooseLoader from '@loaders/mongoose';
-import seedLoader from '@loaders/seed';
 
 const loader = ({ expressApp }) => {
 

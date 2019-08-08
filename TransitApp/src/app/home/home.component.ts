@@ -24,7 +24,9 @@ export class HomeComponent implements OnInit {
     // get user info
     if(this.isLoggedIn){
       this.userService.getUserInfo().subscribe(
-        (response) => this.user = response.json(),
+        (response) => {
+          this.user = response.json();
+        },
         (error) => console.log(error)
       );
     }

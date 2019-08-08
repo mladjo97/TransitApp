@@ -51,7 +51,7 @@
           <div class="form-group" *ngIf="role !== 'TicketInspector'">
             <label for="userTypeSelect">User Type</label>
             <select id="userTypeSelect" class="form-control" (change)="onChange($event.target.value)" ngModel name="userTypeId" #userTypeId="ngModel" required>
-              <option *ngFor="let ut of userTypes" [value]="ut.Id"> {{ ut.Name }}</option>               
+              <option *ngFor="let ut of userTypes" [value]="ut._id"> {{ ut.name }}</option>               
             </select>
           </div>
 

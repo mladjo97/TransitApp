@@ -28,7 +28,7 @@
   <div class="form-group" *ngIf="canChangeUserType">
     <label for="userTypeSelect">User Type</label>
     <select id="userTypeSelect" class="form-control" formControlName="userTypeId" required>
-      <option *ngFor="let ut of userTypes" [value]="ut.Id"> {{ ut.Name }}</option>               
+      <option *ngFor="let ut of userTypes" [value]="ut._id"> {{ ut.name }}</option>               
     </select>
   </div>
   

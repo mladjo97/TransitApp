@@ -3,7 +3,7 @@ import User from '@models/user';
 
 const attachCurrentUser = async (req, res, next) => {
     try {
-        const userDoc = await User.findById(req.token._id).populate('role', '_id name');
+        const userDoc = await User.findById(req.token._id).populate('role userType', '_id name');
         if (!userDoc) {
             return res.sendStatus(401);
         }

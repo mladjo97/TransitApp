@@ -29,14 +29,13 @@ export class ProfileComponent implements OnInit {
     this.userService.getUserInfo().subscribe(
       (response) => {
         var userJSON = response.json();
-        console.log(userJSON);
-        var date = new Date(Date.parse(userJSON.DateOfBirth));
-        userJSON.DateOfBirth = `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`;
-        this.verified = userJSON.VerifiedDocumentImage;
+        userJSON.gender = userJSON.gender === 0 ? 'Male' : 'Female';
+        var date = new Date(Date.parse(userJSON.dateOfBirth));
+        userJSON.dateOfBirth = `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`;
+        this.verified = userJSON.verifiedDocumentImage;
         this.user = userJSON;
         this.userLoaded = true;
-        this.isRegularUser = userJSON.UserType === "Regular" ? true : false;
-        console.log(userJSON.UserType);
+        this.isRegularUser = userJSON.userType.name === "Regular" ? true : false;
       },
 
       (error) => {

@@ -26,7 +26,7 @@ export class ProfileSidebarComponent implements OnInit {
     this.isUser = this.authService.isUser();
 
     this.userService.getUserInfo().subscribe(
-      (response) => this.isRegular = response.json().UserType == "Regular" ? true : false,
+      (response) => this.isRegular = response.json().userType.name == "Regular" ? true : false,
       (error) => console.log(error)
     );
   }

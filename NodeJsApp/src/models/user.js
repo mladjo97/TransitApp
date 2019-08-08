@@ -14,11 +14,6 @@ const userSchema = new Schema({
             type: String,
             required: true
         },
-        username: {
-            type: String,
-            required: true,
-            unique: true
-        },
         email: {
             type: String,
             required: true,
@@ -73,25 +68,24 @@ const userSchema = new Schema({
     }
 );
 
-/**
- *  Post hook for adding references 
- */
-userSchema.post('save', async (doc, next) => {
+// /**
+//  *  Post hook for adding references 
+//  */
+// userSchema.post('save', async (doc, next) => {
 
-    await UserType.findOne({ _id: doc.userType }, (err, res) => {  
-        if(err) next();      
-        res.users.push(doc._id);
-        res.save();
-    });
+//     await UserType.findOne({ _id: doc.userType }, (err, res) => {  
+//         if(err) next();      
+//         res.users.push(doc._id);
+//         res.save();
+//     });
 
-    await Role.findOne({ _id: doc.role }, (err, res) => {   
-        if(err) next();     
-        res.users.push(doc._id);
-        res.save();
-    });
+//     await Role.findOne({ _id: doc.role }, (err, res) => {   
+//         if(err) next();     
+//         res.users.push(doc._id);
+//         res.save();
+//     });
 
-    next();
-});
-
+//     next();
+// });
 
 export default model('User', userSchema);

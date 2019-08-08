@@ -3,6 +3,11 @@ import config from '@config';
 import * as usersService from '@services/users';
 import * as authService from '@services/auth';
 
+export const fileUpload = async (req, res) => {
+    console.log(req.file);
+    return res.status(200).json('ok');
+};
+
 export const getAllUsers = async (req, res, next) => {
     try {
         const users = await usersService.getAllUsers();
@@ -23,31 +28,33 @@ export const getUserById = async (req, res, next) => {
     }
 };
 
+export const getLoggedUserInfo = async (req, res, next) => {
+    if(!req.currentUser) next(new Error('NotFound'));
+    return res.status(200).json(req.currentUser);
+};
+
 export const postUser = async (req, res, next) => {
     const {
         firstName,
         lastName,
-        username,
         email,
         password,
         address,
         gender,
         dateOfBirth,
-        userTypeId,
-        documentImageUrl
+        userTypeId
     } = req.body;
-
+    
     const newUser = {
         firstName: firstName,
         lastName: lastName,
-        username: username,
         email: email,
         password: password,
         address: address,
         gender: gender,
         dateOfBirth: moment.utc(dateOfBirth, config.dateFormat),
         userType: userTypeId,
-        documentImageUrl: documentImageUrl || null
+        documentImageUrl: req.file.path || null
     };
 
     try {
@@ -60,33 +67,25 @@ export const postUser = async (req, res, next) => {
 
 export const putUser = async (req, res, next) => {
     const { id } = req.params;
-
     const {
         firstName,
         lastName,
-        username,
         email,
-        password,
         address,
         gender,
         dateOfBirth,
-        userTypeId,
-        documentImageUrl,
-
+        userTypeId
     } = req.body;
-
+    
     const updatedUser = {
         _id: id,
         firstName: firstName,
         lastName: lastName,
-        username: username,
         email: email,
-        passwordHash: password,
         address: address,
         gender: gender,
         dateOfBirth: moment.utc(dateOfBirth, config.dateFormat),
-        userType: userTypeId,
-        documentImageUrl: documentImageUrl || null
+        userType: userTypeId
     };
 
     try {
@@ -129,12 +128,14 @@ export const getCount = async (req, res, next) => {
 };
 
 export const changePassword = async (req, res, next) => {
-    const { id, oldPassword, newPassword } = req.body;
+    const { oldPassword, newPassword } = req.body;
 
     try {
-        await usersService.changePassword(id, oldPassword, newPassword);
+        await usersService.changePassword(req.currentUser._id, oldPassword, newPassword);
         return res.status(200).json({ message: 'Changed password'});
     } catch (error) {
+        console.log(error);
+        
         return next(error);
     }
 };

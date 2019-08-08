@@ -20,30 +20,26 @@ export class ChangePasswordComponent implements OnInit {
   onSubmit(f: NgForm): void {
     this.submitted = true;
 
-    this.userService.changeUserPassword(f.value).subscribe(
+    if(f.value.confirmPassword !== f.value.newPassword){
+      this.notificationService.notifyEvent.emit('Your confirmation password and new password do not match');
+      return;
+    }
+    
+    const changePasswordBindingModel = {
+      oldPassword: f.value.oldPassword,
+      newPassword: f.value.newPassword
+    };
+
+    this.userService.changeUserPassword(changePasswordBindingModel).subscribe(
       (response) => {
         this.submitted = false;
-        this.notificationService.notifyEvent.emit('Successfully changed password.');
-        
+        this.notificationService.notifyEvent.emit('Successfully changed password.');        
       },
 
       (error) => {
         this.submitted = false;
 
-        this.notificationService.notifyEvent.emit('An error ocurred during password change. Please, try again and check every input.');
-
-        if(error.status !== 0){
-          // Notify the user about errors from WebAPI (validation error reply)
-          let regReply = JSON.parse(error._body);
-          let errorMessages = Object.values(regReply.ModelState);
-
-          if(errorMessages.length > 0) {
-            for(let i = 1; i < errorMessages.length; i++){
-              this.notificationService.notifyEvent.emit(errorMessages[i][0]);
-            }
-          }
-        } 
-        
+        this.notificationService.notifyEvent.emit('Invalid input.');        
       }
     );
   }

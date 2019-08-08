@@ -12,10 +12,10 @@ export class LoginService
 
     logIn(email: string, password: string): Observable<any>
     {    
-        const headers = new Headers({'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json'});
-        const query = `username=${email}&password=${password}&grant_type=password`;
+        const headers = new Headers({'Content-Type': 'application/json', 'Accept': 'application/json'});
 
-        return this.http.post(this.apiAddress, query, { headers: headers });
+        // @TODO: Ovo je drugacije na web api 
+        return this.http.post(this.apiAddress, { email: email, password: password }, { headers: headers });
     }
 
     logOut(): void{
