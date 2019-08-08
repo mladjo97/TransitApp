@@ -14,8 +14,12 @@ export const getAllBusLines = async () => {
 
 export const getBusLineById = async (id) => {
     const busLine = await BusLine.findOne({ _id: id }).then(
-        busLineDoc => {
+        async busLineDoc => {
             if (!busLineDoc) throw new Error('NotFound');
+
+            await busLineDoc.populate('timetable', '_id time dayOfWeek').execPopulate();
+            await busLineDoc.populate('busLineStations', '_id station stopOrder').execPopulate();
+
             return busLineDoc;
         },
         err => { throw err; }

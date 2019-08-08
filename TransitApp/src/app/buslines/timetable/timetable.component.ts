@@ -25,7 +25,7 @@ export class TimetableComponent implements OnInit, OnDestroy {
   ngOnInit() { 
     this.idSubscription = this.route.params.subscribe( 
       (params: Params) => {
-         this.id = +params['id'];     
+         this.id = params['id'];     
          this.updateTimetable();
       } );
   }
@@ -41,7 +41,7 @@ export class TimetableComponent implements OnInit, OnDestroy {
       (response) => {
         let busLineJSON = response.json();
         this.busLine = busLineJSON;
-        this.formatTimetable(busLineJSON.Timetable);
+        this.formatTimetable(busLineJSON.timetable);
       },
 
       (error) => {
@@ -60,13 +60,17 @@ export class TimetableComponent implements OnInit, OnDestroy {
       this.formattedTimetable[this.days[i]] = new Array();
     }
 
+    console.log(timetable);
+    
     // add all times
     for(let i = 0; i < timetable.length; i++) {
       
-      const day = this.days[timetable[i].DayOfWeek];
-      const time = moment.utc(timetable[i].Time).format("HH:mm"); 
+      const day = this.days[timetable[i].dayOfWeek];
+      const time = moment.utc(timetable[i].time).format("HH:mm"); 
       const hour = time.split(':')[0];
       const minute = time.split(':')[1];
+
+      console.log(day);
 
       if(hour in this.formattedTimetable[day]) {
         this.formattedTimetable[day][hour].push(minute);
@@ -74,7 +78,6 @@ export class TimetableComponent implements OnInit, OnDestroy {
         this.formattedTimetable[day][hour] = new Array();
         this.formattedTimetable[day][hour].push(minute);
       }
-      
     }
     
     // sort timetables by minute

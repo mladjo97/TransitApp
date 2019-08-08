@@ -9,7 +9,7 @@
       <hr>
       <div class="form-group">
         <select id="busLineTypeSelect" class="form-control" (change)="onChange($event.target.value)">
-          <option *ngFor="let blt of busLineTypes" [value]="blt.Id"> {{ blt.Name }}</option>               
+          <option *ngFor="let blt of busLineTypes" [value]="blt._id"> {{ blt.name }}</option>               
         </select>
       </div>
     </div>
@@ -26,14 +26,14 @@
         </tr>
       </thead>
       <tbody>
-        <tr (click)="onBusLineClick(busLine.Id)" *ngFor="let busLine of busLines">
-          <th scope="row" class="center-block text-center"> {{ busLine.Name }}</th>
+        <tr (click)="onBusLineClick(busLine._id)" *ngFor="let busLine of busLines">
+          <th scope="row" class="center-block text-center"> {{ busLine.name }}</th>
           <td class="center-block text-center">
-            {{ busLine.Description }}
+            {{ busLine.description }}
             <div class="btn-group btn-group-sm float-right" role="group">
               <button type="button" class="btn btn-info" *ngIf="isBuyTicket && !isAdmin"><i class="fas fa-ticket-alt"></i></button>
-              <button type="button" class="btn btn-info" [routerLink]="['edit', busLine.Id]" *ngIf="isAdmin"><i class="fas fa-pen"></i></button>
-              <button type="button" class="btn btn-danger left-border" (click)="onDelete(busLine.Id)" *ngIf="isAdmin"><i class="fas fa-trash-alt"></i></button>
+              <button type="button" class="btn btn-info" [routerLink]="['edit', busLine._id]" *ngIf="isAdmin"><i class="fas fa-pen"></i></button>
+              <button type="button" class="btn btn-danger left-border" (click)="onDelete(busLine._id)" *ngIf="isAdmin"><i class="fas fa-trash-alt"></i></button>
             </div>
           </td>
         </tr>          

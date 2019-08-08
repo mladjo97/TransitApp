@@ -58,7 +58,7 @@ export class BuslinesComponent implements OnInit {
     this.busLineService.getAllBusLineTypes().subscribe(
       (response) => { 
         // an additional busline type for default 
-        this.busLineTypes.push({Id: "-1", Name: "All bus line types"});
+        this.busLineTypes.push({_id: "-1", name: "All bus line types"});
         
         const responseJson = response.json();
         for(let i = 0; i < responseJson.length; i++){            
@@ -71,19 +71,12 @@ export class BuslinesComponent implements OnInit {
     );
   }
 
-  onBusLineClick(busLineId: number): void {
-    console.log('trying');
-    console.log(this.isBuyTicket);
-    console.log(this.isRoute);
-    console.log(this.isLocations);
-    
+  onBusLineClick(busLineId): void {    
     if(!this.isRoute && !this.isLocations){      
       this.router.navigate(['/timetables', busLineId]);
     }
 
     if(this.isLocations){
-      
-      console.log('trying')
       this.drawService.locationEvent.emit(busLineId);
     } else {
       
@@ -117,11 +110,14 @@ export class BuslinesComponent implements OnInit {
   }
 
   onChange(busLineTypeId: string): void {
+    console.log(busLineTypeId);
+
     if(busLineTypeId == '-1') {
       this.getAllBusLines();
     } else {
-      this.busLineService.filterBusLines(+busLineTypeId).subscribe(
+      this.busLineService.filterBusLines(busLineTypeId).subscribe(
         (response) => {
+          console.log(response.json());
           this.busLines = response.json();
         },
 
