@@ -26,16 +26,31 @@ export const getUnverifiedDocumentImages = () => {
     );
 };
 
-export const deleteUserDocumentImage = (id) => {
-    return User.findOne({ _id: id}).then(
+export const uploadUserDocumentImage = (id, imagePath) => {
+    return User.findOne({ _id: id }).then(
         userDoc => {
-            if(!userDoc.documentImageUrl) 
-                throw new Error('NotFound');
+            if (userDoc.documentImageUrl)
+                deleteFile(userDoc.documentImageUrl);
+
+            userDoc.documentImageUrl = imagePath;
+            userDoc.verifiedDocumentImage = false;
             
+            userDoc.save(err => { if (err) throw err; });
+        },
+        err => { throw err; }
+    );
+};
+
+export const deleteUserDocumentImage = (id) => {
+    return User.findOne({ _id: id }).then(
+        userDoc => {
+            if (!userDoc.documentImageUrl)
+                throw new Error('NotFound');
+
             deleteFile(userDoc.documentImageUrl);
 
             userDoc.documentImageUrl = null;
-            userDoc.save(err => { if(err) throw err; });
+            userDoc.save(err => { if (err) throw err; });
         },
         err => { throw err; }
     );

@@ -27,6 +27,32 @@ export const getAll = async (_req, res, next) => {
     }
 };
 
+export const postUserDocumentImage = async (req, res, next) => {
+    const { currentUser, file } = req;
+    if (!currentUser || !file)
+        return res.status(400).json({ message: 'Bad Request' });
+
+    try {
+        await docImagesService.uploadUserDocumentImage(currentUser._id, file.path);
+        return res.status(200).json({ message: 'Uploaded' });
+    } catch (error) {
+        return next(error);
+    }
+};
+
+export const putUserDocumentImage = async (req, res, next) => {
+    const { currentUser, file } = req;
+    if (!currentUser || !file)
+        return res.status(400).json({ message: 'Bad Request' });
+
+    try {
+        await docImagesService.uploadUserDocumentImage(currentUser._id, file.path);
+        return res.status(200).json({ message: 'Uploaded' });
+    } catch (error) {
+        return next(error);
+    }
+};
+
 export const deleteUserDocumentImage = async (req, res, next) => {
     const { currentUser } = req;
 

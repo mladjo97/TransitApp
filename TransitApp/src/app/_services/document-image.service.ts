@@ -50,7 +50,7 @@ export class DocumentImageService {
 
     postImage(documentImage: File): Observable<any> {
         const formData: FormData = new FormData();
-        formData.append('uploadFile', documentImage, documentImage.name);
+        formData.append('image', documentImage, documentImage.name);
 
         const headers = new Headers();
         headers.append('enctype', 'multipart/form-data');       
@@ -64,7 +64,7 @@ export class DocumentImageService {
 
     putImage(documentImage: File): Observable<any> {
         const formData: FormData = new FormData();
-        formData.append('uploadFile', documentImage, documentImage.name);
+        formData.append('image', documentImage, documentImage.name);
 
         const headers = new Headers();
         headers.append('enctype', 'multipart/form-data');       
