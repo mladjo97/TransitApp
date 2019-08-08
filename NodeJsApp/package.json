@@ -44,7 +44,8 @@
     "@loaders": "src/loaders",
     "@models": "src/models",
     "@services": "src/services",
-    "@seeds": "src/seeds"
+    "@seeds": "src/seeds",
+    "@utils": "src/utils"
   },
   "author": "Mladen Milosevic",
   "license": "ISC"

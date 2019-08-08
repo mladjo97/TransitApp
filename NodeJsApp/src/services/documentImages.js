@@ -1,8 +1,9 @@
 import User from '@models/user';
+import { deleteFile } from '@utils/file';
 
 export const getUserDocumentImageById = (id) => {
     return User.findOne({ _id: id }).then(
-        userDoc => userDoc.documentImageUrl || null,
+        userDoc => userDoc.documentImageUrl,
         err => { throw err; }
     );
 };
@@ -20,6 +21,21 @@ export const getUnverifiedDocumentImages = () => {
                         documentImageUrl: userDoc.documentImageUrl
                     };
                 });
+        },
+        err => { throw err; }
+    );
+};
+
+export const deleteUserDocumentImage = (id) => {
+    return User.findOne({ _id: id}).then(
+        userDoc => {
+            if(!userDoc.documentImageUrl) 
+                throw new Error('NotFound');
+            
+            deleteFile(userDoc.documentImageUrl);
+
+            userDoc.documentImageUrl = null;
+            userDoc.save(err => { if(err) throw err; });
         },
         err => { throw err; }
     );

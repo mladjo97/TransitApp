@@ -11,6 +11,7 @@ const documentImagesRoutes = (app) => {
 
     route.get('/all', auth.authentication, attachCurrentUser, auth.authorization('TicketInspector'), docImagesController.getAll);
     route.get('/', auth.authentication, attachCurrentUser, auth.authorization('User'), docImagesController.getUserDocumentById);
+    route.delete('/', auth.authentication, attachCurrentUser, auth.authorization('User'), docImagesController.deleteUserDocumentImage);
 };
 
 export default documentImagesRoutes;
