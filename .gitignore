@@ -8,9 +8,9 @@
 *.user
 *.userosscache
 *.sln.docstates
-Documents/
+WebApp/WebApp/Documents
 /node_modules
-public/
+NodeJsApp/public
 
 # misc
 .DS_Store
