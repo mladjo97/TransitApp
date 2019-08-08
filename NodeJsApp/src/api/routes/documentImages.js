@@ -10,7 +10,7 @@ const documentImagesRoutes = (app) => {
     app.use('/documentImages', route);
 
     route.get('/all', auth.authentication, attachCurrentUser, auth.authorization('TicketInspector'), docImagesController.getAll);
-    
+    route.get('/', auth.authentication, attachCurrentUser, auth.authorization('User'), docImagesController.getUserDocumentById);
 };
 
 export default documentImagesRoutes;

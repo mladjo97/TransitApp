@@ -31,7 +31,7 @@ export class DocumentImageComponent implements OnInit {
 
     this.docImageService.getImage().subscribe(
       (response) => {
-        this.imagePath = `http://localhost:${PORT}${response.json()}`;
+        this.imagePath = `http://localhost:${PORT}/${response.json()}`;
         this.hasImage = true;
       },
       (error) => {
