@@ -138,3 +138,12 @@ export const stationSchemas = {
         id: Joi.string().max(256).required()
     })
 };
+
+/**
+ *  General validation models such as Id validation
+ */
+export const generalSchemas = {
+    idBindingModel: Joi.object().keys({
+        id: Joi.string().max(256).required()
+    })
+};

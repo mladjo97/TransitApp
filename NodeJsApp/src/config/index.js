@@ -34,5 +34,11 @@ export default {
     /**
      *  JSON Web Token (JWT) secret
      */
-    jwtSecret: process.env.JWT_SECRET
+    jwtSecret: process.env.JWT_SECRET,
+
+    /**
+     *  Email service API Key & email address
+     */
+    emailApiKey: process.env.EMAIL_API_KEY,
+    email: 'tickets@transit.com'
 };

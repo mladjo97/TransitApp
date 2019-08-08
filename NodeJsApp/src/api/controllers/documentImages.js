@@ -66,3 +66,17 @@ export const deleteUserDocumentImage = async (req, res, next) => {
         return next(error);
     }
 };
+
+export const verifyUserDocumentImage = async (req, res, next) => {
+    const { userId } = req.query;
+
+    if (!userId)
+        return res.status(400).json({ message: 'Bad Request' });
+
+    try {
+        await docImagesService.verifyUserDocumentImage(userId);
+        return res.status(200).json({ message: 'Verified' });
+    } catch (error) {
+        return next(error);
+    }
+};

@@ -2,7 +2,6 @@ import cors from 'cors';
 import multer from 'multer';
 import bodyParser from 'body-parser';
 import express from 'express';
-import path from 'path';
 
 import config from '@config';
 import routes from '@api';

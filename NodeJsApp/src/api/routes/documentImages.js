@@ -9,11 +9,47 @@ import * as docImagesController from '@controllers/documentImages';
 const documentImagesRoutes = (app) => {
     app.use('/documentImages', route);
 
-    route.get('/all', auth.authentication, attachCurrentUser, auth.authorization('TicketInspector'), docImagesController.getAll);
-    route.get('/', auth.authentication, attachCurrentUser, auth.authorization('User'), docImagesController.getUserDocumentById);
-    route.post('/', auth.authentication, attachCurrentUser, auth.authorization('User'), docImagesController.postUserDocumentImage);
-    route.put('/', auth.authentication, attachCurrentUser, auth.authorization('User'), docImagesController.putUserDocumentImage);
-    route.delete('/', auth.authentication, attachCurrentUser, auth.authorization('User'), docImagesController.deleteUserDocumentImage);
+    route.get('/all',
+        auth.authentication,
+        attachCurrentUser,
+        auth.authorization('TicketInspector'),
+        docImagesController.getAll);
+
+    route.get('/',
+        auth.authentication,
+        attachCurrentUser,
+        auth.authorization('User'),
+        docImagesController.getUserDocumentById);
+
+    route.post('/verify',
+        auth.authentication,
+        attachCurrentUser,
+        auth.authorization('TicketInspector'),
+        docImagesController.verifyUserDocumentImage);
+
+    route.post('/reject',
+        auth.authentication,
+        attachCurrentUser,
+        auth.authorization('TicketInspector'),
+        docImagesController.verifyUserDocumentImage);
+
+    route.post('/',
+        auth.authentication,
+        attachCurrentUser,
+        auth.authorization('User'),
+        docImagesController.postUserDocumentImage);
+
+    route.put('/',
+        auth.authentication,
+        attachCurrentUser,
+        auth.authorization('User'),
+        docImagesController.putUserDocumentImage);
+
+    route.delete('/',
+        auth.authentication,
+        attachCurrentUser,
+        auth.authorization('User'),
+        docImagesController.deleteUserDocumentImage);
 };
 
 export default documentImagesRoutes;
