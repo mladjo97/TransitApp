@@ -1,6 +1,8 @@
 import cors from 'cors';
 import multer from 'multer';
 import bodyParser from 'body-parser';
+import express from 'express';
+import path from 'path';
 
 import config from '@config';
 import routes from '@api';
@@ -28,6 +30,9 @@ const loadExpressApp =  (app) => {
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(bodyParser.json());
     app.use(multer({ storage: fileStorage }).single('image'));
+
+    // Serve images to users
+    app.use('/public/images', express.static('public/images'));
 
     // Load API routes & error handlers
     app.use(config.api.prefix, routes());    

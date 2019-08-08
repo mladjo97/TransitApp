@@ -5,7 +5,7 @@ const route = Router();
 
 import * as stationController from '@controllers/stations';
 
-const usersRoute = (app) => {
+const stationRoutes = (app) => {
     app.use('/stations', route);
 
     route.get('/:id', validation(stationSchemas.stationIdBindingModel, 'params'), stationController.getStationById);
@@ -19,4 +19,4 @@ const usersRoute = (app) => {
     route.delete('/:id', validation(stationSchemas.stationIdBindingModel, 'params'), stationController.deleteStation);
 };
 
-export default usersRoute;
+export default stationRoutes;

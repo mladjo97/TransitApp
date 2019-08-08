@@ -32,7 +32,7 @@ export class DocumentsComponent implements OnInit {
 
   onClick(url: string): void {
     console.log('Getting image: ' + url);
-    this.imagePath = `${SERVER_ADDRESS}${url}`;
+    this.imagePath = `${SERVER_ADDRESS}/${url}`;
   }
 
   onVerify(docUserId: string): void {

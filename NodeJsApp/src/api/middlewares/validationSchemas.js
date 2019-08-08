@@ -79,7 +79,7 @@ export const busLineSchemas = {
         description: Joi.string().max(256).required(),
         busLineTypeId: Joi.string().max(256).required(),
         timetable: Joi.array().items(startTimeSchemas.startTimeBindingModel),
-        busLineStations: Joi.array(),
+        busLineStations: Joi.array()
     }),
 
     putBusLineBindingModel: Joi.object().keys({

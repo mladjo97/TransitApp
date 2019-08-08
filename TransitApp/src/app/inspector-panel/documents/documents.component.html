@@ -16,12 +16,12 @@
           </tr>
         </thead>
         <tbody>
-          <tr (click)="onClick(doc.DocumentImageUrl)" *ngFor="let doc of documents">
-            <th scope="row" class="center-block text-center"> {{ doc.FirstName }} {{ doc.LastName }}</th>
+          <tr (click)="onClick(doc.documentImageUrl)" *ngFor="let doc of documents">
+            <th scope="row" class="center-block text-center"> {{ doc.firstName }} {{ doc.lastName }}</th>
             <td class="center-block text-center">
               <div class="btn-group btn-group-sm float-right" role="group">
-                <button type="button" class="btn btn-info left-border" (click)="onVerify(doc.UserId)"><i class="fas fa-check"></i></button>
-                <button type="button" class="btn btn-danger left-border" (click)="onReject(doc.UserId)"><i class="fas fa-ban"></i></button>
+                <button type="button" class="btn btn-info left-border" (click)="onVerify(doc.userId)"><i class="fas fa-check"></i></button>
+                <button type="button" class="btn btn-danger left-border" (click)="onReject(doc.userId)"><i class="fas fa-ban"></i></button>
               </div>
             </td>
           </tr>          

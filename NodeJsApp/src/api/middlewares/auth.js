@@ -2,7 +2,9 @@ import config from '@config';
 import jwt from 'express-jwt';
 
 /**
- *  Authorization (_header_) : Bearer ${_token_} 
+ *  Exports JWT from Authorization header
+ * @param {Request} req HTTP Request
+ * @returns {string} JSON Web Token 
  */
 const getTokenFromHeader = (req) => {
     if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer')

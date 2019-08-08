@@ -54,7 +54,7 @@ export const postUser = async (req, res, next) => {
         gender: gender,
         dateOfBirth: moment.utc(dateOfBirth, config.dateFormat),
         userType: userTypeId,
-        documentImageUrl: req.file.path || null
+        documentImageUrl: req.file ? req.file.path : null
     };
 
     try {

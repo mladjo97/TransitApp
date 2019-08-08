@@ -23,7 +23,7 @@ export default {
      * API configurations
      */
     api: {
-        prefix: '/api',
+        prefix: '/api'
     },
 
     /**

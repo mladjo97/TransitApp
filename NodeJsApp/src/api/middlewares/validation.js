@@ -3,7 +3,7 @@ import Joi from 'joi';
 const validationMiddleware = (schema, property) => {
     return (req, res, next) => {
         const { error } = Joi.validate(req[property], schema);
-        const valid = error == null;
+        const valid = error === null;
 
         if (valid) {
             next();

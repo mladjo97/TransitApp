@@ -26,11 +26,11 @@ const seedUsers = async () => {
     */
     usersJSON.map(async (user) => {
         // NOTE: roles must be inserted first
-        let roleId = user.username === 'mladjo' ?
+        let roleId = user.email === 'mladjo@demo.com' ?
             adminRole._id :
             userRole._id;
 
-        roleId = user.username === 'ticketInspector' ?
+        roleId = user.email === 'ticket@demo.com' ?
             ticketInspectorRole._id :
             roleId;
 

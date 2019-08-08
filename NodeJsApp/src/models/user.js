@@ -1,8 +1,8 @@
 import { Gender } from './enums';
 import { Schema, model } from 'mongoose';
 
-import Role from '@models/role';
-import UserType from '@models/userType';
+// import Role from '@models/role';
+// import UserType from '@models/userType';
 
 
 const userSchema = new Schema({
