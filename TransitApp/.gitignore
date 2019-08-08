@@ -46,4 +46,4 @@ testem.log
 Thumbs.db
 
 #User defined
-/public
+/public/images/*.jpg
