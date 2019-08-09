@@ -17,7 +17,7 @@ export class StationsService {
         return this.http.get(this.apiAddress);
     }
 
-    getById(id: number): Observable<any> {
+    getById(id): Observable<any> {
         return this.http.get(`${this.apiAddress}/${id}`);
     }
 
@@ -30,7 +30,7 @@ export class StationsService {
         return this.http.post(this.apiAddress, data, {headers: headers});
     }
 
-    editStation(id: number, data: {}) {
+    editStation(id, data: {}) {
         const headers = new Headers()
         headers.append('Content-type','application/json');
         headers.append('Authorization','Bearer ' + JSON.parse(localStorage.getItem("token")).token);
@@ -39,7 +39,7 @@ export class StationsService {
         return this.http.put(`${this.apiAddress}/${id}`, data, {headers: headers});
     }
 
-    deleteStation(id: number): Observable<any> {
+    deleteStation(id): Observable<any> {
         const headers = new Headers()
         headers.append('Content-type','application/json');
         headers.append('Authorization','Bearer ' + JSON.parse(localStorage.getItem("token")).token);

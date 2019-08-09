@@ -26,7 +26,7 @@ export class StationComponent implements OnInit, OnDestroy {
   ngOnInit() { 
     this.idSubscription = this.route.params.subscribe( 
       (params: Params) => {
-         this.id = +params['id'];
+         this.id = params['id'];
          this.updateMap();
       } );
   }
@@ -42,7 +42,7 @@ export class StationComponent implements OnInit, OnDestroy {
         console.log(this.station);
         
         removeLayersFromMap();
-        addStationOnMap(this.station.Lon, this.station.Lat, this.station.Name, this.station.Address);
+        addStationOnMap(this.station.lon, this.station.lat, this.station.Name, this.station.address);
       },
 
       (error) => {

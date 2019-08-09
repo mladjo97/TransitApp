@@ -18,13 +18,13 @@
           </tr>
         </thead>
         <tbody>
-          <tr [routerLink]="[station.Id]" *ngFor="let station of stations">
-            <th scope="row" class="center-block text-center"> {{ station.Name }}</th>
+          <tr [routerLink]="[station._id]" *ngFor="let station of stations">
+            <th scope="row" class="center-block text-center"> {{ station.name }}</th>
             <td class="center-block text-center">
-              {{ station.Address }}
+              {{ station.address }}
               <div class="btn-group btn-group-sm float-right" role="group">
-                <button type="button" class="btn btn-info left-border" [routerLink]="['edit', station.Id]" *ngIf="isAdmin"><i class="fas fa-pen"></i></button>
-                <button type="button" class="btn btn-danger left-border" (click)="onDelete(station.Id)" *ngIf="isAdmin"><i class="fas fa-trash-alt"></i></button>
+                <button type="button" class="btn btn-info left-border" [routerLink]="['edit', station._id]" *ngIf="isAdmin"><i class="fas fa-pen"></i></button>
+                <button type="button" class="btn btn-danger left-border" (click)="onDelete(station._id)" *ngIf="isAdmin"><i class="fas fa-trash-alt"></i></button>
               </div>
             </td>
           </tr>          
