@@ -1,4 +1,5 @@
 import Station from '@models/station';
+import BusLineStation from '@models/busLineStation';
 
 export const getAllStations = async () => {
     const stations = await Station.find();
@@ -19,7 +20,7 @@ export const createStation = async (station) => {
 export const updateStation = async (id, station) => {
     const updatedStation = await Station.findOne({ _id: id }).then(
         async (stationDoc) => {
-            if(stationDoc.rowVersion !== +station.rowVersion)
+            if (stationDoc.rowVersion !== +station.rowVersion)
                 throw new Error('DbConcurrencyError');
 
             stationDoc.name = station.name || stationDoc.name;
@@ -29,10 +30,10 @@ export const updateStation = async (id, station) => {
             stationDoc.rowVersion += 1; // fix: nece auto increment ovde?
 
             await stationDoc.save((err) => {
-                if(err) throw err;
+                if (err) throw err;
                 console.log('[UPDATE_STATION] Successfully updated station.');
             });
-            
+
             return stationDoc;
         },
         err => { throw err; }
@@ -42,6 +43,10 @@ export const updateStation = async (id, station) => {
 };
 
 export const deleteStation = async (id) => {
-    const deleteStation = await Station.findByIdAndDelete(id);
+    const deleteStation = await Station.findByIdAndDelete(id, err => {
+        if (err) throw err;
+        BusLineStation.deleteMany({ station: id }, err => { if (err) throw err; });
+    });
+
     return deleteStation;
 };

@@ -24,14 +24,14 @@ export const getStationById = async (req, res, next) => {
 export const postStation = async (req, res, next) => {
     const {
         name,
-        description,
+        address,
         lat,
         lon
     } = req.body;
 
     const newStation = new Station({
         name: name,
-        description: description || '',
+        address: address || '',
         lat: lat,
         lon: lon
     });

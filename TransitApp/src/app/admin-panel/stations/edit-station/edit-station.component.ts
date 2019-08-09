@@ -24,7 +24,7 @@ export class EditStationComponent implements OnInit, OnDestroy {
   private submitted: boolean = false;
 
   private stationForm = new FormGroup({
-    id: new FormControl(null),
+    _id: new FormControl(null),
     name: new FormControl(null),
     address: new FormControl(null),
     lat: new FormControl(null),
@@ -40,7 +40,7 @@ export class EditStationComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.idSubscription = this.route.params.subscribe( 
       (params: Params) => {
-          this.id = +params['id'];     
+          this.id = params['id'];     
           this.updateForm();
       } );    
   }
@@ -58,19 +58,19 @@ export class EditStationComponent implements OnInit, OnDestroy {
 
         // update form values
         this.stationForm.patchValue({
-          id: this.station.Id,
-          name: this.station.Name,
-          address: this.station.Address,
-          lon: this.station.Lon,
-          lat: this.station.Lat,
-          rowVersion: this.station.RowVersion
+          _id: this.station._id,
+          name: this.station.name,
+          address: this.station.address,
+          lon: this.station.lon,
+          lat: this.station.lat,
+          rowVersion: this.station.rowVersion
         });
 
         // update map location
         enableClickOnMap(this.updateLatLon.bind(this));
 
         removeLayersFromMap();
-        addStationOnMap(this.station.Lon, this.station.Lat, this.station.Name, this.station.Address);
+        addStationOnMap(this.station.lon, this.station.lat, this.station.name, this.station.address);
       },
 
       (error) => {

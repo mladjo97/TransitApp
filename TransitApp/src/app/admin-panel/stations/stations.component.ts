@@ -36,7 +36,7 @@ export class StationsComponent implements OnInit {
     );
   }
 
-  onDelete(id: number): void {
+  onDelete(id): void {
     this.stationsService.deleteStation(id).subscribe(
       (response) => {
         this.notificationService.notifyEvent.emit('Successfully deleted station with id: ' + id);

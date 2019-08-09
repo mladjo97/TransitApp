@@ -7,23 +7,29 @@ import BusLineStation from '@models/busLineStation';
 export const getAllBusLines = async () => {
     const busLines = await BusLine.find()
         .populate('timetable', '_id time dayOfWeek')
-        .populate('busLineStations', '_id station stopOrder');
+        .populate({
+            path: 'busLineStations',
+            select: '_id station stopOrder',
+            populate: {
+                path: 'station',
+                select: '_id name address lat lon'
+            }
+        });
 
     return busLines;
 };
 
 export const getBusLineById = async (id) => {
-    const busLine = await BusLine.findOne({ _id: id }).then(
-        async busLineDoc => {
-            if (!busLineDoc) throw new Error('NotFound');
-
-            await busLineDoc.populate('timetable', '_id time dayOfWeek').execPopulate();
-            await busLineDoc.populate('busLineStations', '_id station stopOrder').execPopulate();
-
-            return busLineDoc;
-        },
-        err => { throw err; }
-    );
+    const busLine = await BusLine.findOne({ _id: id })
+        .populate('timetable', '_id time dayOfWeek')
+        .populate({
+            path: 'busLineStations',
+            select: '_id station stopOrder',
+            populate: {
+                path: 'station',
+                select: '_id name address lat lon'
+            }
+        });
 
     return busLine;
 };

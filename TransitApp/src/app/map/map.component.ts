@@ -29,14 +29,14 @@ export class MapComponent implements OnInit {
 
   onDraw(busLine: any): void {
     removeLayersFromMap(); // clear map
-
+    console.log(busLine);
     // foreach busline station get routes and add routes to map
-    for(let i = 0; i < busLine.BusLineStations.length - 1; i++) {
+    for(let i = 0; i < busLine.busLineStations.length - 1; i++) {
 
       setTimeout(() => {
 
-        this.routeService.getRoutes(busLine.BusLineStations[i].Station.Lon, busLine.BusLineStations[i].Station.Lat,
-          busLine.BusLineStations[i+1].Station.Lon, busLine.BusLineStations[i+1].Station.Lat).subscribe(
+        this.routeService.getRoutes(busLine.busLineStations[i].station.lon, busLine.busLineStations[i].station.lat,
+          busLine.busLineStations[i+1].station.lon, busLine.busLineStations[i+1].station.lat).subscribe(
 
             (response) => {
               const routeCoordinates = response.json().features[0].geometry.coordinates;
@@ -52,11 +52,11 @@ export class MapComponent implements OnInit {
               }
 
               // add stations on map
-              for(let i = 0; i < busLine.BusLineStations.length; i++) {
-                addStationOnMap(busLine.BusLineStations[i].Station.Lon,
-                                busLine.BusLineStations[i].Station.Lat, 
-                                busLine.BusLineStations[i].Station.Name,
-                                busLine.BusLineStations[i].Station.Address);
+              for(let i = 0; i < busLine.busLineStations.length; i++) {
+                addStationOnMap(busLine.busLineStations[i].station.lon,
+                                busLine.busLineStations[i].station.lat, 
+                                busLine.busLineStations[i].station.name,
+                                busLine.busLineStations[i].station.address);
               }
 
             },
