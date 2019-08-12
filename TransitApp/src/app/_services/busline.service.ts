@@ -17,7 +17,7 @@ export class BusLineService {
         return this.http.get(this.apiAddress);
     }
 
-    getById(id: number): Observable<any> {
+    getById(id): Observable<any> {
         return this.http.get(`${this.apiAddress}/${id}`);
     }
 
@@ -34,7 +34,8 @@ export class BusLineService {
         return this.http.post(this.apiAddress, data, {headers: headers});
     }
 
-    editBusLine(id: number, data: {}) {
+    editBusLine(id, data: {}) {
+
         const headers = new Headers()
         headers.append('Content-type','application/json');
         headers.append('Authorization','Bearer ' + JSON.parse(localStorage.getItem("token")).token);
@@ -43,7 +44,7 @@ export class BusLineService {
         return this.http.put(`${this.apiAddress}/${id}`, data, {headers: headers});
     }
 
-    deleteBusLine(id: number): Observable<any> {
+    deleteBusLine(id): Observable<any> {
         const headers = new Headers()
         headers.append('Content-type','application/json');
         headers.append('Authorization','Bearer ' + JSON.parse(localStorage.getItem("token")).token);

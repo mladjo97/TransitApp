@@ -16,13 +16,13 @@
           <div class="form-group row">
             <label for="busLineTypeSelect">Type</label>
             <select id="busLineTypeSelect" class="form-control" ngModel name="busLineType" required>
-              <option *ngFor="let blt of busLineTypes" [value]="blt.Id"> {{ blt.Name }}</option>               
+              <option *ngFor="let blt of busLineTypes" [value]="blt._id"> {{ blt.name }}</option>               
             </select>
           </div>
           <label for="station">Stations</label>
           <div class="form-group row">            
             <select id="station" class="col-8 form-control" ngModel name="station" #station>
-              <option *ngFor="let s of stationSelect" [value]="s.Id"> {{ s.Name }} - {{ s.Address }}</option>               
+              <option *ngFor="let s of stationSelect" [value]="s._id"> {{ s.name }} - {{ s.address }}</option>               
             </select>
             <div class="col-1"></div>
             <button type="button" class="col-2 btn btn-primary" (click)="onAddStation(station.value)"><i class="fas fa-plus"></i></button>
@@ -52,7 +52,7 @@
           <ul class="list-group" *ngIf="stationsActive">
               <h3><u>Stations</u> <i>(ordered)</i></h3>
               <li class="list-group-item timetable-time" *ngFor="let s of stations; let i = index"> 
-                {{ s.Name }} 
+                {{ s.name }} 
                 <button type="button" class="btn btn-danger float-right" (click)="onRemoveStation(i)"><i class="fas fa-trash-alt"></i></button>
                 <button type="button" class="btn btn-primary float-right" (click)="onMoveDownStation(i)"><i class="fas fa-arrow-down"></i></button>
                 <button type="button" class="btn btn-primary float-right" (click)="onMoveUpStation(i)"><i class="fas fa-arrow-up"></i></button>               

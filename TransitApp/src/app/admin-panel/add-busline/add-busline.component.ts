@@ -17,8 +17,8 @@ export class AddBuslineComponent implements OnInit {
   private days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   private busLineTypes: [] = [];
   private stationSelect: any[] = [];
-  private stations: Station[] = [];
-  private timetable: StartTime[] = [];
+  private stations: any[] = [];
+  private timetable: any[] = [];
 
   private invalidTimeFormat: boolean = false;
   private timetableActive: boolean = false;
@@ -44,10 +44,11 @@ export class AddBuslineComponent implements OnInit {
 
   onAddStation(stationId: number): void {
 
-    let station = this.stationSelect.find(s => { return s.Id == stationId});
+    let station = this.stationSelect.find(s => { return s._id == stationId});
 
     if(station !== undefined) {
-      if(this.stations.find(s => s.Id == station.Id) === undefined) {
+      if(this.stations.find(s => s._id == station._id) === undefined) {
+        console.log(station)
         this.stations.push(station);
         this.stationsActive = true;
       }
@@ -135,7 +136,7 @@ export class AddBuslineComponent implements OnInit {
     let busLineStations = [];
     for(let i = 0; i < this.stations.length; i++){
       busLineStations.push({
-        stationId: this.stations[i].Id,
+        stationId: this.stations[i]._id,
         station: this.stations[i],
         stopOrder: i
       });

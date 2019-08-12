@@ -25,7 +25,7 @@ export class EditBuslineComponent implements OnInit, OnDestroy {
   private busLineTypes: [] = [];
   private timetable: StartTime[] = [];
   private stationsSelect: any[] = [];
-  private stations: Station[] = [];
+  private stations: any[] = [];
 
   private invalidTimeFormat: boolean = false;
   private timetableActive: boolean = false;
@@ -33,7 +33,7 @@ export class EditBuslineComponent implements OnInit, OnDestroy {
   private stationsActive: boolean = false;
 
   private buslineForm = new FormGroup({
-    id: new FormControl(null),
+    _id: new FormControl(null),
     name: new FormControl(null),
     description: new FormControl(null),
     busLineTypeId: new FormControl(null),
@@ -43,10 +43,10 @@ export class EditBuslineComponent implements OnInit, OnDestroy {
   });
 
   constructor(private notificationService: NotificationService,
-              private route: ActivatedRoute,
-              private busLineService: BusLineService,
-              private stationsService: StationsService,
-              private router: Router) { }
+    private route: ActivatedRoute,
+    private busLineService: BusLineService,
+    private stationsService: StationsService,
+    private router: Router) { }
 
   ngOnInit() {
     // update all busline type (for select)
@@ -55,17 +55,17 @@ export class EditBuslineComponent implements OnInit, OnDestroy {
       (error) => console.log('Error in EditBuslineComponent / ngOnInit() -> getAllBusLines()')
     );
 
-     // update all station (for select)
-     this.stationsService.getAll().subscribe(
+    // update all station (for select)
+    this.stationsService.getAll().subscribe(
       (response) => this.stationsSelect = response.json(),
       (error) => console.log(error)
     );
 
-    this.idSubscription = this.route.params.subscribe( 
+    this.idSubscription = this.route.params.subscribe(
       (params: Params) => {
-          this.id = +params['id'];     
-          this.updateForm();
-    } );
+        this.id = params['id'];
+        this.updateForm();
+      });
 
     this.previousPage = `/${this.router.url.split('/')[1]}`;
   }
@@ -81,25 +81,25 @@ export class EditBuslineComponent implements OnInit, OnDestroy {
         this.busLine = response.json();
 
         // get busline stations
-        for(let i = 0; i < this.busLine.BusLineStations.length; i++)
-          this.stations.push(this.busLine.BusLineStations[i].Station);
+        for (let i = 0; i < this.busLine.busLineStations.length; i++)
+          this.stations.push(this.busLine.busLineStations[i].station);
 
-        if(this.stations.length > 0)
+        if (this.stations.length > 0)
           this.stationsActive = true;
 
         // update form values
         this.buslineForm.patchValue({
-          name: this.busLine.Name,
-          description: this.busLine.Description,
-          busLineTypeId: this.busLine.BusLineTypeId,
+          name: this.busLine.name,
+          description: this.busLine.description,
+          busLineTypeId: this.busLine.busLineType,
           busLineStations: this.stations,
-          rowVersion: this.busLine.RowVersion
+          rowVersion: this.busLine.rowVersion
         });
 
         // update side timetable 
-        for(let i = 0; i < this.busLine.Timetable.length; i++) {
-          let time = moment.utc(this.busLine.Timetable[i].Time).format("HH:mm");
-          this.onAddTime(time, this.busLine.Timetable[i].DayOfWeek);
+        for (let i = 0; i < this.busLine.timetable.length; i++) {
+          let time = moment.utc(this.busLine.timetable[i].time).format("HH:mm");
+          this.onAddTime(time, this.busLine.timetable[i].dayOfWeek);
         }
 
       },
@@ -112,10 +112,10 @@ export class EditBuslineComponent implements OnInit, OnDestroy {
 
   onAddStation(stationId: number): void {
 
-    let station = this.stationsSelect.find(s => { return s.Id == stationId});
+    let station = this.stationsSelect.find(s => { return s._id == stationId });
 
-    if(station !== undefined) {
-      if(this.stations.find(s => s.Id == station.Id) === undefined) {
+    if (station !== undefined) {
+      if (this.stations.find(s => s._id == station._id) === undefined) {
         this.stations.push(station);
         this.stationsActive = true;
       }
@@ -126,12 +126,12 @@ export class EditBuslineComponent implements OnInit, OnDestroy {
 
     this.stations.splice(stationIndex, 1);
 
-    if(this.stations.length == 0)
+    if (this.stations.length == 0)
       this.stationsActive = false;
   }
 
   onMoveUpStation(stationIndex: number): void {
-    if(stationIndex !== 0) {
+    if (stationIndex !== 0) {
       let temp = this.stations[stationIndex];
       this.stations[stationIndex] = this.stations[stationIndex - 1];
       this.stations[stationIndex - 1] = temp;
@@ -139,7 +139,7 @@ export class EditBuslineComponent implements OnInit, OnDestroy {
   }
 
   onMoveDownStation(stationIndex: number): void {
-    if(stationIndex !== this.stations.length - 1){
+    if (stationIndex !== this.stations.length - 1) {
       let temp = this.stations[stationIndex];
       this.stations[stationIndex] = this.stations[stationIndex + 1];
       this.stations[stationIndex + 1] = temp;
@@ -148,49 +148,44 @@ export class EditBuslineComponent implements OnInit, OnDestroy {
 
   onAddTime(time: string, dayIndex: number): void {
 
-    if(!this.validateTimeFormat(time)) {
+    if (!this.validateTimeFormat(time)) {
       this.invalidTimeFormat = true;
       return;
     }
 
     this.invalidTimeFormat = false;;
     let st = new StartTime(moment.utc(time, 'HH:mm'), dayIndex, this.days[dayIndex]);
-    
-    for(let i = 0; i < this.timetable.length; i++) {
-      if((this.timetable[i].time.hours().toString() == st.time.hours().toString()) 
-         && (this.timetable[i].time.minutes().toString() == st.time.minutes().toString())
-         && (this.timetable[i].dayOfWeek == st.dayOfWeek)) {
-           return;
-         }
+
+    for (let i = 0; i < this.timetable.length; i++) {
+      if ((this.timetable[i].time.hours().toString() == st.time.hours().toString())
+        && (this.timetable[i].time.minutes().toString() == st.time.minutes().toString())
+        && (this.timetable[i].dayOfWeek == st.dayOfWeek)) {
+        return;
+      }
     }
 
-    if(!this.timetable.includes(st)) {
+    if (!this.timetable.includes(st)) {
       this.timetable.push(st);
     }
 
-    if(this.timetable.length > 0) {
+    if (this.timetable.length > 0) {
       this.timetableActive = true;
     }
 
-    console.log(this.timetable);
   }
 
   onRemoveTime(time: string, dayIndex: number): void {
-    console.log(this.timetable);
-    console.log(time);
-    console.log(dayIndex);
-    
     let st = new StartTime(moment.utc(time, 'HH:mm'), dayIndex);
 
-    for(let i = 0; i < this.timetable.length; i++) {
-      if((this.timetable[i].time.hours().toString() == st.time.hours().toString()) 
-          &&  (this.timetable[i].time.minutes().toString() == st.time.minutes().toString())
-          && (this.timetable[i].dayOfWeek == st.dayOfWeek)) {
-            this.timetable.splice(i, 1);
-         }
-    }  
+    for (let i = 0; i < this.timetable.length; i++) {
+      if ((this.timetable[i].time.hours().toString() == st.time.hours().toString())
+        && (this.timetable[i].time.minutes().toString() == st.time.minutes().toString())
+        && (this.timetable[i].dayOfWeek == st.dayOfWeek)) {
+        this.timetable.splice(i, 1);
+      }
+    }
 
-    if(this.timetable.length == 0) {
+    if (this.timetable.length == 0) {
       this.timetableActive = false;
     }
   }
@@ -204,9 +199,9 @@ export class EditBuslineComponent implements OnInit, OnDestroy {
 
     // dummy object array for busline stations
     let busLineStations = [];
-    for(let i = 0; i < this.stations.length; i++){
+    for (let i = 0; i < this.stations.length; i++) {
       busLineStations.push({
-        stationId: this.stations[i].Id,
+        stationId: this.stations[i]._id,
         station: this.stations[i],
         stopOrder: i
       });
@@ -214,11 +209,13 @@ export class EditBuslineComponent implements OnInit, OnDestroy {
 
     // update timetable, id & stations
     this.buslineForm.patchValue({
-      id: this.id,
+      _id: this.id,
       timetable: this.timetable,
       busLineStations: busLineStations
     });
-    
+
+    console.log(this.buslineForm.value);
+
     // PUT to api
     this.busLineService.editBusLine(this.id, this.buslineForm.value).subscribe(
       (response) => {
@@ -229,7 +226,7 @@ export class EditBuslineComponent implements OnInit, OnDestroy {
 
       (error) => {
         this.submitted = false;
-        switch(error.status) {
+        switch (error.status) {
           case 409:
             this.notificationService.notifyEvent.emit('Someone edited the busline before you. Please refresh the page and try again.');
             break;
@@ -239,7 +236,6 @@ export class EditBuslineComponent implements OnInit, OnDestroy {
         }
       }
     );
-     
-  }
 
+  }
 }
