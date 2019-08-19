@@ -23,8 +23,8 @@ export class PricelistsComponent implements OnInit {
   }
 
   onClick(id: number) {
-    this.selectedPriceList = this.priceLists.find(item => item.Id === id);
-    this.priceListItems = this.selectedPriceList.PriceListItems;
+    this.selectedPriceList = this.priceLists.find(item => item._id === id);
+    this.priceListItems = this.selectedPriceList.priceListItems;
   }
 
   onDelete(id) {
@@ -44,6 +44,7 @@ export class PricelistsComponent implements OnInit {
     this.priceListService.getAllPriceLists().subscribe(
       (response) => {
         this.priceLists = response.json();
+        console.log(response.json());
       },
       (error) => {
         console.log(error);

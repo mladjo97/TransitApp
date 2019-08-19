@@ -2,7 +2,7 @@ import { Schema, model } from 'mongoose';
 
 const priceListItemSchema = new Schema({
     basePrice: {
-        type: Schema.Types.Decimal128,
+        type: Number,
         required: true
     },
     ticketType: {
@@ -16,10 +16,13 @@ const priceListItemSchema = new Schema({
         required: true
     },
     discount: {
+        type: Number,
+        default: 0
+    },
+    userType: {
         type: Schema.Types.ObjectId,
-        ref: 'UserTypeDiscount',
-        required: false,
-        default: null
+        ref: 'UserType',
+        required: true
     }
 });
 

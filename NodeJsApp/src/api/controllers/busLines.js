@@ -88,8 +88,6 @@ export const putBusLine = async (req, res, next) => {
         })
     };
 
-    console.log(updatedBusLine);
-
     try {
         const dbBusLine = await busLinesService.updateBusLine(id, updatedBusLine);
         return res.status(200).json(dbBusLine);

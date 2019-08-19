@@ -11,7 +11,13 @@ const ticketSchema = new Schema({
     },
     user: {
         type: Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: true
+    },
+    item: {
+        type: Schema.Types.ObjectId,
+        ref: 'PriceListItem',
+        required: true
     }
 });
 

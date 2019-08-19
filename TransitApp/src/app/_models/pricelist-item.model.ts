@@ -1,17 +1,17 @@
 export class PriceListItem {
-    Id: number;
-    BasePrice: number;
-    TicketTypeId: number;
-    TicketTypeName: string;
-    UserTypeId: number;
-    UserTypeName: string;
-    DiscountId: number;
-    Discount: number;
+    _id: number;
+    basePrice: number;
+    ticketTypeId: number;
+    ticketTypeName: string;
+    userTypeId: number;
+    userTypeName: string;
+    discountId: number;
+    discount: number;
 
     constructor(price: number, ticketTypeId: number, userTypeId: number, discount: number){
-        this.BasePrice = price;
-        this.TicketTypeId = ticketTypeId;
-        this.UserTypeId = userTypeId;
-        this.Discount = discount;
+        this.basePrice = price;
+        this.ticketTypeId = ticketTypeId;
+        this.userTypeId = userTypeId;
+        this.discount = discount;
     }
 }

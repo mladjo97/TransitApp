@@ -1,9 +1,9 @@
 import { PriceListItem } from './pricelist-item.model';
 
 export class PriceList {
-    Id: number;
-    ValidFrom: Date;
-    ValidUntil: Date;
-    PriceListItems: PriceListItem[];
-    RowVersion: any;
+    _id: number;
+    validFrom: Date;
+    validUntil: Date;
+    priceListItems: PriceListItem[];
+    rowVersion: any;
 }

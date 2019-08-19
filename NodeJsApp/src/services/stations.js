@@ -50,3 +50,10 @@ export const deleteStation = async (id) => {
 
     return deleteStation;
 };
+
+export const getCount = () => {
+    return Station.countDocuments((err, count) => {
+        if (err) throw err;
+        return count;
+    });
+};

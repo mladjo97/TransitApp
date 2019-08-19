@@ -8,6 +8,7 @@ import * as stationController from '@controllers/stations';
 const stationRoutes = (app) => {
     app.use('/stations', route);
 
+    route.get('/count', stationController.getCount);
     route.get('/:id', validation(stationSchemas.stationIdBindingModel, 'params'), stationController.getStationById);
     route.get('/', stationController.getAllStations);
     route.post('/', validation(stationSchemas.postStationBindingModel, 'body'), stationController.postStation);

@@ -19,19 +19,19 @@
           </tr>
         </thead>
         <tbody>
-          <tr (click)="onClick(pl.Id)" *ngFor="let pl of priceLists">
-            <th scope="row" class="center-block text-center"> {{ pl.Id }}</th>
+          <tr (click)="onClick(pl._id)" *ngFor="let pl of priceLists">
+            <th scope="row" class="center-block text-center"> {{ pl._id }}</th>
             <td class="center-block text-center">
-              {{ pl.ValidFrom | date:'short' }}
+              {{ pl.validFrom | date:'short' }}
             </td>
             <td class="center-block text-center">
-              {{ pl.ValidUntil | date:'short' }}
+              {{ pl.validUntil | date:'short' }}
             </td>
             <td>
               <div class="btn-group btn-group-sm float-right" role="group">
-                <button type="button" class="btn btn-info left-border" [routerLink]="['edit', pl.Id]">
+                <button type="button" class="btn btn-info left-border" [routerLink]="['edit', pl._id]">
                   <i class="fas fa-pen"></i></button>
-                <button type="button" class="btn btn-danger left-border" (click)="onDelete(pl.Id)">
+                <button type="button" class="btn btn-danger left-border" (click)="onDelete(pl._id)">
                   <i class="fas fa-trash-alt"></i></button>
               </div>
             </td>
@@ -43,8 +43,8 @@
 
   <div class="row">
     <div class="col-sm-12">
-      <app-pricelist-item *ngFor="let item of priceListItems; let i = index" [index]="i" [basePrice]="item.BasePrice"
-        [discount]="item.Discount" [userTypeName]="item.UserTypeName" [ticketTypeName]="item.TicketTypeName"
+      <app-pricelist-item *ngFor="let item of priceListItems; let i = index" [index]="i" [basePrice]="item.basePrice"
+        [discount]="item.discount" [userTypeName]="item.userTypeName" [ticketTypeName]="item.ticketTypeName"
         [removeEnabled]="false"></app-pricelist-item>
     </div>
   </div>

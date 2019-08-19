@@ -78,6 +78,16 @@ const errorsRoute = (app) => {
         }
 
         /**
+         * Handle custom Conflict
+         */
+        if (err.message === 'Conflict') {
+            return res
+                .status(409)
+                .send({ message: err.message })
+                .end();
+        }
+
+        /**
          * Handle custom login errors
          */
         if (err.message === 'InvalidEmail' || err.message === 'InvalidPassword') {

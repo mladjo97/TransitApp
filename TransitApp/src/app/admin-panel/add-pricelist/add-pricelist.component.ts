@@ -23,8 +23,8 @@ export class AddPricelistComponent implements OnInit {
 
   submitted: boolean;
   priceListHasItems: boolean;
-  userTypes: UserType[];
-  ticketTypes: TicketType[];
+  userTypes: any[];
+  ticketTypes: any[];
 
   priceList: PriceList;
   priceListItems: PriceListItem[];
@@ -57,7 +57,7 @@ export class AddPricelistComponent implements OnInit {
         this.ticketTypes = response.json();
 
         if (this.ticketTypes.length > 0) {
-          this.priceListForm.patchValue({ ticketTypeId: this.ticketTypes[0].Id });
+          this.priceListForm.patchValue({ ticketTypeId: this.ticketTypes[0]._id });
         }
       },
       (error) => {
@@ -70,7 +70,7 @@ export class AddPricelistComponent implements OnInit {
       (response) => {
         this.userTypes = response.json();
         if (this.userTypes.length > 0) {
-          this.priceListForm.patchValue({ userTypeId: this.userTypes[0].Id });
+          this.priceListForm.patchValue({ userTypeId: this.userTypes[0]._id });
         }
       },
       (error) => {
@@ -88,11 +88,11 @@ export class AddPricelistComponent implements OnInit {
                                             this.priceListForm.value.userTypeId,
                                             this.priceListForm.value.discount);
 
-    priceListItem.UserTypeName = this.userTypes.find(item => item.Id == priceListItem.UserTypeId).Name;
-    priceListItem.TicketTypeName = this.ticketTypes.find(item => item.Id == priceListItem.TicketTypeId).Name;
+    priceListItem.userTypeName = this.userTypes.find(item => item._id == priceListItem.userTypeId).name;
+    priceListItem.ticketTypeName = this.ticketTypes.find(item => item._id == priceListItem.ticketTypeId).name;
 
     const foundItem = this.priceListItems.find(item => {
-        return item.TicketTypeId == priceListItem.TicketTypeId && item.UserTypeId == priceListItem.UserTypeId;
+        return item.ticketTypeId == priceListItem.ticketTypeId && item.userTypeId == priceListItem.userTypeId;
     });
 
     if(foundItem === undefined){
@@ -129,15 +129,15 @@ export class AddPricelistComponent implements OnInit {
 
   onSubmit(): void {
 
-    this.priceList.ValidFrom = getStartRange();
-    this.priceList.ValidUntil = getEndRange();
-    this.priceList.PriceListItems = [...this.priceListItems];
+    this.priceList.validFrom = getStartRange();
+    this.priceList.validUntil = getEndRange();
+    this.priceList.priceListItems = [...this.priceListItems];
     console.log(this.priceList);
 
-    if(this.priceList.PriceListItems.length < 12){
-      this.notificationService.notifyEvent.emit('You need to have 12 items on your price list. One for every customer and ticket type.');
-      return;
-    }
+    // if(this.priceList.priceListItems.length < 12){
+    //   this.notificationService.notifyEvent.emit('You need to have 12 items on your price list. One for every customer and ticket type.');
+    //   return;
+    // }
 
     this.priceListService.postPriceList(this.priceList).subscribe(
       (response) => {

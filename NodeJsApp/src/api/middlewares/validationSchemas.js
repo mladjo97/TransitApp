@@ -128,6 +128,34 @@ export const ticketTypeSchemas = {
 };
 
 /**
+ *  PriceList validation models
+ */
+export const priceListSchemas = {
+    postPriceListBindingModel: Joi.object().keys({
+        validFrom: Joi.date().required(),
+        validUntil: Joi.date().required(),
+        priceListItems: Joi.array()
+    }),
+    putPriceListBindingModel: Joi.object().keys({
+        validFrom: Joi.date().required(),
+        validUntil: Joi.date().required(),
+        priceListItems: Joi.array(),
+        rowVersion: Joi.number().min(0).required()
+    }),
+};
+
+/**
+ *  Ticket validation models
+ */
+export const ticketSchemas = {
+    ticketValidationBindingModel: Joi.object().keys({
+        time: Joi.date().required(),
+        dayOfWeek: Joi.number().min(0).max(6).required(),
+        day: Joi.string().max(20)
+    })
+};
+
+/**
  *  Station validation models
  */
 export const stationSchemas = {
