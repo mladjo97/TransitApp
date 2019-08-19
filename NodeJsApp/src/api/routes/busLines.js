@@ -5,7 +5,7 @@ const route = Router();
 
 import * as busLineController from '@controllers/busLines';
 
-const usersRoute = (app) => {
+const busLinesRoute = (app) => {
     app.use('/busLines', route);
 
     route.get('/count', busLineController.getCount);
@@ -21,4 +21,4 @@ const usersRoute = (app) => {
     route.delete('/:id', validation(busLineSchemas.busLineIdBindingModel, 'params'), busLineController.deleteBusLine);
 };
 
-export default usersRoute;
+export default busLinesRoute;

@@ -115,6 +115,19 @@ export const busLineTypeSchemas = {
 };
 
 /**
+ *  TicketType validation models
+ */
+export const ticketTypeSchemas = {
+    tickeTypeBindingModel: Joi.object().keys({
+        name: Joi.string().max(256).required()
+    }),
+
+    ticketTypeIdBindingModel: Joi.object().keys({
+        id: Joi.string().max(256).required()
+    })
+};
+
+/**
  *  Station validation models
  */
 export const stationSchemas = {
@@ -147,3 +160,4 @@ export const generalSchemas = {
         id: Joi.string().max(256).required()
     })
 };
+

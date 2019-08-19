@@ -6,6 +6,7 @@ import busLines from '@routes/busLines';
 import busLineTypes from '@routes/busLineTypes';
 import stations from '@routes/stations';
 import documentImages from '@routes/documentImages';
+import ticketTypes from '@routes/ticketTypes';
 
 const routes = () => {
     const app = Router();
@@ -17,6 +18,7 @@ const routes = () => {
     busLineTypes(app);
     stations(app);
     documentImages(app);
+    ticketTypes(app);
     errors(app);
 
     return app;

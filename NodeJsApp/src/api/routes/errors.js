@@ -7,7 +7,7 @@ const errorsRoute = (app) => {
     });
 
     /// custom error handlers
-    app.use((err, req, res, next) => {     
+    app.use((err, req, res, next) => {   
         /**
          * Handle UnauthorizedError thrown by middleware
          */
