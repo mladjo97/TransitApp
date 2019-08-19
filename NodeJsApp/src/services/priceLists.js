@@ -4,43 +4,57 @@ import PriceListItem from '@models/priceListItem';
 
 export const getAllPriceLists = async () => {
     const priceLists = await PriceList.find()
-    .populate({
-        path: 'priceListItems',
-        members: 'basePrice discount priceList ticketType userType',
-        populate: {
-            path: 'ticketType userType',
-            members: '_id name'
-        }
-    });
+        .populate({
+            path: 'priceListItems',
+            members: 'basePrice discount priceList ticketType userType',
+            populate: {
+                path: 'ticketType userType',
+                members: '_id name'
+            }
+        });
 
     return priceLists;
+};
+
+export const getPriceListById = async (id) => {
+    const priceList = await PriceList.findOne({ _id: id })
+        .populate({
+            path: 'priceListItems',
+            members: 'basePrice discount ticketType userType',
+            populate: {
+                path: 'ticketType userType',
+                members: '_id name'
+            }
+        });
+
+    return priceList;
 };
 
 export const createPriceList = async (priceList) => {
     const { priceListItems } = priceList;
 
     // initial service validation
-    if (priceList.priceListItems.length < 12)
+    if (priceListItems.length < 12)
         throw new Error('BadRequest');
 
     // date validation
     const isValid = await validatePriceListDate(priceList.validFrom, priceList.validUntil);
-    if(!isValid)
+    if (!isValid)
         throw new Error('Conflict');
-    
+
     // initial pricelist document
     const newPriceList = new PriceList({
         validFrom: priceList.validFrom,
         validUntil: priceList.validUntil
     });
-    
+
     /**
      *  Create a session for multi-document transaction
      */
     const session = await mongoose.startSession();
     session.startTransaction();
 
-   try {
+    try {
 
         /**
          *  Save the initial PriceList
@@ -74,9 +88,9 @@ export const createPriceList = async (priceList) => {
          */
         await PriceListItem.createCollection();
 
-         /**
-         *  Save the previously created PriceListItem references
-         */
+        /**
+        *  Save the previously created PriceListItem references
+        */
         const dbPriceListItemIds = await PriceListItem.create(newPriceListItems, { session: session }).then(
             (priceListItemDocs) => {
                 return priceListItemDocs.map(item => item._id);
@@ -117,7 +131,7 @@ export const createPriceList = async (priceList) => {
         return createdPriceList;
 
 
-   } catch (error) {
+    } catch (error) {
         /**
          *  Rollback the transaction if anything fails
          *  and throw an error for further processing
@@ -125,19 +139,19 @@ export const createPriceList = async (priceList) => {
         await session.abortTransaction();
         session.endSession();
         throw error;
-   }
+    }
 };
 
 export const updatePriceList = async (id, priceList) => {
     const { priceListItems } = priceList;
 
-    // initial service validation
-    if (priceList.priceListItems.length < 12)
-        throw new Error('BadRequest');
+    // // initial service validation
+    // if (priceListItems.length < 12)
+    //     throw new Error('BadRequest');
 
     // date validation
-    const isValid = await validatePriceListDate(priceList.validFrom, priceList.validUntil, priceList._id);
-    if(!isValid)
+    const isValid = await validatePriceListDate(priceList.validFrom, priceList.validUntil, id);
+    if (!isValid)
         throw new Error('Conflict');
 
     /**
@@ -150,9 +164,9 @@ export const updatePriceList = async (id, priceList) => {
         /**
          *  Check if the PriceList exists
          */
-        const dbPriceList = await PriceList.findOne({ _id: priceList.id }).session(session).then(
+        const dbPriceList = await PriceList.findOne({ _id: id }).session(session).then(
             priceListDoc => {
-                if (priceListDoc.rowVersion !== +priceListDoc.rowVersion)
+                if (priceListDoc.rowVersion !== +priceList.rowVersion)
                     throw new Error('DbConcurrencyError');
 
                 return priceListDoc;
@@ -239,6 +253,20 @@ export const updatePriceList = async (id, priceList) => {
     }
 };
 
+export const deletePriceList = async (id) => {
+    await PriceList.findOne({ _id: id }).then(
+        async (priceListDoc) => {
+            console.log('[DELETE_PRICELIST] Found PriceList with ObjectId: ' + priceListDoc._id);
+            await PriceListItem.deleteMany({ _id: priceListDoc.priceListItems });
+            await PriceList.deleteOne({ _id: priceListDoc._id });
+            console.log('[DELETE_PRICELIST] Deleted PriceList with ObjectId: ' + priceListDoc._id);
+        },
+        err => { throw err; }
+    );
+
+    return id;
+};
+
 const validatePriceListDate = async (validFrom, validUntil, id = -1) => {
     validFrom = new Date(validFrom);
     validUntil = new Date(validUntil);
@@ -247,17 +275,19 @@ const validatePriceListDate = async (validFrom, validUntil, id = -1) => {
     let isValid = true;
 
     for (let i = 0; i < priceLists.length; i++) {
-        
-        if (priceLists[i]._id === id) {
+        if (priceLists[i]._id == id) {
             continue;
         }
 
-        if (priceLists[i].validFrom <= validFrom && validFrom <= priceLists[i].validUntil) {
+        const priceListValidFrom = new Date(priceLists[i].validFrom);
+        const priceListValidUntil = new Date(priceLists[i].validUntil);
+
+        if (priceListValidFrom <= validFrom && validFrom <= priceListValidUntil) {
             isValid = false;
             break;
         }
 
-        if (priceLists[i].validFrom <= validUntil && validUntil <= priceLists[i].validUntil) {
+        if (priceListValidFrom <= validUntil && validUntil <= priceListValidUntil) {
             isValid = false;
             break;
         }
@@ -265,4 +295,3 @@ const validatePriceListDate = async (validFrom, validUntil, id = -1) => {
 
     return isValid;
 };
-

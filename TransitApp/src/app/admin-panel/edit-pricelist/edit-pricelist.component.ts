@@ -29,8 +29,8 @@ export class EditPricelistComponent implements OnInit, OnDestroy {
 
   submitted: boolean;
   priceListHasItems: boolean;
-  userTypes: UserType[];
-  ticketTypes: TicketType[];
+  userTypes: any[];
+  ticketTypes: any[];
 
   priceList: PriceList;
   priceListItems: PriceListItem[];
@@ -52,7 +52,7 @@ export class EditPricelistComponent implements OnInit, OnDestroy {
 
     this.idSubscription = this.route.params.subscribe( 
       (params: Params) => {
-          this.id = +params['id'];     
+          this.id = params['id'];     
           this.updateForm();
       } );
 
@@ -77,15 +77,14 @@ export class EditPricelistComponent implements OnInit, OnDestroy {
     this.priceListService.getPriceList(this.id).subscribe(
 
       (response) => {
-        console.log(response.json());
-
         this.priceList = response.json();
         console.log(this.priceList);
-        this.priceListItems = this.priceList.PriceListItems;
-        this.priceListForm.patchValue({ rowVersion: this.priceList.RowVersion });
 
-        const startDate = this.formatDate(new Date(this.priceList.ValidFrom));
-        const endDate = this.formatDate(new Date(this.priceList.ValidUntil));        
+        this.priceListItems = this.priceList.priceListItems;
+        this.priceListForm.patchValue({ rowVersion: this.priceList.rowVersion });
+
+        const startDate = this.formatDate(new Date(this.priceList.validFrom));
+        const endDate = this.formatDate(new Date(this.priceList.validUntil));        
         setRangeDates(startDate, endDate);
 
         if(this.priceListItems.length > 0) {
@@ -112,7 +111,7 @@ export class EditPricelistComponent implements OnInit, OnDestroy {
         this.ticketTypes = response.json();
 
         if (this.ticketTypes.length > 0) {
-          this.priceListForm.patchValue({ ticketTypeId: this.ticketTypes[0].Id });
+          this.priceListForm.patchValue({ ticketTypeId: this.ticketTypes[0]._id });
         }
       },
       (error) => {
@@ -125,7 +124,7 @@ export class EditPricelistComponent implements OnInit, OnDestroy {
       (response) => {
         this.userTypes = response.json();
         if (this.userTypes.length > 0) {
-          this.priceListForm.patchValue({ userTypeId: this.userTypes[0].Id });
+          this.priceListForm.patchValue({ userTypeId: this.userTypes[0]._id });
         }
       },
       (error) => {
@@ -144,11 +143,11 @@ export class EditPricelistComponent implements OnInit, OnDestroy {
                                             this.priceListForm.value.userTypeId,
                                             this.priceListForm.value.discount/100);
 
-    priceListItem.UserTypeName = this.userTypes.find(item => item.Id == priceListItem.UserTypeId).Name;
-    priceListItem.TicketTypeName = this.ticketTypes.find(item => item.Id == priceListItem.TicketTypeId).Name;
+    priceListItem.userTypeName = this.userTypes.find(item => item._id == priceListItem.userTypeId).name;
+    priceListItem.ticketTypeName = this.ticketTypes.find(item => item._id == priceListItem.ticketTypeId).name;
 
     const foundItem = this.priceListItems.find(item => {
-        return item.TicketTypeId == priceListItem.TicketTypeId && item.UserTypeId == priceListItem.UserTypeId;
+        return item.ticketTypeId == priceListItem.ticketTypeId && item.userTypeId == priceListItem.userTypeId;
     });
 
     if(foundItem === undefined){
@@ -184,15 +183,15 @@ export class EditPricelistComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
 
-    this.priceList.ValidFrom = getStartRange();
-    this.priceList.ValidUntil = getEndRange();
-    this.priceList.PriceListItems = [...this.priceListItems];
+    this.priceList.validFrom = getStartRange();
+    this.priceList.validUntil = getEndRange();
+    this.priceList.priceListItems = [...this.priceListItems];
     console.log(this.priceList);
 
-    if(this.priceList.PriceListItems.length < 12){
-      this.notificationService.notifyEvent.emit('You need to have 12 items on your price list. One for every customer and ticket type.');
-      return;
-    }
+    // if(this.priceList.priceListItems.length < 12){
+    //   this.notificationService.notifyEvent.emit('You need to have 12 items on your price list. One for every customer and ticket type.');
+    //   return;
+    // }
 
     this.priceListService.putPriceList(this.priceList).subscribe(
       (response) => {

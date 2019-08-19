@@ -64,7 +64,7 @@ export class PriceListService {
         headers.append('Authorization','Bearer ' + JSON.parse(localStorage.getItem("token")).token);
 
         const options = new RequestOptions({ headers: headers });
-        return this.http.put(`${this.apiAddress}`, priceList, options);
+        return this.http.put(`${this.apiAddress}/${priceList._id}`, priceList, options);
     }
 
     deletePriceList(priceListId: number): Observable<any> {

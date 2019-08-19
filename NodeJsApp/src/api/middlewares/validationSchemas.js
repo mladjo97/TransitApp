@@ -137,6 +137,7 @@ export const priceListSchemas = {
         priceListItems: Joi.array()
     }),
     putPriceListBindingModel: Joi.object().keys({
+        _id: Joi.string().required(),
         validFrom: Joi.date().required(),
         validUntil: Joi.date().required(),
         priceListItems: Joi.array(),
