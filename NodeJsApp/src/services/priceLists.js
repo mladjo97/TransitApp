@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import PriceList from '@models/priceList';
 import PriceListItem from '@models/priceListItem';
+import UserType from '@models/userType';
 
 export const getAllPriceLists = async () => {
     const priceLists = await PriceList.find()
@@ -66,6 +67,16 @@ export const getTicketTypePrice = async (ticketTypeId, userTypeId) => {
         hasDiscount: activeTicketType.discount > 0
     };
     
+    return ticketPrice;
+};
+
+export const getRegularPrice = async (ticketTypeId) => {
+    // get regular usertype id
+    const regularUserType = await UserType.findOne({ name: 'Regular' });
+
+    const ticketPrice = await getTicketTypePrice(ticketTypeId, regularUserType._id.toString());
+    
+    console.log(ticketPrice);    
     return ticketPrice;
 };
 

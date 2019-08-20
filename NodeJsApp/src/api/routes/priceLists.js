@@ -23,6 +23,10 @@ const priceListsRoute = (app) => {
         validation(priceListSchemas.ticketTypeIdBindingModel, 'params'),
         priceListsController.getTicketTypePrice);
 
+    route.get('/prices/regular/:ticketTypeId',
+        validation(priceListSchemas.ticketTypeIdBindingModel, 'params'),
+        priceListsController.getRegularPrice);
+
     route.post('/',
         validation(priceListSchemas.postPriceListBindingModel, 'body'),
         priceListsController.postPriceList);

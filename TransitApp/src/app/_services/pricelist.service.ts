@@ -43,8 +43,8 @@ export class PriceListService {
         return this.http.get(`${this.apiAddress}/prices/${id}`, options);
     }
 
-    getRegularPriceForTicketType(id: number): Observable<any> {
-        return this.http.get(`${this.apiAddress}/GetRegularPrice?ticketTypeId=${id}`);
+    getRegularPriceForTicketType(id): Observable<any> {
+        return this.http.get(`${this.apiAddress}/prices/regular/${id}`);
     }
 
     postPriceList(priceList: any): Observable<any> {
