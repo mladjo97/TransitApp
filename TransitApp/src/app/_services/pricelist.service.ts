@@ -40,7 +40,7 @@ export class PriceListService {
         headers.append('Authorization','Bearer ' + JSON.parse(localStorage.getItem("token")).token);
         
         const options = new RequestOptions({ headers: headers });
-        return this.http.get(`${this.apiAddress}?ticketTypeId=${id}`, options);
+        return this.http.get(`${this.apiAddress}/prices/${id}`, options);
     }
 
     getRegularPriceForTicketType(id: number): Observable<any> {

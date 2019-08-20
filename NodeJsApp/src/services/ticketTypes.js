@@ -14,7 +14,7 @@ export const getTicketTypeByName = async (name) => {
     const ticketType = await TicketType.findOne({ name: name }, err => {
         if (err) throw err;
     });
-
+    
     return ticketType;
 };
 

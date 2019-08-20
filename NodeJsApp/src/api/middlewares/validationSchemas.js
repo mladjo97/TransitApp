@@ -124,6 +124,10 @@ export const ticketTypeSchemas = {
 
     ticketTypeIdBindingModel: Joi.object().keys({
         id: Joi.string().max(256).required()
+    }),
+
+    ticketTypeNameBindingModel: Joi.object().keys({
+        name: Joi.string().max(256).required()
     })
 };
 
@@ -143,6 +147,9 @@ export const priceListSchemas = {
         priceListItems: Joi.array(),
         rowVersion: Joi.number().min(0).required()
     }),
+    ticketTypeIdBindingModel: Joi.object().keys({
+        ticketTypeId: Joi.string().required()
+    })
 };
 
 /**

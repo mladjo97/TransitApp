@@ -134,10 +134,10 @@ export class AddPricelistComponent implements OnInit {
     this.priceList.priceListItems = [...this.priceListItems];
     console.log(this.priceList);
 
-    // if(this.priceList.priceListItems.length < 12){
-    //   this.notificationService.notifyEvent.emit('You need to have 12 items on your price list. One for every customer and ticket type.');
-    //   return;
-    // }
+    if(this.priceList.priceListItems.length < 12){
+      this.notificationService.notifyEvent.emit('You need to have 12 items on your price list. One for every customer and ticket type.');
+      return;
+    }
 
     this.priceListService.postPriceList(this.priceList).subscribe(
       (response) => {

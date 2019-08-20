@@ -12,9 +12,16 @@ const priceListsRoute = (app) => {
 
     route.get('/all', auth.authentication, priceListsController.getAllPriceLists);
     route.get('/active', priceListsController.getActivePriceList);
+
     route.get('/:id',
         validation(generalSchemas.idBindingModel, 'params'),
         priceListsController.getPriceListById);
+
+    route.get('/prices/:ticketTypeId',
+        auth.authentication,
+        attachCurrentUser,
+        validation(priceListSchemas.ticketTypeIdBindingModel, 'params'),
+        priceListsController.getTicketTypePrice);
 
     route.post('/',
         validation(priceListSchemas.postPriceListBindingModel, 'body'),

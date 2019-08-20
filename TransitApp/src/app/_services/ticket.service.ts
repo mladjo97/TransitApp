@@ -20,7 +20,7 @@ export class TicketService {
     }
 
     getTicketTypeId(name: string): Observable<any> {
-        return this.http.get(`${this.apiTicketTypesAddress}?name=${name}`);
+        return this.http.get(`${this.apiTicketTypesAddress}/name/${name}`);
     }
 
     getUserTickets(): Observable<any> {

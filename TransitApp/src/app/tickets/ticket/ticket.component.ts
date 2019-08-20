@@ -45,6 +45,7 @@ export class TicketComponent implements OnInit {
     // Load ticket prices for user
     this.ticketService.getTicketTypeId(this.dbName).subscribe(
       (response) => { 
+        console.log(response.json())
         this.ticketTypeId = response.json();
         if(this.authService.isUser())
           this.loadPrice();
@@ -59,17 +60,18 @@ export class TicketComponent implements OnInit {
   loadPrice(): void {
     this.usersService.getUserInfo().subscribe(
       (response) => {
-        if(response.json().VerifiedDocumentImage) {
+        if(response.json().verifiedDocumentImage) {
           this.priceListService.getPriceForTicketType(this.ticketTypeId).subscribe(
             (response) => {
+              console.log(response.json());
               this.ticketPrice = response.json();        
               this.loaded = true;
               this.hasItems = true;
       
               initPaypalButton(true,
                                 this.id,
-                                this.ticketPrice.HasDiscount ? this.ticketPrice.DiscountPrice : this.ticketPrice.BasePrice,
-                                this.ticketPrice.ItemId);
+                                this.ticketPrice.hasDiscount ? this.ticketPrice.discountPrice : this.ticketPrice.basePrice,
+                                this.ticketPrice.itemId);
             },
             (error) => console.log(error)
           );
@@ -93,8 +95,8 @@ export class TicketComponent implements OnInit {
 
         initPaypalButton(false,
                           this.id,
-                          this.ticketPrice.HasDiscount ? this.ticketPrice.DiscountPrice : this.ticketPrice.BasePrice,
-                          this.ticketPrice.ItemId);
+                          this.ticketPrice.hasDiscount ? this.ticketPrice.discountPrice : this.ticketPrice.basePrice,
+                          this.ticketPrice.itemId);
       }
     );
   }
@@ -102,8 +104,8 @@ export class TicketComponent implements OnInit {
   shouldInitButton(): any {
     this.usersService.getUserInfo().subscribe(
       (response) => {
-        console.log(response.json().VerifiedDocumentImage);
-        if(response.json().VerifiedDocumentImage)
+        console.log(response.json().verifiedDocumentImage);
+        if(response.json().verifiedDocumentImage)
           return true;
         else
           return false;

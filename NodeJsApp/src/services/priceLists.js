@@ -35,7 +35,7 @@ export const getActivePriceList = async () => {
     const priceList = await PriceList.findOne({
         validFrom: { $lt: currentDate },
         validUntil: { $gt: currentDate }
-        })
+    })
         .populate({
             path: 'priceListItems',
             members: 'basePrice discount ticketType userType',
@@ -46,6 +46,27 @@ export const getActivePriceList = async () => {
         });
 
     return priceList;
+};
+
+export const getTicketTypePrice = async (ticketTypeId, userTypeId) => {
+    // get active pricelist
+    const activePriceList = await getActivePriceList();
+    // get ticket type info from active pricelist 
+    const activeTicketType = activePriceList.priceListItems.find(item => item.ticketType._id == ticketTypeId
+        && item.userType._id == userTypeId);
+    
+    if(!activeTicketType)
+        throw new Error('NotFound');
+    
+    const ticketPrice = {
+        itemId: activeTicketType._id,
+        basePrice: activeTicketType.basePrice,
+        discountRate:  activeTicketType.discount,
+        discountPrice: activeTicketType.basePrice * (1 - activeTicketType.discount),
+        hasDiscount: activeTicketType.discount > 0
+    };
+    
+    return ticketPrice;
 };
 
 export const createPriceList = async (priceList) => {

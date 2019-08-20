@@ -1,7 +1,7 @@
 export class Price {
-    ItemId: number;
-    BasePrice: number;
-    HasDiscount: boolean;
-    DiscountRate: number;
-    DiscountPrice: number
+    itemId: number;
+    basePrice: number;
+    hasDiscount: boolean;
+    discountRate: number;
+    discountPrice: number
 }

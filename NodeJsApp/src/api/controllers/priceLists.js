@@ -105,6 +105,20 @@ export const getActivePriceList = async (req, res, next) => {
     }
 };
 
+
+export const getTicketTypePrice = async (req, res, next) => {
+    const { ticketTypeId } = req.params;
+    const { userType } = req.currentUser;
+
+    try {
+        const ticketTypePrice = await priceListService.getTicketTypePrice(ticketTypeId, userType._id.toString());
+
+        return res.status(200).json(ticketTypePrice);
+    } catch (error) {
+        next(error);
+    }
+};
+
 export const postPriceList = async (req, res, next) => {
     const { validFrom, validUntil, priceListItems } = req.body;
     const priceList = { validFrom, validUntil, priceListItems };

@@ -20,6 +20,21 @@ export const getTicketTypeById = async (req, res, next) => {
     }
 };
 
+export const getTicketTypeIdByName = async (req, res, next) => {
+    const { name } = req.params;
+
+    try {
+        const ticketType = await ticketTypesService.getTicketTypeByName(name);
+        
+        if(!ticketType) 
+            return res.status(404).json({ message: 'Not Found.' });
+
+        return res.status(200).json(ticketType._id);
+    } catch (error) {
+        return next(error);
+    }
+};
+
 export const postTicketType = async (req, res, next) => {  
     const { name } = req.body;
 

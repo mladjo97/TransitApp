@@ -4,7 +4,6 @@ import * as usersService from '@services/users';
 import * as authService from '@services/auth';
 
 export const fileUpload = async (req, res) => {
-    console.log(req.file);
     return res.status(200).json('ok');
 };
 
@@ -29,7 +28,9 @@ export const getUserById = async (req, res, next) => {
 };
 
 export const getLoggedUserInfo = async (req, res, next) => {
-    if(!req.currentUser) next(new Error('NotFound'));
+    if(!req.currentUser)
+        return next(new Error('NotFound'));
+        
     return res.status(200).json(req.currentUser);
 };
 
@@ -133,9 +134,7 @@ export const changePassword = async (req, res, next) => {
     try {
         await usersService.changePassword(req.currentUser._id, oldPassword, newPassword);
         return res.status(200).json({ message: 'Changed password'});
-    } catch (error) {
-        console.log(error);
-        
+    } catch (error) {        
         return next(error);
     }
 };
