@@ -70,6 +70,41 @@ export const getPriceListById = async (req, res, next) => {
     }
 };
 
+export const getActivePriceList = async (req, res, next) => {
+    try {
+        const dbPriceList = await priceListService.getActivePriceList();
+
+        if(!dbPriceList)
+            return res.status(200); // or 404 ?
+
+        // DTO
+        const priceListItemViewModels = dbPriceList.priceListItems.map(item => {
+            return {
+                _id: item._id,
+                basePrice: item.basePrice,
+                discount: item.discount,
+                hasDiscount: item.discount > 0 ? true : false,
+                ticketTypeId: item.ticketType._id,
+                ticketTypeName: item.ticketType.name,
+                userTypeId: item.userType._id,
+                userTypeName: item.userType.name
+            };
+        });
+
+        const priceListViewModel = {
+            _id: dbPriceList._id,
+            validFrom: dbPriceList.validFrom,
+            validUntil: dbPriceList.validUntil,
+            priceListItems: priceListItemViewModels,
+            rowVersion: dbPriceList.rowVersion
+        };
+
+        return res.status(200).json(priceListViewModel);
+    } catch (error) {
+        next(error);
+    }
+};
+
 export const postPriceList = async (req, res, next) => {
     const { validFrom, validUntil, priceListItems } = req.body;
     const priceList = { validFrom, validUntil, priceListItems };

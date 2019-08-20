@@ -11,6 +11,7 @@ const priceListsRoute = (app) => {
     app.use('/priceLists', route);
 
     route.get('/all', auth.authentication, priceListsController.getAllPriceLists);
+    route.get('/active', priceListsController.getActivePriceList);
     route.get('/:id',
         validation(generalSchemas.idBindingModel, 'params'),
         priceListsController.getPriceListById);

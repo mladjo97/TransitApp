@@ -9,7 +9,7 @@ export class PriceListService {
 
     constructor(private http: Http) { }
 
-    getPriceList(id: number): Observable<any> {
+    getPriceList(id): Observable<any> {
         const headers = new Headers();       
         headers.append('Content-type','application/json');
         headers.append('Accept', 'application/json');
@@ -33,7 +33,7 @@ export class PriceListService {
         return this.http.get(`${this.apiAddress}/All`, options);
     }
 
-    getPriceForTicketType(id: number): Observable<any> {
+    getPriceForTicketType(id): Observable<any> {
         const headers = new Headers();       
         headers.append('Content-type','application/json');
         headers.append('Accept', 'application/json');
@@ -67,7 +67,7 @@ export class PriceListService {
         return this.http.put(`${this.apiAddress}/${priceList._id}`, priceList, options);
     }
 
-    deletePriceList(priceListId: number): Observable<any> {
+    deletePriceList(priceListId): Observable<any> {
         const headers = new Headers();       
         headers.append('Content-type','application/json');
         headers.append('Accept', 'application/json');

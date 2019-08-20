@@ -30,6 +30,24 @@ export const getPriceListById = async (id) => {
     return priceList;
 };
 
+export const getActivePriceList = async () => {
+    const currentDate = new Date();
+    const priceList = await PriceList.findOne({
+        validFrom: { $lt: currentDate },
+        validUntil: { $gt: currentDate }
+        })
+        .populate({
+            path: 'priceListItems',
+            members: 'basePrice discount ticketType userType',
+            populate: {
+                path: 'ticketType userType',
+                members: '_id name'
+            }
+        });
+
+    return priceList;
+};
+
 export const createPriceList = async (priceList) => {
     const { priceListItems } = priceList;
 
