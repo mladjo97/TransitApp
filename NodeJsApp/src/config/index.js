@@ -40,5 +40,11 @@ export default {
      *  Email service API Key & email address
      */
     emailApiKey: process.env.EMAIL_API_KEY,
-    email: 'tickets@transit.com'
+    email: 'tickets@transit.com',
+
+    /**
+     *  PayPal client id and secret
+     */
+    payPalClientId: process.env.PAYPAL_CLIENT_ID,
+    payPalClientSecret: process.env.PAYPAL_CLIENT_SECRET
 };

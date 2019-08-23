@@ -156,10 +156,9 @@ export const priceListSchemas = {
  *  Ticket validation models
  */
 export const ticketSchemas = {
-    ticketValidationBindingModel: Joi.object().keys({
-        time: Joi.date().required(),
-        dayOfWeek: Joi.number().min(0).max(6).required(),
-        day: Joi.string().max(20)
+    buyTicketBindingModel: Joi.object().keys({
+        itemId: Joi.string().required(),
+        orderId: Joi.string().required()
     })
 };
 

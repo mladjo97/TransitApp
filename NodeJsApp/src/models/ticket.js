@@ -18,6 +18,10 @@ const ticketSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'PriceListItem',
         required: true
+    },
+    order: {
+        type: String,
+        required: true
     }
 });
 
