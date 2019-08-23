@@ -19,11 +19,16 @@ const ticketsRoute = (app) => {
         attachCurrentUser,
         ticketsController.getAllTicketsForUser);
 
+    route.post('/buyUnregistered',
+        validation(ticketSchemas.buyTicketBindingModel, 'body'),
+        ticketsController.buyUnregisteredTicket);
+
     route.post('/buy',
         validation(ticketSchemas.buyTicketBindingModel, 'body'),
         auth.authentication,
         attachCurrentUser,
         ticketsController.buyTicket);
+
 };
 
 export default ticketsRoute;

@@ -7,12 +7,12 @@ const ticketSchema = new Schema({
     },
     isValid: {
         type: Boolean,
-        default: false
+        default: true
     },
     user: {
         type: Schema.Types.ObjectId,
         ref: 'User',
-        required: true
+        required: false
     },
     item: {
         type: Schema.Types.ObjectId,

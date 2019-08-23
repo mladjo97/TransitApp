@@ -56,3 +56,14 @@ export const buyTicket = async (req, res, next) => {
         next(error);
     }
 };
+
+export const buyUnregisteredTicket = async (req, res, next) => {
+    const { orderId, itemId } = req.body;
+
+    try {
+        const boughtTicket = await ticketsService.buyUnregisteredTicket(itemId, orderId);
+        return res.status(200).json(boughtTicket);
+    } catch (error) {
+        next(error);
+    }
+};

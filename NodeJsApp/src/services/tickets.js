@@ -59,8 +59,6 @@ export const buyTicket = async (user, itemId, orderId) => {
     const { result } = order;
 
     if (result.status !== 'COMPLETED') {
-        console.log('BAD STATUS');
-
         throw new Error('BadRequest');
     }
 
@@ -73,13 +71,58 @@ export const buyTicket = async (user, itemId, orderId) => {
 
     const dbTicket = await Ticket.create(newTicket);
     if (!dbTicket) {
-        console.log('no DB TICKET');
         throw new Error('BadRequest');
     }
 
     // save paypal transaction
     const newPayPalTransaction = {
         user: user._id,
+        ticket: dbTicket._id,
+        payerEmail: result.payer.email_address,
+        payerId: result.payer.payer_id,
+        transactionId: result.id
+    };
+
+    const dbPayPalTransaction = await PayPalTransaction.create(newPayPalTransaction);
+    if (!dbPayPalTransaction) {
+        throw new Error('BadRequest');
+    }
+
+    // send email -- order.payer.email_address
+    sendEmail('mldnmilosevic@gmail.com',
+        'TransitApp - Successfully purchased a ticket',
+        `You have successfully purchased a ticket with id: ${dbTicket._id}`);
+
+    // return ticket
+    return dbTicket;
+};
+
+export const buyUnregisteredTicket = async (itemId, orderId) => {
+    // PayPal ordersGetRequest with orderId, check if its valid
+    const request = new checkOutPaypalSdk.orders.OrdersGetRequest(orderId);
+    const order = await payPalClient.client().execute(request);
+
+    const { result } = order;
+
+    if (result.status !== 'COMPLETED') {
+        console.log('BAD STATUS');
+        throw new Error('BadRequest');
+    }
+
+    // save ticket    
+    const newTicket = {
+        item: itemId,
+        order: result.id
+    };
+
+    const dbTicket = await Ticket.create(newTicket);
+    if (!dbTicket) {
+        console.log('no DB TICKET');
+        throw new Error('BadRequest');
+    }
+
+    // save paypal transaction
+    const newPayPalTransaction = {
         ticket: dbTicket._id,
         payerEmail: result.payer.email_address,
         payerId: result.payer.payer_id,

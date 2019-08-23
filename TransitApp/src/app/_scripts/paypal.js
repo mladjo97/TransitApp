@@ -25,11 +25,10 @@ function initPaypalButton(isLoggedIn, divId, price, itemId) {
                 onApprove: function (data, actions) {
                     console.log('Approving order - orderID: ' + data.orderID);
                     return actions.order.capture().then(function (details) {
-                        return fetch('http://localhost:2525/api/tickets/buy', {
+                        return fetch('http://localhost:2525/api/tickets/buyUnregistered', {
                             method: 'post',
                             headers: {
-                                'content-type': 'application/json',
-                                'Authorization': 'Bearer ' + JSON.parse(token).token
+                                'content-type': 'application/json'
                             },
                             body: JSON.stringify({
                                 itemId: itemId,
