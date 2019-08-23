@@ -1,9 +1,9 @@
 export class Ticket {
-    TicketId: number;
-    UserFirstName: string;
-    UserLastName: string;
-    TicketType: string;
-    IsValid: boolean; 
-    TimeOfPurchase: Date;
+    ticketId: number;
+    userFirstName: string;
+    userLastName: string;
+    ticketType: string;
+    isValid: boolean; 
+    timeOfPurchase: Date;
     //RowVersion: any;
 }

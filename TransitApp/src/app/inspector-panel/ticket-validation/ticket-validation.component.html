@@ -18,17 +18,17 @@
     <div *ngIf="!error">
       <div class="shadow p-3 mb-5 bg-white rounded">
         <div class="col-sm-12 col-md-12">
-          <div *ngIf="ticketInfo?.IsValid" class="p-3 mb-2 bg-success text-white">Ticket is valid</div>
-          <div *ngIf="!ticketInfo?.IsValid" class="p-3 mb-2 bg-danger text-white">Ticket is invalid</div>
+          <div *ngIf="ticketInfo?.isValid" class="p-3 mb-2 bg-success text-white">Ticket is valid</div>
+          <div *ngIf="!ticketInfo?.isValid" class="p-3 mb-2 bg-danger text-white">Ticket is invalid</div>
         </div>
         <div class="col-sm-12 col-md-12" *ngIf="hasUser">
-          <p class="lead">User: {{ ticketInfo?.UserFirstName }} {{ ticketInfo?.UserLastName }}</p>
+          <p class="lead">User: {{ ticketInfo?.userFirstName }} {{ ticketInfo?.userLastName }}</p>
         </div>
         <div class="col-sm-12 col-md-12">
-          <p class="lead">Ticket type: {{ ticketInfo?.TicketType }}</p>
+          <p class="lead">Ticket type: {{ ticketInfo?.ticketType }}</p>
         </div>
         <div class="col-sm-12 col-md-12">
-          <p class="lead">Time of Purchase: {{ ticketInfo?.TimeOfPurchase | date:'dd/mm/yyyy hh:mm:ss aa'}}</p>
+          <p class="lead">Time of Purchase: {{ ticketInfo?.timeOfPurchase | date:'dd/MM/yyyy HH:mm:ss'}}</p>
         </div>
       </div>
     </div>

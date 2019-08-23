@@ -33,16 +33,18 @@ export class TicketValidationComponent implements OnInit {
     console.log('validating ticked id: ', this.ticketForm.value.ticketId);
     this.ticketService.validateTicket(this.ticketForm.value.ticketId).subscribe(
       (response) => {
+        console.log(response.json());
         this.ticketInfo = response.json();
         this.validated = true;
         this.submitted = false;
         this.error = false;
 
-        if(this.ticketInfo.UserFirstName)
+        if(this.ticketInfo.userFirstName)
           this.hasUser = true;
           
       },
       (error) => {
+        console.log(error);
         this.validated = true;
         this.submitted = false;
         this.error = true;

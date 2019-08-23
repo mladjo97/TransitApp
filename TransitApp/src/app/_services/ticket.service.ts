@@ -64,7 +64,7 @@ export class TicketService {
         headers.append('Authorization','Bearer ' + JSON.parse(localStorage.getItem("token")).token);
 
         const options = new RequestOptions({ headers: headers });
-        return this.http.post(`${this.apiAddress}/Validate?ticketId=${ticketId}`, {}, options);
+        return this.http.post(`${this.apiAddress}/validate/${ticketId}`, {}, options);
     }
 
 }

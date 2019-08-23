@@ -67,3 +67,24 @@ export const buyUnregisteredTicket = async (req, res, next) => {
         next(error);
     }
 };
+
+export const validateTicket = async (req, res, next) => {
+    const { id } = req.params;
+
+    try {
+        const validatedTicket = await ticketsService.validateTicket(id);
+
+        const ticketViewModel = {
+            id: validatedTicket._id,
+            userFirstName: validatedTicket.user ? validatedTicket.user.firstName : null,
+            userLastName: validatedTicket.user ? validatedTicket.user.lastName : null,
+            timeOfPurchase: validatedTicket.timeOfPurchase,
+            isValid: validatedTicket.isValid,
+            ticketType: validatedTicket.item.ticketType.name
+        };
+
+        return res.status(200).json(ticketViewModel);
+    } catch (error) {
+        next(error);
+    }
+};

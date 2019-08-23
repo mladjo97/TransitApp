@@ -19,6 +19,13 @@ const ticketsRoute = (app) => {
         attachCurrentUser,
         ticketsController.getAllTicketsForUser);
 
+    route.post('/validate/:id',
+        validation(generalSchemas.idBindingModel, 'params'),
+        auth.authentication,
+        attachCurrentUser,
+        auth.authorization('TicketInspector'),
+        ticketsController.validateTicket);
+
     route.post('/buyUnregistered',
         validation(ticketSchemas.buyTicketBindingModel, 'body'),
         ticketsController.buyUnregisteredTicket);

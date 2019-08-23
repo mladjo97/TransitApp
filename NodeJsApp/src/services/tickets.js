@@ -1,20 +1,19 @@
 import Ticket from '@models/ticket';
 import PayPalTransaction from '@models/payPalTransaction';
 
-import { sendEmail } from '@utils/email';
 import payPalClient from '@utils/paypal';
+import { sendEmail } from '@utils/email';
+import { validate } from '@utils/ticket';
 import checkOutPaypalSdk from '@paypal/checkout-server-sdk';
 
 export const getAllUserTickets = async (id) => {
     const tickets = await Ticket.find({ user: id })
-        .populate('_id timeOfPurchase isValid')
-        .populate('user', '_id firstName lastName email')
         .populate({
             path: 'item',
-            select: '_id basePrice ticketType discount',
+            select: 'basePrice ticketType discount',
             populate: {
                 path: 'ticketType',
-                select: '_id name'
+                select: 'name'
             }
         });
 
@@ -23,14 +22,12 @@ export const getAllUserTickets = async (id) => {
 
 export const getTicketById = async (id) => {
     const ticket = await Ticket.findOne({ _id: id })
-        .populate('_id timeOfPurchase isValid')
-        .populate('user', '_id firstName lastName email')
         .populate({
             path: 'item',
-            select: '_id basePrice ticketType discount',
+            select: 'basePrice ticketType discount',
             populate: {
                 path: 'ticketType',
-                select: '_id name'
+                select: 'name'
             }
         });
 
@@ -38,7 +35,6 @@ export const getTicketById = async (id) => {
 };
 
 export const buyTicket = async (user, itemId, orderId) => {
-
     // check if current user is verified
     if (!user.verifiedDocumentImage) {
         throw new Error('BadRequest');
@@ -46,10 +42,12 @@ export const buyTicket = async (user, itemId, orderId) => {
 
     // check if current user has that ticket
     const userTickets = await Ticket.find({ user: user._id });
-    const sameTicket = userTickets.find(ticket => ticket.isValid && ticket.item == itemId);
+    if (userTickets) {
+        const sameTicket = userTickets.find(ticket => ticket.isValid && ticket.item == itemId);
 
-    if (sameTicket) {
-        throw new Error('Conflict');
+        if (sameTicket) {
+            throw new Error('Conflict');
+        }
     }
 
     // PayPal ordersGetRequest with orderId, check if its valid
@@ -141,5 +139,38 @@ export const buyUnregisteredTicket = async (itemId, orderId) => {
         `You have successfully purchased a ticket with id: ${dbTicket._id}`);
 
     // return ticket
+    console.log('[TICKET] Successfully purchased a ticket');
     return dbTicket;
 };
+
+export const validateTicket = async (id) => {
+    const ticket = await Ticket.findOne({ _id: id })
+        .populate('user', 'firstName lastName')
+        .populate({
+            path: 'item',
+            select: 'basePrice ticketType discount',
+            populate: {
+                path: 'ticketType',
+                select: 'name'
+            }
+        });
+
+    if (!ticket) {
+        throw new Error('BadRequest');
+    }
+
+    console.log(ticket);
+
+    if (!ticket.isValid) {
+        return ticket;
+    }
+
+    const isValid = validate(ticket.item.ticketType.name, ticket.timeOfPurchase);
+
+    if (!isValid) {
+        ticket.isValid = false;
+        await ticket.save();
+    }
+
+    return ticket;
+}; 
