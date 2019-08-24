@@ -58,6 +58,7 @@ import { PricelistsComponent } from './admin-panel/pricelists/pricelists.compone
 import { EditPricelistComponent } from './admin-panel/edit-pricelist/edit-pricelist.component';
 import { LocationsComponent } from './locations/locations.component';
 import { LocationService } from './_services/location.service';
+import { SocketService } from './_services/socket.service';
 
 
 @NgModule({
@@ -124,7 +125,8 @@ import { LocationService } from './_services/location.service';
     DocumentImageService,
     PriceListService,
     TicketService,
-    LocationService
+    LocationService,
+    SocketService
   ],
   bootstrap: [AppComponent]
 })

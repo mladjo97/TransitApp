@@ -28,6 +28,7 @@
     "ngx-snackbar": "^2.0.1",
     "ol": "^5.3.2",
     "rxjs": "~6.3.3",
+    "socket.io-client": "^2.2.0",
     "tslib": "^1.9.0",
     "zone.js": "~0.8.26"
   },

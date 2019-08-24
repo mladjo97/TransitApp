@@ -1,11 +1,10 @@
 import { Component, OnInit, NgZone, OnDestroy } from '@angular/core';
-import { LocationService } from '../_services/location.service';
 import { Subscription } from 'rxjs';
 
 // javascript file to handle map interaction
 import * as mapJS from '../_scripts/map.js';
-import { ActivatedRoute, Params } from '@angular/router';
 import { DrawService } from '../_services/draw.service';
+import { SocketService } from '../_services/socket.service';
 declare var addBusOnMap: any;
 declare var loadMap: any;
 declare var removeLayersFromMap: any;
@@ -17,13 +16,12 @@ declare var removeLayersFromMap: any;
   styleUrls: ['./locations.component.css']
 })
 export class LocationsComponent implements OnInit, OnDestroy {
-
   isConnected: Boolean;
 
   subscription: Subscription;
   drawSubscription: Subscription;
 
-  constructor(private locationService: LocationService,
+  constructor(private socketService: SocketService,
               private drawService: DrawService,
               private ngZone: NgZone) { 
     this.isConnected = false;
@@ -33,24 +31,21 @@ export class LocationsComponent implements OnInit, OnDestroy {
     loadMap();
 
     this.drawSubscription = this.drawService.locationEvent.subscribe(
-      (id: number) => {
-        console.log(this.subscription);
+      (id) => {
         if(this.subscription){
           this.subscription.unsubscribe();
         }
 
         this.startConnection(id.toString());
-
       }
     );
-
-    this.locationService.notificationReceived.subscribe(data => this.onNotification(data));
   }
 
   ngOnDestroy() {
     if(this.subscription){
       this.subscription.unsubscribe();
     }
+
     if(this.drawSubscription){
       this.drawSubscription.unsubscribe();
     }
@@ -59,23 +54,21 @@ export class LocationsComponent implements OnInit, OnDestroy {
   private startConnection(groupName: string){
     removeLayersFromMap();
 
-    console.log('Connecting to: ' + groupName);
+    this.socketService.initSocket();
 
-    this.subscription = this.locationService.startConnection(groupName).subscribe(
-      e => {
-        this.isConnected = e; 
-        if (e) {
-          console.log('connected');
-        }
-    });
+    this.socketService.subToLocationUpdate(groupName).subscribe(
+      data => this.onNotification(data),
+      err => console.log(err)
+    );
+
   }
 
   public onNotification(data) {
     this.ngZone.run(() => { 
       removeLayersFromMap();
 
-      for(let i = 0; i < data.length; i++){
-        addBusOnMap(data[i].Lon, data[i].Lat);
+      for(let i = 0; i < data.length; i++) {
+        addBusOnMap(data[i].lon, data[i].lat);
       }
 
    });  
