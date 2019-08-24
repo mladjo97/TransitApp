@@ -14,6 +14,7 @@ const localContainer = {
 
     setBusLineRoutes(busLineId, routes) {
         if(!this.busLineRoutes.find(bls => bls.id === busLineId)) {
+            console.log('Adding route for busline: ' + busLineId);
             this.busLineRoutes.push({
                 id: busLineId,
                 routes: routes

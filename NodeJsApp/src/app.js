@@ -1,21 +1,24 @@
 import express from 'express';
 import loader from '@loaders';
 import config from '@config';
+import socketLoader from './loaders/socket';
 
 const startServer = () => {
   const app = express();
   loader({ expressApp: app });
 
-  app.listen(config.port, err => {
+  const server = app.listen(config.port, err => {
     if (err) {
       process.exit(1);
       return;
     }
   });
 
-  return app;
+  socketLoader(server);   // requires http server
+
+  return server;
 };
 
-const app = startServer();
+const server = startServer();
 
-export default app;
+export default server;
