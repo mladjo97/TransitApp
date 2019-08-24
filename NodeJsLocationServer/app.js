@@ -1,5 +1,5 @@
 import express from 'express';
-import socketClient from './clients/socket.client';
+import positionDispatcher from './dispatchers/position.dispatcher';
 
 const startServer = async () => {
   const app = express();
@@ -14,7 +14,7 @@ const startServer = async () => {
   console.log('Started the location server.');
 
   try {
-    socketClient.sendUpdate({ id: 3, position: { lat: 2.44, lon: 4.55 }});
+    positionDispatcher.doWork();
   } catch (err) {
     console.log(err);
   }

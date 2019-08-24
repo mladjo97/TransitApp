@@ -1,5 +1,6 @@
 import { getBusLines } from '../clients/transitApi.client';
 import { getRoutes } from '../clients/openRoute.client';
+import socketClient from '../clients/socket.client';
 import localContainer from '../containers/local.container';
 
 const positionDispatcher = {
@@ -10,7 +11,8 @@ const positionDispatcher = {
     async doWork() {
         await this.loadBusLines();
         await this.loadBusLineRoutes();
-        this.initBusIndexes();
+        await this.initBusIndexes();
+        this.startMainLoop();
     },
 
     async loadBusLines() {
@@ -52,24 +54,49 @@ const positionDispatcher = {
     },
 
     async initBusIndexes() {
-        for(let i = 0; i < this.localContainer.busLineRoutes.length; i++) {
+        for (let i = 0; i < this.localContainer.busLineRoutes.length; i++) {
             const numOfPositions = Math.floor(this.localContainer.busLineRoutes[i].routes.length / this.numOfBuses);
 
             const indexes = [];
             let index = 0;
 
-            for(let j = 0; j < this.numOfBuses; j++) {
+            for (let j = 0; j < this.numOfBuses; j++) {
                 indexes.push(index);
                 index = index + numOfPositions;
             }
 
-            this.busIndexes.push({ 
+            this.busIndexes.push({
                 id: this.localContainer.busLineRoutes[i].id,
-                indexes: indexes 
-             });
-
-             console.log(this.busIndexes);
+                indexes: indexes
+            });
         }
+    },
+
+    startMainLoop() {
+        console.log('Starting main loop');
+
+        setInterval(() => {
+            this.localContainer.busLineRoutes.forEach(busLineRoute => {
+                const coordinates = [];
+                const busLineIndex = this.busIndexes.find(busIndex => busIndex.id === busLineRoute.id);
+
+                for (let i = 0; i < busLineIndex.indexes.length; i++) {
+                    busLineIndex.indexes[i] = (busLineIndex.indexes[i] + 1) % busLineRoute.routes.length;
+                    const index = busLineIndex.indexes[i];
+
+                    coordinates.push({
+                        lat: busLineRoute.routes[index].lat,
+                        lon: busLineRoute.routes[index].lon
+                    });
+                }
+
+                socketClient.sendUpdate({
+                    groupName: busLineRoute.id,
+                    coordinates: coordinates
+                });
+                
+            });
+        }, 5000);
     }
 
 
